@@ -6,7 +6,10 @@ import UserInfo from "./UserInfo";
 import SignUp from "./SignUp";
 import Interests from "./Interests";
 import HomeScreen from "../../screens/HomeScreen";
+import { Header } from "../../components/Header";
+import { BottomNavigation, Icon, PaperProvider } from "react-native-paper";
 // import { useAuth } from "./AuthContext";
+import { View, Text } from "react-native";
 
 const Tab = createBottomTabNavigator();
 
@@ -14,12 +17,65 @@ function MainPage({ isLoggedIn, setIsLoggedIn, user, setUser }) {
   // const  = useAuth();
 
   return (
-    <Tab.Navigator>
-      <Tab.Screen name="HomeScreen" options={{ title: "HomeScreen" }}>
-        {(props) => <HomeScreen {...props} />}
-      </Tab.Screen>
-      {console.log(isLoggedIn)}
-      {/* <Tab.Screen
+    <PaperProvider>
+      <View className="flex-col justify-between items-center">
+        <Header username="Test" title="PopCorner" />
+      </View>
+      <Tab.Navigator
+        tabBar={({ navigation, state, descriptors, insets }) => (
+          <BottomNavigation.Bar
+            navigationState={state}
+            safeAreaInsets={insets}
+            onTabPress={({ route, preventDefault }) => {
+              const event = navigation.emit({
+                type: "tabPress",
+                target: route.key,
+                canPreventDefault: true,
+              });
+
+              if (event.defaultPrevented) {
+                preventDefault();
+              } else {
+                navigation.navigate(route.name, route.params);
+              }
+            }}
+            renderIcon={({ route, focused, color }) => {
+              const { options } = descriptors[route.key];
+              if (options.tabBarIcon) {
+                return options.tabBarIcon({ focused, color, size: 24 });
+              }
+
+              return null;
+            }}
+            getLabelText={({ route }) => {
+              const { options } = descriptors[route.key];
+              const label =
+                options.tabBarLabel !== undefined
+                  ? options.tabBarLabel
+                  : options.title !== undefined
+                  ? options.title
+                  : route.title;
+
+              return label;
+            }}
+          />
+        )}
+      >
+        <Tab.Screen
+          name="HomeScreen"
+          options={{
+            title: "",
+            headerShown: false,
+            tabBarLabel: "Home",
+            tabBarIcon: ({ color, size }) => {
+              return <Icon source="home" size={size} color={color} />;
+            },
+          }}
+        >
+          {(props) => <HomeScreen {...props} />}
+        </Tab.Screen>
+        {console.log(isLoggedIn)}
+        {/* <Tab.Screen
         name="LoginPage"
         options={{ title: "Login" }}
         initialParams={{ isLoggedIn, setIsLoggedIn, setUser }}
@@ -32,49 +88,55 @@ function MainPage({ isLoggedIn, setIsLoggedIn, user, setUser }) {
           />
         )}
       </Tab.Screen> */}
-      {isLoggedIn ? (
-        <Tab.Screen
-          name="UserInfo"
-          options={{ title: "User profile" }}
-          initialParams={{ isLoggedIn, user }}
-        >
-          {(props) => (
-            <UserInfo {...props} isLoggedIn={isLoggedIn} user={user} />
-          )}
-        </Tab.Screen>
-      ) : (
-        <>
+        {isLoggedIn ? (
           <Tab.Screen
-            name="SignUp"
-            options={{ title: "SignUp" }}
-            initialParams={{ setIsLoggedIn, user, setUser }}
+            name="UserInfo"
+            options={{
+              tabBarLabel: "User profile",
+              tabBarIcon: ({ color, size }) => {
+                return <Icon source="account" size={size} color={color} />;
+              },
+            }}
+            initialParams={{ isLoggedIn, user }}
           >
             {(props) => (
-              <SignUp
-                {...props}
-                setIsLoggedIn={setIsLoggedIn}
-                user={user}
-                setUser={setUser}
-              />
+              <UserInfo {...props} isLoggedIn={isLoggedIn} user={user} />
             )}
           </Tab.Screen>
-          <Tab.Screen
-            name="Interests"
-            options={{ title: "Select interests" }}
-            initialParams={{ isLoggedIn, user, setUser }}
-          >
-            {(props) => (
-              <Interests
-                {...props}
-                isLoggedIn={isLoggedIn}
-                user={user}
-                setUser={setUser}
-              />
-            )}
-          </Tab.Screen>
-        </>
-      )}
-    </Tab.Navigator>
+        ) : (
+          <>
+            <Tab.Screen
+              name="SignUp"
+              options={{ title: "SignUp" }}
+              initialParams={{ setIsLoggedIn, user, setUser }}
+            >
+              {(props) => (
+                <SignUp
+                  {...props}
+                  setIsLoggedIn={setIsLoggedIn}
+                  user={user}
+                  setUser={setUser}
+                />
+              )}
+            </Tab.Screen>
+            <Tab.Screen
+              name="Interests"
+              options={{ title: "Select interests" }}
+              initialParams={{ isLoggedIn, user, setUser }}
+            >
+              {(props) => (
+                <Interests
+                  {...props}
+                  isLoggedIn={isLoggedIn}
+                  user={user}
+                  setUser={setUser}
+                />
+              )}
+            </Tab.Screen>
+          </>
+        )}
+      </Tab.Navigator>
+    </PaperProvider>
   );
 }
 

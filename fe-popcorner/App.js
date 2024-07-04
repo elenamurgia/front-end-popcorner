@@ -87,7 +87,7 @@ export default function App() {
 
         <Stack.Screen
           name="MainPage"
-          options={{ title: "MainPage", headerBackTitle: "Back" }}
+          options={{ title: "", headerShown: false }}
         >
           {(props) => (
             <MainPage
