@@ -10,11 +10,19 @@ import {
 import { useForm, Controller } from "react-hook-form";
 import React, { useEffect, useCallback, useState } from "react";
 // import EditScreenInfo from "@/components/EditScreenInfo";
-import { Link } from "@react-navigation/native";
+import { Link, useNavigation } from "@react-navigation/native";
+// import { useNavigation } from "@react-navigation/native";
 
-function Interests({ navigation }) {
-  const navigateToUserInfo = () => {
+function Interests({ setIsLoggedIn }) {
+  const navigation = useNavigation(); // Get the navigation object
+  const navigateToTabLayout = () => {
+    setIsLoggedIn(true);
     navigation.navigate("UserInfo");
+  };
+
+  const navigateToMainPage = () => {
+    setIsLoggedIn(true);
+    navigation.navigate("MainPage");
   };
 
   const interestList = [
@@ -71,10 +79,9 @@ function Interests({ navigation }) {
     if (interests.length < 5 && !interests.includes(item)) {
       setInterests([...interests, item]);
     } else {
-      if (interests.length > 5) {
+      if (interests.length >= 5) {
         alert("You have already selected all your interests");
-      }
-      if (!interests.includes(item)) {
+      } else if (interests.includes(item)) {
         alert("You have already selected this interest");
       }
     }
@@ -104,7 +111,7 @@ function Interests({ navigation }) {
         ))}
 
         <TouchableOpacity
-          onPress={navigateToUserInfo}
+          onPress={navigateToMainPage}
           style={styles.nextButton}
         >
           <Text style={styles.nextButtonText}>Next</Text>

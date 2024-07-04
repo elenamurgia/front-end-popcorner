@@ -13,16 +13,17 @@ import React, { useEffect, useCallback, useState } from "react";
 import DatePicker from "react-native-modern-datepicker";
 import { Link } from "@react-navigation/native";
 import { getToday, getFormatedDate } from "react-native-modern-datepicker";
-
+import { useNavigation } from "@react-navigation/native";
 import moment from "moment";
 
-function SignUp({ setIsLoggedIn, user, setUser, navigation }) {
+function SignUp({ setIsLoggedIn, user, setUser }) {
   const [isRegistered, setIsRegistered] = useState(false);
   const [newUserInput, setNewUserInput] = useState({
     username: "",
     password: "",
     email: "",
   });
+  const navigation = useNavigation(); // Get the navigation object
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [open, setOpen] = useState(false);

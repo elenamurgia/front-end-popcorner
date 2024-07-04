@@ -21,22 +21,27 @@ import SignUp from "./SignUp";
 import Interests from "./Interests";
 import PopularMovies from "../../components/PopularMovies";
 import HomeScreen from "../../screens/HomeScreen";
+import ChatScreen from "../../screens/ChatsScreen";
 
 // Create the Bottom Tab Navigator
 const Tab = createBottomTabNavigator();
 
-export default function TabLayout() {
+export default function TabLayout({
+  setIsLoggedIn,
+  isLoggedIn,
+  user,
+  setUser,
+}) {
   // const colorScheme = useColorScheme();
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // Example state for login status
-  const [user, setUser] = useState({
-    username: "",
-    password: "",
-    email: "",
-  });
+  // const [isLoggedIn, setIsLoggedIn] = useState(false); // Example state for login status
+
   const navigation = useNavigation(); // Get the navigation object
 
   const navigateToSignUp = () => {
     navigation.navigate("SignUp");
+  };
+  const navigateToLogin = () => {
+    navigation.navigate("LoginPage");
   };
 
   return (
@@ -44,30 +49,15 @@ export default function TabLayout() {
       {isLoggedIn ? (
         <Tab.Navigator>
           <Tab.Screen
-            name="TabTwoScreen"
-            options={{ title: "Two" }}
+            name="ChatScreen"
+            options={{ title: "ChatScreen" }}
             initialParams={{ isLoggedIn, user }}
           >
             {/* Pass props as children */}
             {(props) => (
-              <TabTwoScreen {...props} isLoggedIn={isLoggedIn} user={user} />
+              <ChatScreen {...props} isLoggedIn={isLoggedIn} user={user} />
             )}
           </Tab.Screen>
-
-          <Tab.Screen
-            name="LoginPage"
-            options={{ title: "Login" }}
-            initialParams={{ isLoggedIn, setIsLoggedIn, setUser }}
-          >
-            {(props) => (
-              <LoginPage
-                {...props}
-                setIsLoggedIn={setIsLoggedIn}
-                setUser={setUser}
-              />
-            )}
-          </Tab.Screen>
-
           <Tab.Screen
             name="UserInfo"
             options={{ title: "User profile" }}
@@ -91,6 +81,9 @@ export default function TabLayout() {
             style={styles.nextButton}
           >
             <Text style={styles.nextButtonText}>Create an account</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={navigateToLogin} style={styles.nextButton}>
+            <Text style={styles.nextButtonText}>Login</Text>
           </TouchableOpacity>
         </View>
       )}
