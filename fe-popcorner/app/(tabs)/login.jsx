@@ -9,15 +9,23 @@ import {
   StyleSheet,
 } from "react-native";
 import { useForm, Controller } from "react-hook-form";
+import { Link, useNavigation } from "@react-navigation/native";
 
 function LoginPage({ isLoggedIn, setIsLoggedIn, setUser }) {
   const [isRegistered, setIsRegistered] = useState(false);
-
+  const navigation = useNavigation(); // Get the navigation object
   const [userInput, setUserInput] = useState({
     username: "",
     password: "",
     email: "",
   });
+  const navigateToUserInfo = () => {
+    setIsLoggedIn(true);
+    navigation.navigate("UserInfo");
+  };
+  const navigateToMainPage = () => {
+    navigation.navigate("MainPage");
+  };
 
   const handleUsername = (text) => {
     setUserInput({ ...userInput, username: text });
@@ -33,6 +41,7 @@ function LoginPage({ isLoggedIn, setIsLoggedIn, setUser }) {
     setUser(userInput);
     setIsRegistered(true);
     setIsLoggedIn(true);
+    navigateToMainPage();
   };
 
   return (

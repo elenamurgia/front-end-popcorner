@@ -20,7 +20,7 @@ const moviesApi = axios.create({
 
 export const getPopularMovies = () => {
   return moviesApi.get(`/movie/popular?api_key=${apiKey}`).then((res) => {
-    console.log(res.data);
+    // console.log(res.data);
     return res.data;
   });
 };
