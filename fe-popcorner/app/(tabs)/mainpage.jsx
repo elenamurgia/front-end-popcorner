@@ -6,16 +6,16 @@ import UserInfo from "./UserInfo";
 import SignUp from "./SignUp";
 import Interests from "./Interests";
 import HomeScreen from "../../screens/HomeScreen";
+import ChatScreen from "./ChatScreen";
 import { Header } from "../../components/Header";
 import { BottomNavigation, Icon, PaperProvider } from "react-native-paper";
-// import { useAuth } from "./AuthContext";
+
 import { View, Text } from "react-native";
 
 const Tab = createBottomTabNavigator();
 
-function MainPage({ isLoggedIn, setIsLoggedIn, user, setUser }) {
-  // const  = useAuth();
-
+function MainPage({ isLoggedIn, setIsLoggedIn, user, setUser, newUserInput }) {
+  console.log(newUserInput);
   return (
     <PaperProvider>
       <View className="flex-col justify-between items-center">
@@ -74,36 +74,28 @@ function MainPage({ isLoggedIn, setIsLoggedIn, user, setUser }) {
         >
           {(props) => <HomeScreen {...props} />}
         </Tab.Screen>
-        {console.log(isLoggedIn)}
-        {/* <Tab.Screen
-        name="LoginPage"
-        options={{ title: "Login" }}
-        initialParams={{ isLoggedIn, setIsLoggedIn, setUser }}
+
+      <Tab.Screen
+        name="ChatScreen"
+        options={{ title: "Chat" }}
+        initialParams={{ isLoggedIn, user }}
       >
         {(props) => (
-          <LoginPage
-            {...props}
-            setIsLoggedIn={setIsLoggedIn}
-            setUser={setUser}
-          />
+          <ChatScreen {...props} isLoggedIn={isLoggedIn} user={user} />
         )}
-      </Tab.Screen> */}
-        {isLoggedIn ? (
-          <Tab.Screen
-            name="UserInfo"
-            options={{
-              tabBarLabel: "User profile",
-              tabBarIcon: ({ color, size }) => {
-                return <Icon source="account" size={size} color={color} />;
-              },
-            }}
-            initialParams={{ isLoggedIn, user }}
-          >
-            {(props) => (
-              <UserInfo {...props} isLoggedIn={isLoggedIn} user={user} />
-            )}
-          </Tab.Screen>
-        ) : (
+      </Tab.Screen>
+      {isLoggedIn ? (
+        <Tab.Screen
+          name="UserInfo"
+          options={{ title: "User profile" }}
+          initialParams={{ isLoggedIn, user }}
+        >
+          {(props) => (
+            <UserInfo {...props} isLoggedIn={isLoggedIn} user={user} />
+          )}
+        </Tab.Screen>
+      ) : (
+        <>
           <>
             <Tab.Screen
               name="SignUp"

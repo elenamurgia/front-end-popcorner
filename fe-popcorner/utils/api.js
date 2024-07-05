@@ -5,9 +5,19 @@ const userAPI = axios.create({
 });
 
 export const getUser = (userID) => {
-  // console.log(userID);
   return userAPI.get(`/users/${userID}`).then(({ data }) => {
-    // console.log(data);
+    return data.user;
+  });
+};
+
+export const getUsers = () => {
+  return userAPI.get(`/users`).then(({ data }) => {
+    return data;
+  });
+};
+
+export const postUser = (postBody) => {
+  return userAPI.post(`/users/`, postBody).then(({ data }) => {
     return data.user;
   });
 };
@@ -20,7 +30,6 @@ const moviesApi = axios.create({
 
 export const getPopularMovies = () => {
   return moviesApi.get(`/movie/popular?api_key=${apiKey}`).then((res) => {
-    // console.log(res.data);
     return res.data;
   });
 };
