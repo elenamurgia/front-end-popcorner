@@ -1,28 +1,54 @@
+import React, { useState } from "react";
 import {
   View,
   Text,
-  TextInput,
   TouchableOpacity,
-  Button,
   StyleSheet,
   ScrollView,
 } from "react-native";
-import { useForm, Controller } from "react-hook-form";
-import React, { useEffect, useCallback, useState } from "react";
-// import EditScreenInfo from "@/components/EditScreenInfo";
-import { Link, useNavigation } from "@react-navigation/native";
-// import { useNavigation } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
+import { postUser } from "../../utils/api";
 
-function Interests({ setIsLoggedIn }) {
-  const navigation = useNavigation(); // Get the navigation object
-  const navigateToTabLayout = () => {
-    setIsLoggedIn(true);
-    navigation.navigate("UserInfo");
+function Interests({ setIsLoggedIn, user, setNewUserInput, newUserInput }) {
+  const [interests, setInterests] = useState({});
+  const navigation = useNavigation();
+  const handleInterestPress = (category, item) => {
+    // Calculate the total number of selected interests
+    const totalSelectedInterests = Object.values(interests).reduce(
+      (total, current) => total + current.length,
+      0
+    );
+
+    if (totalSelectedInterests >= 5) {
+      alert("You have already selected all your interests");
+      return;
+    }
+
+    if (!interests[category]) {
+      // If the category doesn't exist in interests, initialize it
+      setInterests({
+        ...interests,
+        [category]: [item],
+      });
+    } else if (!interests[category].includes(item)) {
+      // If the category exists but the item is not in the category, add the item
+      setInterests({
+        ...interests,
+        [category]: [...interests[category], item],
+      });
+    } else {
+      alert("You have already selected this interest");
+    }
   };
 
   const navigateToMainPage = () => {
+    // Update newUserInput with the interests object
+    setNewUserInput({ ...newUserInput, interests: interests });
+
+    postUser(newUserInput);
     setIsLoggedIn(true);
-    navigation.navigate("MainPage");
+
+    navigation.navigate("MainPage"); // Uncomment when navigation is defined
   };
 
   const interestList = [
@@ -73,38 +99,34 @@ function Interests({ setIsLoggedIn }) {
     },
   ];
 
-  const [interests, setInterests] = useState([]);
-
-  const handleInterestPress = (item) => {
-    if (interests.length < 5 && !interests.includes(item)) {
-      setInterests([...interests, item]);
-    } else {
-      if (interests.length >= 5) {
-        alert("You have already selected all your interests");
-      } else if (interests.includes(item)) {
-        alert("You have already selected this interest");
-      }
-    }
-  };
-
   return (
     <ScrollView>
       <View style={styles.container}>
         <Text style={styles.mainTitle}>Select your interests</Text>
-
         <Text style={styles.subHeading}>
-          {interests.length}/5 interests selected (min. 3 max. 5)
+          {Object.values(interests).flat().length}/5 interests selected (min. 3
+          max. 5)
         </Text>
-        {interestList.map((interest) => (
-          <View key={interest.category} style={styles.interestsOuterBox}>
-            <Text style={styles.categoryTitle}>{interest.category}</Text>
+        {/* Render category-wise interests */}
+        {interestList.map((interestCategory) => (
+          <View
+            key={interestCategory.category}
+            style={styles.interestsOuterBox}
+          >
+            <Text style={styles.categoryTitle}>
+              {interestCategory.category}
+            </Text>
             <View style={styles.interestsContainer}>
-              {interest.list.map((item, index) => (
-                <View key={index} style={styles.interestBox}>
-                  <TouchableOpacity onPress={() => handleInterestPress(item)}>
-                    <Text style={styles.interestText}>{item}</Text>
-                  </TouchableOpacity>
-                </View>
+              {interestCategory.list.map((interestItem, index) => (
+                <TouchableOpacity
+                  key={index}
+                  style={styles.interestBox}
+                  onPress={() =>
+                    handleInterestPress(interestCategory.category, interestItem)
+                  }
+                >
+                  <Text style={styles.interestText}>{interestItem}</Text>
+                </TouchableOpacity>
               ))}
             </View>
           </View>
@@ -120,24 +142,18 @@ function Interests({ setIsLoggedIn }) {
     </ScrollView>
   );
 }
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-
     padding: 20,
   },
   interestsContainer: {
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "center",
-    // : "80%",
-  },
-  item: {
-    padding: 20,
-    fontSize: 15,
-    // marginTop: 5,
   },
   mainTitle: {
     fontSize: 40,
@@ -156,38 +172,8 @@ const styles = StyleSheet.create({
   categoryTitle: {
     fontSize: 14,
     fontWeight: "bold",
-    // marginBottom: 10,
     marginTop: 2,
     marginLeft: 5,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 20,
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: "#ccc",
-    padding: 10,
-    marginBottom: 20, // Increased margin between boxes
-    width: "80%", // Shortened width
-  },
-  submitButton: {
-    backgroundColor: "purple",
-    padding: 15,
-    alignItems: "center",
-    borderRadius: 5,
-    width: "80%",
-    marginVertical: 10,
-    color: "white",
-  },
-  submitButtonText: {
-    color: "white",
-  },
-  successText: {
-    color: "green",
-    marginTop: 10,
-    fontSize: 17,
   },
   interestText: {
     fontSize: 10,
@@ -205,7 +191,6 @@ const styles = StyleSheet.create({
   },
   interestsOuterBox: {
     marginBottom: 10,
-    // height:"%20",
     backgroundColor: "white",
   },
   nextButtonText: {

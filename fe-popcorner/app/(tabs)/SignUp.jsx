@@ -15,15 +15,19 @@ import { Link } from "@react-navigation/native";
 import { getToday, getFormatedDate } from "react-native-modern-datepicker";
 import { useNavigation } from "@react-navigation/native";
 import moment from "moment";
+import { getUsers } from "../../utils/api";
 
-function SignUp({ setIsLoggedIn, user, setUser }) {
+function SignUp({
+  setIsLoggedIn,
+  user,
+  setUser,
+  newUserInput,
+  setNewUserInput,
+}) {
   const [isRegistered, setIsRegistered] = useState(false);
-  const [newUserInput, setNewUserInput] = useState({
-    username: "",
-    password: "",
-    email: "",
-  });
+
   const navigation = useNavigation(); // Get the navigation object
+  const [usersList, setUserList] = useState([]);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [open, setOpen] = useState(false);
@@ -32,43 +36,90 @@ function SignUp({ setIsLoggedIn, user, setUser }) {
     navigation.navigate("Interests");
   };
 
+  useEffect(() => {
+    getUsers()
+      .then((fetchedUsers) => {
+        setUserList(fetchedUsers);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, []);
+
   function handleOnPress() {
     setOpen(!open);
   }
 
   function handleChange(propDate) {
     setDate(propDate);
+    setNewUserInput({ ...newUserInput, dateOfBirth: date });
   }
 
   const [interestList, setInterestList] = useState([]);
 
   const showDatePicker = () => setDatePickerVisibility(true);
   const hideDatePicker = () => setDatePickerVisibility(false);
+  const [usernameError, setUsernameError] = useState("");
+  const [emailError, setEmailError] = useState("");
 
   const handlefirstName = (text) => {
-    setNewUserInput({ ...newUserInput, firstName: text });
+    if (usersList.includes(text))
+      setNewUserInput({ ...newUserInput, firstName: text });
   };
   const handleLastName = (text) => {
-    setNewUserInput({ ...newUserInput, firstName: text });
+    setNewUserInput({ ...newUserInput, lastName: text });
   };
 
   const handleUsername = (text) => {
-    setNewUserInput({ ...newUserInput, username: text });
+    const userExists = Object.values(usersList).some((userObj) =>
+      Object.values(userObj).some((user) => user.username === text)
+    );
+
+    if (userExists) {
+      setUsernameError("Username already exists");
+    } else {
+      setUsernameError("");
+      setNewUserInput({ ...newUserInput, username: text });
+    }
   };
+
   const handleEmail = (text) => {
-    setNewUserInput({ ...newUserInput, email: text });
+    const emailExists = Object.values(usersList).some((userObj) =>
+      Object.values(userObj).some((user) => user.email === text)
+    );
+
+    if (emailExists) {
+      setEmailError("Email already exists");
+    } else {
+      setEmailError("");
+      setNewUserInput({ ...newUserInput, email: text });
+    }
   };
+
   const handlePassword = (text) => {
     setNewUserInput({ ...newUserInput, password: text });
   };
-
   const handleSubmit = () => {
+    const { firstName, lastName, username, email, password, dateOfBirth } =
+      newUserInput;
+
+    if (
+      !firstName ||
+      !lastName ||
+      !username ||
+      !email ||
+      !password ||
+      !dateOfBirth
+    ) {
+      alert("Please fill out all fields.");
+      return;
+    }
+
     setUser(newUserInput);
     setIsRegistered(true);
     setIsLoggedIn(true);
     navigateToInterests();
   };
-
   const today = new Date();
   const startDate = getFormatedDate(
     today.setDate(today.getDate() + 1),
@@ -105,7 +156,6 @@ function SignUp({ setIsLoggedIn, user, setUser }) {
               <View style={styles.modalView}>
                 <DatePicker
                   mode="calendar"
-                  // minimumDate={startDate}
                   selected={date}
                   onDateChange={handleChange}
                 />
@@ -122,6 +172,9 @@ function SignUp({ setIsLoggedIn, user, setUser }) {
           placeholder="Create a username"
           onChangeText={handleUsername}
         />
+        {usernameError ? (
+          <Text style={styles.errorText}>{usernameError}</Text>
+        ) : null}
         <TextInput
           style={styles.input}
           keyboardType="email-address"
@@ -129,6 +182,7 @@ function SignUp({ setIsLoggedIn, user, setUser }) {
           placeholder="Email"
           onChangeText={handleEmail}
         />
+        {emailError ? <Text style={styles.errorText}>{emailError}</Text> : null}
         <TextInput
           style={styles.input}
           secureTextEntry
@@ -199,7 +253,7 @@ const styles = StyleSheet.create({
     borderColor: "#ccc",
     padding: 10,
     marginBottom: 20, // Increased margin between boxes
-    // width: "%", // Shortened width
+
     backgroundColor: "white",
   },
 

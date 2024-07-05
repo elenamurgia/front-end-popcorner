@@ -77,8 +77,6 @@ function LoginPage({ isLoggedIn, setIsLoggedIn, setUser }) {
       {isRegistered && (
         <Text style={styles.successText}>Registration successful!</Text>
       )}
-
-      {/* <Text> {register.username} </Text> */}
     </View>
   );
 }
