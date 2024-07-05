@@ -115,7 +115,7 @@ export const Header = ({ avatar, isOnline, username, title }) => {
             onDismiss={clearSearch}
             style={{ marginTop: 0, height: "90%" }}
           >
-            <View className="h-full">
+            <View className="mt-10 h-full">
               <Searchbar
                 mode="view"
                 placeholder="Search"
