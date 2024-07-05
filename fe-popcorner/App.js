@@ -1,6 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import TabLayout from "./app/(tabs)/_layout";
@@ -9,18 +9,32 @@ import LoginPage from "./app/(tabs)/login";
 import Interests from "./app/(tabs)/Interests";
 import UserInfo from "./app/(tabs)/UserInfo";
 import MainPage from "./app/(tabs)/mainpage";
-import ChatScreen from "./screens/ChatsScreen";
+import ChatScreen from "./app/(tabs)/ChatScreen"; // Correct import
 
 const Stack = createStackNavigator();
 
 export default function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // Example state for login status
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState({
     username: "",
     password: "",
     email: "",
   });
-
+  const [newUserInput, setNewUserInput] = useState({
+    firstName: "",
+    lastName: "",
+    avatar: "",
+    interests: {},
+    email: "",
+    dateOfBirth: "",
+    username: "",
+    password: "",
+    communities: {},
+    events: {},
+    cinemas: {},
+    isBannedFrom: {},
+    moderator: {},
+  });
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="TabLayout">
@@ -43,6 +57,8 @@ export default function App() {
             <SignUp
               {...props}
               setIsLoggedIn={setIsLoggedIn}
+              newUserInput={newUserInput}
+              setNewUserInput={setNewUserInput}
               setUser={setUser}
             />
           )}
@@ -64,30 +80,35 @@ export default function App() {
           name="Interests"
           options={{ title: "Interests", headerBackTitle: "Back" }}
         >
-          {(props) => <Interests {...props} setIsLoggedIn={setIsLoggedIn} />}
+          {(props) => (
+            <Interests
+              {...props}
+              setIsLoggedIn={setIsLoggedIn}
+              user={user}
+              setNewUserInput={setNewUserInput}
+              newUserInput={newUserInput}
+            />
+          )}
         </Stack.Screen>
-
         <Stack.Screen
           name="UserInfo"
-          options={{ title: "UserInfo", headerBackTitle: "Back" }}
+          options={{ title: "User Info", headerBackTitle: "Back" }}
         >
           {(props) => (
             <UserInfo {...props} isLoggedIn={isLoggedIn} user={user} />
           )}
         </Stack.Screen>
-
         <Stack.Screen
-          name="ChatScreen"
+          name="ChatScreen" // Corrected to match the import name
           options={{ title: "Chat Screen", headerBackTitle: "Back" }}
         >
           {(props) => (
             <ChatScreen {...props} isLoggedIn={isLoggedIn} user={user} />
           )}
         </Stack.Screen>
-
         <Stack.Screen
           name="MainPage"
-          options={{ title: "MainPage", headerBackTitle: "Back" }}
+          options={{ title: "", headerShown: false }}
         >
           {(props) => (
             <MainPage
@@ -96,6 +117,7 @@ export default function App() {
               isLoggedIn={isLoggedIn}
               setUser={setUser}
               user={user}
+              newUserInput={newUserInput}
             />
           )}
         </Stack.Screen>

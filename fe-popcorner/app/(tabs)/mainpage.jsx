@@ -6,19 +6,20 @@ import UserInfo from "./UserInfo";
 import SignUp from "./SignUp";
 import Interests from "./Interests";
 import HomeScreen from "../../screens/HomeScreen";
+import ChatScreen from "./ChatScreen";
 // import { useAuth } from "./AuthContext";
 
 const Tab = createBottomTabNavigator();
 
-function MainPage({ isLoggedIn, setIsLoggedIn, user, setUser }) {
+function MainPage({ isLoggedIn, setIsLoggedIn, user, setUser, newUserInput }) {
   // const  = useAuth();
-
+  console.log(newUserInput);
   return (
     <Tab.Navigator>
-      <Tab.Screen name="HomeScreen" options={{ title: "HomeScreen" }}>
+      <Tab.Screen name="HomeScreen" options={{ title: "", headerShown: false }}>
         {(props) => <HomeScreen {...props} />}
       </Tab.Screen>
-      {console.log(isLoggedIn)}
+      {/* {console.log(isLoggedIn)} */}
       {/* <Tab.Screen
         name="LoginPage"
         options={{ title: "Login" }}
@@ -32,6 +33,15 @@ function MainPage({ isLoggedIn, setIsLoggedIn, user, setUser }) {
           />
         )}
       </Tab.Screen> */}
+      <Tab.Screen
+        name="ChatScreen"
+        options={{ title: "Chat" }}
+        initialParams={{ isLoggedIn, user }}
+      >
+        {(props) => (
+          <ChatScreen {...props} isLoggedIn={isLoggedIn} user={user} />
+        )}
+      </Tab.Screen>
       {isLoggedIn ? (
         <Tab.Screen
           name="UserInfo"
@@ -61,7 +71,7 @@ function MainPage({ isLoggedIn, setIsLoggedIn, user, setUser }) {
           <Tab.Screen
             name="Interests"
             options={{ title: "Select interests" }}
-            initialParams={{ isLoggedIn, user, setUser }}
+            initialParams={{ isLoggedIn, user, setUser, setIsLoggedIn }}
           >
             {(props) => (
               <Interests
@@ -69,6 +79,8 @@ function MainPage({ isLoggedIn, setIsLoggedIn, user, setUser }) {
                 isLoggedIn={isLoggedIn}
                 user={user}
                 setUser={setUser}
+                newUserInput={newUserInput}
+                setNewUserInput={setNewUserInput}
               />
             )}
           </Tab.Screen>

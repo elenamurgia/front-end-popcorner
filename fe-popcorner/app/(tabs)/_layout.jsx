@@ -1,29 +1,11 @@
-import React, { useState } from "react";
-// import FontAwesome from "@expo/vector-icons/FontAwesome";
-// import { Link, Tabs } from "expo-router";
-import {
-  Pressable,
-  Text,
-  View,
-  StyleSheet,
-  TouchableOpacity,
-} from "react-native";
+import React from "react";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { useNavigation } from "@react-navigation/native";
-// import Colors from "@/constants/Colors";
-// import { useColorScheme } from "@/components/useColorScheme";
-// import { useClientOnlyValue } from "@/components/useClientOnlyValue";
-
-import LoginPage from "./login";
-import TabTwoScreen from "./two";
 import UserInfo from "./UserInfo";
-import SignUp from "./SignUp";
-import Interests from "./Interests";
-import PopularMovies from "../../components/PopularMovies";
 import HomeScreen from "../../screens/HomeScreen";
-import ChatScreen from "../../screens/ChatsScreen";
+import ChatScreen from "./ChatScreen"; // Correct import
 
-// Create the Bottom Tab Navigator
 const Tab = createBottomTabNavigator();
 
 export default function TabLayout({
@@ -32,10 +14,7 @@ export default function TabLayout({
   user,
   setUser,
 }) {
-  // const colorScheme = useColorScheme();
-  // const [isLoggedIn, setIsLoggedIn] = useState(false); // Example state for login status
-
-  const navigation = useNavigation(); // Get the navigation object
+  const navigation = useNavigation();
 
   const navigateToSignUp = () => {
     navigation.navigate("SignUp");
@@ -48,30 +27,27 @@ export default function TabLayout({
     <View style={styles.container}>
       {isLoggedIn ? (
         <Tab.Navigator>
-          <Tab.Screen
+          {/* <Tab.Screen
             name="ChatScreen"
-            options={{ title: "ChatScreen" }}
+            options={{ title: "Chat" }}
             initialParams={{ isLoggedIn, user }}
           >
-            {/* Pass props as children */}
             {(props) => (
               <ChatScreen {...props} isLoggedIn={isLoggedIn} user={user} />
             )}
-          </Tab.Screen>
+          </Tab.Screen> */}
           <Tab.Screen
             name="UserInfo"
-            options={{ title: "User profile" }}
+            options={{ title: "User Profile" }}
             initialParams={{ isLoggedIn, user }}
           >
-            {/* Pass props as children */}
             {(props) => (
               <UserInfo {...props} isLoggedIn={isLoggedIn} user={user} />
             )}
           </Tab.Screen>
-
-          <Tab.Screen name="HomeScreen" options={{ title: "HomeScreen" }}>
+          {/* <Tab.Screen name="HomeScreen" options={{ title: "Home" }}>
             {(props) => <HomeScreen {...props} />}
-          </Tab.Screen>
+          </Tab.Screen> */}
         </Tab.Navigator>
       ) : (
         <View>
