@@ -19,7 +19,7 @@ import TabTwoScreen from "./two";
 import UserInfo from "./UserInfo";
 import SignUp from "./SignUp";
 import Interests from "./Interests";
-import PopularMovies from "../../components/PopularMovies";
+import PopularMovies from "../../components/Movies/PopularMovies";
 import HomeScreen from "../../screens/HomeScreen";
 import ChatScreen from "../../screens/ChatsScreen";
 

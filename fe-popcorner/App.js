@@ -10,6 +10,7 @@ import Interests from "./app/(tabs)/Interests";
 import UserInfo from "./app/(tabs)/UserInfo";
 import MainPage from "./app/(tabs)/mainpage";
 import ChatScreen from "./screens/ChatsScreen";
+import MovieScreen from "./screens/MovieScreen";
 
 const Stack = createStackNavigator();
 
@@ -99,6 +100,12 @@ export default function App() {
             />
           )}
         </Stack.Screen>
+
+        <Stack.Screen
+          name="MovieScreen"
+          component={MovieScreen}
+          options={{ title: "", headerBackTitle: "Back" }}
+        ></Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
   );
