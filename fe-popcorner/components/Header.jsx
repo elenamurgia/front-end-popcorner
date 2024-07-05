@@ -238,7 +238,9 @@ export const Header = ({ avatar, isOnline, username, title }) => {
                                   ? {
                                       uri: `https://image.tmdb.org/t/p/w500${profile_path}`,
                                     }
-                                  : {}
+                                  : {
+                                      uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR9UdkG68P9AHESMfKJ-2Ybi9pfnqX1tqx3wQ&s",
+                                    }
                               }
                             >
                               <Text
