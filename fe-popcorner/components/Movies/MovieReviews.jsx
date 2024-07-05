@@ -42,6 +42,7 @@ export default function MovieReviews({ movie_id }) {
   }
 
   const LeftContent = (props) => <Avatar.Icon {...props} icon="comment" />;
+
   return (
     <ScrollView>
       <Card>
@@ -51,13 +52,18 @@ export default function MovieReviews({ movie_id }) {
           titleStyle={{ fontSize: 25, fontWeight: "bold" }}
         />
         {reviews.length > 0 ? (
-          reviews.map((review) => (
-            <Card.Content key={review.id}>
-              <Text variant="bodyMedium">{review.author}</Text>
-              <Text variant="bodyMedium">{review.created_at}</Text>
-              <Text variant="bodyMedium">{review.content}</Text>
-            </Card.Content>
-          ))
+          reviews.map((review) => {
+            const formattedDate = new Date(
+              review.created_at
+            ).toLocaleDateString();
+            return (
+              <Card.Content key={review.id}>
+                <Text variant="bodyMedium">{review.author}</Text>
+                <Text variant="bodyMedium">{formattedDate}</Text>
+                <Text variant="bodyMedium">{review.content}</Text>
+              </Card.Content>
+            );
+          })
         ) : (
           <Text>No reviews yet</Text>
         )}

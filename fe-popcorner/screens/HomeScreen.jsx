@@ -2,13 +2,11 @@ import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
-  ScrollView,
   ActivityIndicator,
   StyleSheet,
-  Button,
   SafeAreaView,
 } from "react-native";
-import { SegmentedButtons } from "react-native-paper";
+import { SegmentedButtons, Button } from "react-native-paper";
 import { StatusBar } from "expo-status-bar";
 import PopularMovies from "../components/Movies/PopularMovies";
 import TopRatedMovies from "../components/Movies/TopRatedMovies";
@@ -57,7 +55,12 @@ export default function HomeScreen({ navigation }) {
     );
   }
 
-  const displayedMovies = value === "popular" ? popularMovies : topRatedMovies;
+  const handleClick = () => {
+    navigation.navigate("AllMoviesScreen", {
+      popularMovies: popularMovies,
+      topRatedMovies: topRatedMovies,
+    });
+  };
 
   return (
     <View style={styles.container}>
@@ -79,6 +82,9 @@ export default function HomeScreen({ navigation }) {
           }}
         ></View>
       </SafeAreaView>
+      <Button icon="movie-open" mode="contained" onPress={handleClick}>
+        All Movies
+      </Button>
       <View
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 10 }}
