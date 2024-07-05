@@ -11,7 +11,7 @@ import UserInfo from "./app/(tabs)/UserInfo";
 import MainPage from "./app/(tabs)/mainpage";
 import MovieScreen from "./screens/MovieScreen";
 import ChatScreen from "./app/(tabs)/ChatScreen"; // Correct import
-
+import AllMoviesScreen from "./screens/AllMoviesScreen";
 
 const Stack = createStackNavigator();
 
@@ -127,6 +127,12 @@ export default function App() {
         <Stack.Screen
           name="MovieScreen"
           component={MovieScreen}
+          options={{ title: "", headerBackTitle: "Back" }}
+        ></Stack.Screen>
+
+        <Stack.Screen
+          name="AllMoviesScreen"
+          component={AllMoviesScreen}
           options={{ title: "", headerBackTitle: "Back" }}
         ></Stack.Screen>
       </Stack.Navigator>
