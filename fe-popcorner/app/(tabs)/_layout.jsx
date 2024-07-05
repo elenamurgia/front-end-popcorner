@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { useNavigation } from "@react-navigation/native";
 import UserInfo from "./UserInfo";
+import PopularMovies from "../../components/Movies/PopularMovies";
 import HomeScreen from "../../screens/HomeScreen";
 import ChatScreen from "./ChatScreen"; // Correct import
 

@@ -6,28 +6,39 @@ import {
   ActivityIndicator,
   StyleSheet,
   Button,
+  SafeAreaView,
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { SegmentedButtons } from "react-native-paper";
 import { StatusBar } from "expo-status-bar";
-import PopularMovies from "../components/PopularMovies";
-import { getPopularMovies } from "../utils/api";
+import PopularMovies from "../components/Movies/PopularMovies";
+import TopRatedMovies from "../components/Movies/TopRatedMovies";
+import { getPopularMovies, getTopRatedMovies } from "../utils/api";
 
 export default function HomeScreen({ navigation }) {
   const [popularMovies, setPopularMovies] = useState([]);
+  const [topRatedMovies, setTopRatedMovies] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [value, setValue] = useState("popular");
 
   useEffect(() => {
-    getPopularMovies()
-      .then((response) => {
-        setPopularMovies(response.results);
+    const fetchMovies = async () => {
+      setLoading(true);
+      try {
+        const popularResponse = await getPopularMovies();
+        const topRatedResponse = await getTopRatedMovies();
+
+        setPopularMovies(popularResponse.results);
+        setTopRatedMovies(topRatedResponse.results);
         setLoading(false);
-      })
-      .catch((error) => {
+      } catch (error) {
         console.error("Fetch Error:", error);
         setError("Something went wrong, please try again");
         setLoading(false);
-      });
+      }
+    };
+
+    fetchMovies();
   }, []);
 
   if (loading) {
@@ -46,9 +57,18 @@ export default function HomeScreen({ navigation }) {
     );
   }
 
+  const displayedMovies = value === "popular" ? popularMovies : topRatedMovies;
+
   return (
     <View style={styles.container}>
       <SafeAreaView style={{ marginBottom: 15 }}>
+        <View style={styles.eventsContainer}>
+          <Button
+            title="Events near you"
+            onPress={() => navigation.navigate("Events")}
+          />
+        </View>
+
         <StatusBar style="light" />
         <View
           style={{
@@ -57,24 +77,26 @@ export default function HomeScreen({ navigation }) {
             alignItems: "center",
             marginHorizontal: 16,
           }}
-        >
-          <Text style={{ color: "#C80036", fontSize: 70, fontWeight: "bold" }}>
-            PopCorner
-          </Text>
-        </View>
+        ></View>
       </SafeAreaView>
-      <ScrollView
+      <View
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 10 }}
       >
-        <View style={styles.eventsContainer}>
-          <Button
-            title="Events near you"
-            onPress={() => navigation.navigate("Events")}
-          />
-        </View>
-        <PopularMovies data={popularMovies} />
-      </ScrollView>
+        <SegmentedButtons
+          value={value}
+          onValueChange={setValue}
+          buttons={[
+            { value: "popular", label: "Popular Movies" },
+            { value: "top rated", label: "Top Rated" },
+          ]}
+        />
+        {value === "popular" ? (
+          <PopularMovies data={popularMovies} />
+        ) : (
+          <TopRatedMovies data={topRatedMovies} />
+        )}
+      </View>
     </View>
   );
 }
@@ -94,12 +116,5 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-  },
-  eventsContainer: {
-    backgroundColor: "#BB2525",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 20,
   },
 });
