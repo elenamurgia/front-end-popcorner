@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 import LoginPage from "./login";
@@ -14,6 +14,7 @@ import CommunityDetails from "./CommunityDetails";
 import CreateCommunity from "./CreateCommunity";
 import { Header } from "../../components/Header";
 import { BottomNavigation, Icon, PaperProvider } from "react-native-paper";
+import { getUser } from "../../utils/api";
 
 import { View, Text } from "react-native";
 
@@ -42,10 +43,43 @@ const CommunitiesStack = () => (
 );
 
 function MainPage({ isLoggedIn, setIsLoggedIn, user, setUser, newUserInput }) {
+  const [userInfo, setUserInfo] = useState({
+    firstName: "",
+    lastName: "",
+    avatar: "",
+    interests: {},
+    email: "",
+    dateOfBirth: "",
+    username: "",
+    password: "",
+    communities: {},
+    events: {},
+    cinemas: {},
+    isBannedFrom: {},
+    moderator: {},
+  });
+
+  useEffect(() => {
+    if (user && user.username) {
+      getUser(user.username)
+        .then((fetchedUser) => {
+          setUserInfo(fetchedUser);
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    }
+  }, [user]);
+
   return (
     <PaperProvider>
       <View className="flex-col justify-between items-center">
-        <Header username="Test" title="PopCorner" />
+        <Header
+          username={user?.username}
+          title="PopCorner"
+          avatar={userInfo?.avatar !== "" ? userInfo.avatar : undefined}
+          isOnline={!!user}
+        />
       </View>
       <Tab.Navigator
         tabBar={({ navigation, state, descriptors, insets }) => (
@@ -145,7 +179,12 @@ function MainPage({ isLoggedIn, setIsLoggedIn, user, setUser, newUserInput }) {
             initialParams={{ isLoggedIn, user }}
           >
             {(props) => (
-              <UserInfo {...props} isLoggedIn={isLoggedIn} user={user} />
+              <UserInfo
+                {...props}
+                isLoggedIn={isLoggedIn}
+                user={user}
+                userInfo={userInfo}
+              />
             )}
           </Tab.Screen>
         ) : (

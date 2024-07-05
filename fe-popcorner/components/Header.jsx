@@ -10,7 +10,6 @@ import {
   Text,
   Avatar,
   Badge,
-  IconButton,
   Searchbar,
   Portal,
   Modal,
@@ -88,7 +87,7 @@ export const Header = ({ avatar, isOnline, username, title, navigator }) => {
   }, [communities, searchText]);
 
   const avatarComponent = avatar ? (
-    <Avatar.Image size={40} source={avatar} />
+    <Avatar.Image size={40} source={{ uri: avatar }} />
   ) : username ? (
     <Avatar.Text size={40} label={username.slice(0, 2)} />
   ) : null;
@@ -108,7 +107,6 @@ export const Header = ({ avatar, isOnline, username, title, navigator }) => {
           onPress={() => setIsSearchModalOpen(true)}
         />
         <TouchableOpacity className="relative" onPress={navigateToUserProfile}>
-
           {avatarComponent}
           <Badge
             size={14}
@@ -180,85 +178,92 @@ export const Header = ({ avatar, isOnline, username, title, navigator }) => {
                           }) => {
                             const [releaseYear] = release_date.split("-");
                             return (
-                              <ImageBackground
-                                key={id}
-                                className="h-24 flex items-start"
-                                source={{
-                                  uri: `https://image.tmdb.org/t/p/w500${backdrop_path}`,
-                                }}
+                              <TouchableOpacity
+                                className="relative"
+                                onPress={() =>
+                                  navigation.navigate("MovieScreen", {
+                                    movie_id: id,
+                                  })
+                                }
                               >
-                                <Text
-                                  variant="labelMedium"
-                                  className="text-white p-2 bg-black/70 flex"
+                                <ImageBackground
+                                  key={id}
+                                  className="h-24 flex items-start"
+                                  source={{
+                                    uri: `https://image.tmdb.org/t/p/w500${backdrop_path}`,
+                                  }}
                                 >
-                                  {title} ({releaseYear})
-                                </Text>
-                                <Text
-                                  variant="labelMedium"
-                                  className="text-white p-2 bg-black/70 flex"
-                                >
-                                  <Icon
-                                    source={
-                                      vote_average > 1.5
-                                        ? vote_average > 0.25
+                                  <Text
+                                    variant="labelMedium"
+                                    className="text-white p-2 bg-black/70 flex"
+                                  >
+                                    {title} ({releaseYear})
+                                  </Text>
+                                  <Text
+                                    variant="labelMedium"
+                                    className="text-white p-2 bg-black/70 flex"
+                                  >
+                                    <Icon
+                                      source={
+                                        vote_average > 1.5
+                                          ? vote_average > 0.25
+                                            ? "star"
+                                            : "star-half-full"
+                                          : "star-outline"
+                                      }
+                                      size={14}
+                                      color="white"
+                                    />
+                                    <Icon
+                                      source={
+                                        vote_average > 3.5
+                                          ? vote_average > 2.25
+                                            ? "star"
+                                            : "star-half-full"
+                                          : "star-outline"
+                                      }
+                                      size={14}
+                                      color="white"
+                                    />
+                                    <Icon
+                                      source={
+                                        vote_average > 5.5
+                                          ? vote_average > 4.25
+                                            ? "star"
+                                            : "star-half-full"
+                                          : "star-outline"
+                                      }
+                                      size={14}
+                                      color="white"
+                                    />
+                                    <Icon
+                                      source={
+                                        vote_average > 7.5
                                           ? "star"
-                                          : "star-half-full"
-                                        : "star-outline"
-                                    }
-                                    size={14}
-                                    color="white"
-                                  />
-                                  <Icon
-                                    source={
-                                      vote_average > 3.5
-                                        ? vote_average > 2.25
+                                          : vote_average > 6.25
+                                          ? "star-half-full"
+                                          : "star-outline"
+                                      }
+                                      size={14}
+                                      color="white"
+                                    />
+                                    <Icon
+                                      source={
+                                        vote_average > 9.5
                                           ? "star"
-                                          : "star-half-full"
-                                        : "star-outline"
-                                    }
-                                    size={14}
-                                    color="white"
-                                  />
-                                  <Icon
-                                    source={
-                                      vote_average > 5.5
-                                        ? vote_average > 4.25
-                                          ? "star"
-                                          : "star-half-full"
-                                        : "star-outline"
-                                    }
-                                    size={14}
-                                    color="white"
-                                  />
-                                  <Icon
-                                    source={
-                                      vote_average > 7.5
-                                        ? "star"
-                                        : vote_average > 6.25
-                                        ? "star-half-full"
-                                        : "star-outline"
-                                    }
-                                    size={14}
-                                    color="white"
-                                  />
-                                  <Icon
-                                    source={
-                                      vote_average > 9.5
-                                        ? "star"
-                                        : vote_average > 8.25
-                                        ? "star-half-full"
-                                        : "star-outline"
-                                    }
-
-                                    size={14}
-                                    color="white"
-                                  />{" "}
-                                  ({vote_average})
-                                </Text>
-                              </ImageBackground>
+                                          : vote_average > 8.25
+                                          ? "star-half-full"
+                                          : "star-outline"
+                                      }
+                                      size={14}
+                                      color="white"
+                                    />{" "}
+                                    ({vote_average})
+                                  </Text>
+                                </ImageBackground>
+                              </TouchableOpacity>
                             );
                           }
-
                         )}
                       </List.Section>
                     )}
@@ -282,9 +287,9 @@ export const Header = ({ avatar, isOnline, username, title, navigator }) => {
                                     ? {
                                         uri: `https://image.tmdb.org/t/p/w500${profile_path}`,
                                       }
-                                    : { 
-                                      uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR9UdkG68P9AHESMfKJ-2Ybi9pfnqX1tqx3wQ&s",
-                                    }
+                                    : {
+                                        uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR9UdkG68P9AHESMfKJ-2Ybi9pfnqX1tqx3wQ&s",
+                                      }
                                 }
                               >
                                 <Text
