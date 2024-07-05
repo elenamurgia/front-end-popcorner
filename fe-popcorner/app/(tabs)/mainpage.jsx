@@ -21,26 +21,15 @@ const Tab = createBottomTabNavigator();
 // const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
+const CommunitiesStack = () => (
+  <Stack.Navigator>
+    <Stack.Screen name="CommunitiesList" component={CommunitiesList} options={{ headerShown: false }} />
+    <Stack.Screen name="CommunityDetails" component={CommunityDetails} options={{ headerShown: false }} />
+    <Stack.Screen name="CreateCommunity" component={CreateCommunity} options={{ headerShown: false }} />
+  </Stack.Navigator>
+);
+
 function MainPage({ isLoggedIn, setIsLoggedIn, user, setUser, newUserInput }) {
-  const CommunitiesStack = () => (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="CommunitiesList"
-        component={CommunitiesList}
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen
-        name="CommunityDetails"
-        component={CommunityDetails}
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen
-        name="CreateCommunity"
-        component={CreateCommunity}
-        options={{ headerShown: false }}
-      />
-    </Stack.Navigator>
-  );
   return (
     <PaperProvider>
       <View className="flex-col justify-between items-center">
@@ -100,14 +89,8 @@ function MainPage({ isLoggedIn, setIsLoggedIn, user, setUser, newUserInput }) {
           {(props) => <HomeScreen {...props} />}
         </Tab.Screen>
 
-        <Tab.Screen
-          name="ChatScreen"
-          options={{ title: "Chat" }}
-          initialParams={{ isLoggedIn, user }}
-        >
-          {(props) => (
-            <ChatScreen {...props} isLoggedIn={isLoggedIn} user={user} />
-          )}
+        <Tab.Screen name="ChatScreen" options={{ title: "Chat" }} initialParams={{ isLoggedIn, user }}>
+          {(props) => <ChatScreen {...props} isLoggedIn={isLoggedIn} user={user} />}
         </Tab.Screen>
         <Tab.Screen
           name="Communities"
@@ -131,39 +114,19 @@ function MainPage({ isLoggedIn, setIsLoggedIn, user, setUser, newUserInput }) {
             options={{ title: "User profile", headerShown: false }}
             initialParams={{ isLoggedIn, user }}
           >
-            {(props) => (
-              <UserInfo {...props} isLoggedIn={isLoggedIn} user={user} />
-            )}
+            {(props) => <UserInfo {...props} isLoggedIn={isLoggedIn} user={user} />}
           </Tab.Screen>
         ) : (
           <>
-            <Tab.Screen
-              name="SignUp"
-              options={{ title: "SignUp" }}
-              initialParams={{ setIsLoggedIn, user, setUser }}
-            >
-              {(props) => (
-                <SignUp
-                  {...props}
-                  setIsLoggedIn={setIsLoggedIn}
-                  user={user}
-                  setUser={setUser}
-                />
-              )}
+            <Tab.Screen name="SignUp" options={{ title: "SignUp" }} initialParams={{ setIsLoggedIn, user, setUser }}>
+              {(props) => <SignUp {...props} setIsLoggedIn={setIsLoggedIn} user={user} setUser={setUser} />}
             </Tab.Screen>
             <Tab.Screen
               name="Interests"
               options={{ title: "Select interests" }}
               initialParams={{ isLoggedIn, user, setUser }}
             >
-              {(props) => (
-                <Interests
-                  {...props}
-                  isLoggedIn={isLoggedIn}
-                  user={user}
-                  setUser={setUser}
-                />
-              )}
+              {(props) => <Interests {...props} isLoggedIn={isLoggedIn} user={user} setUser={setUser} />}
             </Tab.Screen>
           </>
         )}
