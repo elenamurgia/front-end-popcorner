@@ -90,7 +90,7 @@ export const Header = ({ avatar, isOnline, username, title }) => {
   };
 
   return (
-    <View className="border-b gap-1 pb-1 px-2">
+    <View className="border-b gap-1 pb-1 px-2 mt-8">
       <View className="self-start w-full flex-row justify-between items-center px-3">
         <IconButton icon="menu">Profile</IconButton>
         <Text variant="headlineSmall">{title}</Text>

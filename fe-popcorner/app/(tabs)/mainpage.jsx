@@ -15,7 +15,6 @@ import { View, Text } from "react-native";
 const Tab = createBottomTabNavigator();
 
 function MainPage({ isLoggedIn, setIsLoggedIn, user, setUser, newUserInput }) {
-  console.log(newUserInput);
   return (
     <PaperProvider>
       <View className="flex-col justify-between items-center">
@@ -75,27 +74,26 @@ function MainPage({ isLoggedIn, setIsLoggedIn, user, setUser, newUserInput }) {
           {(props) => <HomeScreen {...props} />}
         </Tab.Screen>
 
-      <Tab.Screen
-        name="ChatScreen"
-        options={{ title: "Chat" }}
-        initialParams={{ isLoggedIn, user }}
-      >
-        {(props) => (
-          <ChatScreen {...props} isLoggedIn={isLoggedIn} user={user} />
-        )}
-      </Tab.Screen>
-      {isLoggedIn ? (
         <Tab.Screen
-          name="UserInfo"
-          options={{ title: "User profile" }}
+          name="ChatScreen"
+          options={{ title: "Chat" }}
           initialParams={{ isLoggedIn, user }}
         >
           {(props) => (
-            <UserInfo {...props} isLoggedIn={isLoggedIn} user={user} />
+            <ChatScreen {...props} isLoggedIn={isLoggedIn} user={user} />
           )}
         </Tab.Screen>
-      ) : (
-        <>
+        {isLoggedIn ? (
+          <Tab.Screen
+            name="UserInfo"
+            options={{ title: "User profile", headerShown: false }}
+            initialParams={{ isLoggedIn, user }}
+          >
+            {(props) => (
+              <UserInfo {...props} isLoggedIn={isLoggedIn} user={user} />
+            )}
+          </Tab.Screen>
+        ) : (
           <>
             <Tab.Screen
               name="SignUp"

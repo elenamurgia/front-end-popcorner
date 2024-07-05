@@ -38,7 +38,7 @@ export default function TabLayout({
           </Tab.Screen> */}
           <Tab.Screen
             name="UserInfo"
-            options={{ title: "User Profile" }}
+            options={{ title: "" }}
             initialParams={{ isLoggedIn, user }}
           >
             {(props) => (

@@ -44,7 +44,7 @@ function Interests({ setIsLoggedIn, user, setNewUserInput, newUserInput }) {
   const navigateToMainPage = () => {
     // Update newUserInput with the interests object
     setNewUserInput({ ...newUserInput, interests: interests });
-    console.log(newUserInput); // Log to verify the updated newUserInput
+
     postUser(newUserInput);
     setIsLoggedIn(true);
 
@@ -98,9 +98,6 @@ function Interests({ setIsLoggedIn, user, setNewUserInput, newUserInput }) {
       list: ["Painting", "Pottery", "Singing", "Photography", "Fashion-design"],
     },
   ];
-
-  // console.log(Object.values(interests).flat().length);
-  // console.log(newUserInput);
 
   return (
     <ScrollView>

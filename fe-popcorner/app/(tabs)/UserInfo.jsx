@@ -104,7 +104,6 @@ function UserInfo({ isLoggedIn, user, navigation }) {
                   index // Ensure to specify the 'index' parameter in map function
                 ) => (
                   <Text style={styles.interestBox} key={index}>
-                    {" "}
                     {/* Specify 'key' prop for each mapped element */}
                     {specificInterest}
                   </Text>

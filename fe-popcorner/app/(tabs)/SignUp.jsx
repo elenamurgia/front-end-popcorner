@@ -156,7 +156,6 @@ function SignUp({
               <View style={styles.modalView}>
                 <DatePicker
                   mode="calendar"
-                  // minimumDate={startDate}
                   selected={date}
                   onDateChange={handleChange}
                 />
@@ -254,7 +253,7 @@ const styles = StyleSheet.create({
     borderColor: "#ccc",
     padding: 10,
     marginBottom: 20, // Increased margin between boxes
-    // width: "%", // Shortened width
+
     backgroundColor: "white",
   },
 
