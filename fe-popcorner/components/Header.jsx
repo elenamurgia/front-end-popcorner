@@ -108,6 +108,7 @@ export const Header = ({ avatar, isOnline, username, title, navigator }) => {
           onPress={() => setIsSearchModalOpen(true)}
         />
         <TouchableOpacity className="relative" onPress={navigateToUserProfile}>
+
           {avatarComponent}
           <Badge
             size={14}
@@ -120,7 +121,7 @@ export const Header = ({ avatar, isOnline, username, title, navigator }) => {
       {isSearchModalOpen && (
         <Portal>
           <Modal visible={isSearchModalOpen} onDismiss={clearSearch}>
-            <View className="h-full">
+            <View className="mt-10 h-full">
               <Searchbar
                 mode="view"
                 placeholder="Search"
@@ -248,6 +249,7 @@ export const Header = ({ avatar, isOnline, username, title, navigator }) => {
                                         ? "star-half-full"
                                         : "star-outline"
                                     }
+
                                     size={14}
                                     color="white"
                                   />{" "}
@@ -256,6 +258,7 @@ export const Header = ({ avatar, isOnline, username, title, navigator }) => {
                               </ImageBackground>
                             );
                           }
+
                         )}
                       </List.Section>
                     )}
@@ -279,7 +282,9 @@ export const Header = ({ avatar, isOnline, username, title, navigator }) => {
                                     ? {
                                         uri: `https://image.tmdb.org/t/p/w500${profile_path}`,
                                       }
-                                    : {}
+                                    : { 
+                                      uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR9UdkG68P9AHESMfKJ-2Ybi9pfnqX1tqx3wQ&s",
+                                    }
                                 }
                               >
                                 <Text

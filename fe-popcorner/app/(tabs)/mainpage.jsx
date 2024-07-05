@@ -1,21 +1,47 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createStackNavigator } from "@react-navigation/stack";
 import LoginPage from "./login";
 import TabTwoScreen from "./two";
 import UserInfo from "./UserInfo";
 import SignUp from "./SignUp";
 import Interests from "./Interests";
 import HomeScreen from "../../screens/HomeScreen";
+import ChatScreen from "./ChatScreen";
+import CommunitiesScreen from "../../screens/CommunitiesScreen";
+import { CommunitiesList } from "./CommunitiesList";
+import CommunityDetails from "./CommunityDetails";
+import CreateCommunity from "./CreateCommunity";
 import { Header } from "../../components/Header";
 import { BottomNavigation, Icon, PaperProvider } from "react-native-paper";
-// import { useAuth } from "./AuthContext";
+
 import { View, Text } from "react-native";
 
 const Tab = createBottomTabNavigator();
+// const Tab = createBottomTabNavigator();
+const Stack = createStackNavigator();
 
-function MainPage({ isLoggedIn, setIsLoggedIn, user, setUser }) {
-  // const  = useAuth();
+const CommunitiesStack = () => (
+  <Stack.Navigator>
+    <Stack.Screen
+      name="CommunitiesList"
+      component={CommunitiesList}
+      options={{ headerShown: false }}
+    />
+    <Stack.Screen
+      name="CommunityDetails"
+      component={CommunityDetails}
+      options={{ headerShown: false }}
+    />
+    <Stack.Screen
+      name="CreateCommunity"
+      component={CreateCommunity}
+      options={{ headerShown: false }}
+    />
+  </Stack.Navigator>
+);
 
+function MainPage({ isLoggedIn, setIsLoggedIn, user, setUser, newUserInput }) {
   return (
     <PaperProvider>
       <View className="flex-col justify-between items-center">
@@ -74,27 +100,46 @@ function MainPage({ isLoggedIn, setIsLoggedIn, user, setUser }) {
         >
           {(props) => <HomeScreen {...props} />}
         </Tab.Screen>
-        {console.log(isLoggedIn)}
-        {/* <Tab.Screen
-        name="LoginPage"
-        options={{ title: "Login" }}
-        initialParams={{ isLoggedIn, setIsLoggedIn, setUser }}
-      >
-        {(props) => (
-          <LoginPage
-            {...props}
-            setIsLoggedIn={setIsLoggedIn}
-            setUser={setUser}
-          />
-        )}
-      </Tab.Screen> */}
+
+        <Tab.Screen
+          name="ChatScreen"
+          options={{
+            title: "Chat",
+            tabBarIcon: ({ color, size }) => {
+              return <Icon source="chat" size={size} color={color} />;
+            },
+          }}
+          initialParams={{ isLoggedIn, user }}
+        >
+          {(props) => (
+            <ChatScreen {...props} isLoggedIn={isLoggedIn} user={user} />
+          )}
+        </Tab.Screen>
+        <Tab.Screen
+          name="Communities"
+          component={CommunitiesStack}
+          options={{
+            tabBarLabel: "Communities",
+            title: "",
+            headerShown: false,
+
+            tabBarIcon: ({ color, size }) => {
+              return (
+                <Icon source="account-supervisor" size={size} color={color} />
+              );
+            },
+          }}
+        />
         {isLoggedIn ? (
           <Tab.Screen
             name="UserInfo"
             options={{
-              tabBarLabel: "User profile",
+              title: "User profile",
+              headerShown: false,
               tabBarIcon: ({ color, size }) => {
-                return <Icon source="account" size={size} color={color} />;
+                return (
+                  <Icon source="account-circle" size={size} color={color} />
+                );
               },
             }}
             initialParams={{ isLoggedIn, user }}
