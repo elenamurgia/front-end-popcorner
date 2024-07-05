@@ -1,5 +1,6 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createStackNavigator } from "@react-navigation/stack";
 import LoginPage from "./login";
 import TabTwoScreen from "./two";
 import UserInfo from "./UserInfo";
@@ -7,14 +8,39 @@ import SignUp from "./SignUp";
 import Interests from "./Interests";
 import HomeScreen from "../../screens/HomeScreen";
 import ChatScreen from "./ChatScreen";
+import CommunitiesScreen from "../../screens/CommunitiesScreen";
+import { CommunitiesList } from "./CommunitiesList";
+import CommunityDetails from "./CommunityDetails";
+import CreateCommunity from "./CreateCommunity";
 import { Header } from "../../components/Header";
 import { BottomNavigation, Icon, PaperProvider } from "react-native-paper";
 
 import { View, Text } from "react-native";
 
 const Tab = createBottomTabNavigator();
+// const Tab = createBottomTabNavigator();
+const Stack = createStackNavigator();
 
 function MainPage({ isLoggedIn, setIsLoggedIn, user, setUser, newUserInput }) {
+  const CommunitiesStack = () => (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="CommunitiesList"
+        component={CommunitiesList}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="CommunityDetails"
+        component={CommunityDetails}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="CreateCommunity"
+        component={CreateCommunity}
+        options={{ headerShown: false }}
+      />
+    </Stack.Navigator>
+  );
   return (
     <PaperProvider>
       <View className="flex-col justify-between items-center">
@@ -83,6 +109,22 @@ function MainPage({ isLoggedIn, setIsLoggedIn, user, setUser, newUserInput }) {
             <ChatScreen {...props} isLoggedIn={isLoggedIn} user={user} />
           )}
         </Tab.Screen>
+        <Tab.Screen
+          name="Communities"
+          component={CommunitiesStack}
+          options={{
+            tabBarLabel: "Communities",
+            title: "",
+            headerShown: false,
+            // tabBarIcon: ({ size }) => (
+            //   // <MaterialCommunityIcons
+            //   //   name="account-group"
+            //   //   size={size}
+            //   //   color="#FF6969"
+            //   // />
+            // ),
+          }}
+        />
         {isLoggedIn ? (
           <Tab.Screen
             name="UserInfo"

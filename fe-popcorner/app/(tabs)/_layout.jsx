@@ -27,15 +27,6 @@ export default function TabLayout({
     <View style={styles.container}>
       {isLoggedIn ? (
         <Tab.Navigator>
-          {/* <Tab.Screen
-            name="ChatScreen"
-            options={{ title: "Chat" }}
-            initialParams={{ isLoggedIn, user }}
-          >
-            {(props) => (
-              <ChatScreen {...props} isLoggedIn={isLoggedIn} user={user} />
-            )}
-          </Tab.Screen> */}
           <Tab.Screen
             name="UserInfo"
             options={{ title: "" }}
@@ -45,9 +36,6 @@ export default function TabLayout({
               <UserInfo {...props} isLoggedIn={isLoggedIn} user={user} />
             )}
           </Tab.Screen>
-          {/* <Tab.Screen name="HomeScreen" options={{ title: "Home" }}>
-            {(props) => <HomeScreen {...props} />}
-          </Tab.Screen> */}
         </Tab.Navigator>
       ) : (
         <View>
