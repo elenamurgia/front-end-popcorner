@@ -136,3 +136,10 @@ export const listCommunities = () => {
     return data;
   });
 };
+
+ export const listCinemas = () => {
+  return popcornerApi.get("/cinemas").then(({ data }) => {
+    return data
+  })
+ }
+

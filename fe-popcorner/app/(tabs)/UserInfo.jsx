@@ -1,37 +1,8 @@
 import { StyleSheet, Image, ScrollView, Text, View } from "react-native";
-import { getUser } from "../../utils/api";
 import { useEffect, useState } from "react";
 
-function UserInfo({ isLoggedIn, user, navigation }) {
-  const [userInfo, setUserInfo] = useState({
-    firstName: "",
-    lastName: "",
-    avatar: "",
-    interests: {},
-    email: "",
-    dateOfBirth: "",
-    username: "",
-    password: "",
-    communities: {},
-    events: {},
-    cinemas: {},
-    isBannedFrom: {},
-    moderator: {},
-  });
-
+function UserInfo({ isLoggedIn, user, navigation, userInfo }) {
   const [interestsArray, setInterestsArray] = useState([]);
-
-  useEffect(() => {
-    if (user && user.username) {
-      getUser(user.username)
-        .then((fetchedUser) => {
-          setUserInfo(fetchedUser);
-        })
-        .catch((err) => {
-          console.error(err);
-        });
-    }
-  }, [user]);
 
   useEffect(() => {
     if (userInfo.interests && Object.keys(userInfo.interests).length > 0) {
