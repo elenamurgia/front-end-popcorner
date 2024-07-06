@@ -5,7 +5,7 @@ function UserInfo({ isLoggedIn, user, navigation, userInfo }) {
   const [interestsArray, setInterestsArray] = useState([]);
 
   useEffect(() => {
-    if (userInfo.interests && Object.keys(userInfo.interests).length > 0) {
+    if (userInfo?.interests && Object.keys(userInfo.interests).length > 0) {
       // Convert interests object to array
       const newInterestsArray = Object.values(userInfo.interests).flatMap(
         (category) => {
@@ -16,7 +16,9 @@ function UserInfo({ isLoggedIn, user, navigation, userInfo }) {
     } else {
       setInterestsArray([]);
     }
-  }, [userInfo.interests]);
+  }, [userInfo]);
+
+  console.log(userInfo);
 
   return (
     <ScrollView contentContainerStyle={styles.container}>

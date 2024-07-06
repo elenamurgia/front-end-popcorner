@@ -23,7 +23,14 @@ import { listCommunities, searchMovies, searchPeople } from "../utils/api";
 import { useNavigation } from "@react-navigation/native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
-export const Header = ({ avatar, isOnline, username, title, navigator }) => {
+export const Header = ({
+  avatar,
+  isOnline,
+  username,
+  title,
+  navigator,
+  userInfo,
+}) => {
   const [searchText, setSearchText] = useState("");
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
   const [movies, setMovies] = useState();
@@ -35,7 +42,7 @@ export const Header = ({ avatar, isOnline, username, title, navigator }) => {
   const navigation = useNavigation();
 
   const navigateToUserProfile = () => {
-    navigation.navigate("UserInfo");
+    navigation.navigate("UserInfo", { userInfo });
   };
 
   useEffect(() => {

@@ -37,6 +37,22 @@ export default function App() {
     isBannedFrom: {},
     moderator: {},
   });
+  const [userInfo, setUserInfo] = useState({
+    firstName: "",
+    lastName: "",
+    avatar: "",
+    interests: {},
+    email: "",
+    dateOfBirth: "",
+    username: "",
+    password: "",
+    communities: {},
+    events: {},
+    cinemas: {},
+    isBannedFrom: {},
+    moderator: {},
+  });
+
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="TabLayout">
@@ -97,7 +113,12 @@ export default function App() {
           options={{ title: "User Info", headerBackTitle: "Back" }}
         >
           {(props) => (
-            <UserInfo {...props} isLoggedIn={isLoggedIn} user={user} />
+            <UserInfo
+              {...props}
+              isLoggedIn={isLoggedIn}
+              user={user}
+              userInfo={userInfo}
+            />
           )}
         </Stack.Screen>
         <Stack.Screen
@@ -118,6 +139,8 @@ export default function App() {
               setIsLoggedIn={setIsLoggedIn}
               isLoggedIn={isLoggedIn}
               setUser={setUser}
+              setUserInfo={setUserInfo}
+              userInfo={userInfo}
               user={user}
               newUserInput={newUserInput}
             />
