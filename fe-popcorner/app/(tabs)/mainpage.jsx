@@ -18,9 +18,9 @@ import { BottomNavigation, Icon, PaperProvider } from "react-native-paper";
 import { getUser } from "../../utils/api";
 
 import { View, Text } from "react-native";
+import Chat from "../../screens/Chat";
 
 const Tab = createBottomTabNavigator();
-// const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
 const CommunitiesStack = ({ user }) => (
@@ -41,17 +41,21 @@ const CommunitiesStack = ({ user }) => (
 
 function MainPage({
   isLoggedIn,
-  setIsLoggedIn,
   user,
-  setUser,
-  setUserInfo,
   userInfo,
+  setUserInfo,
   newUserInput,
+  setNewUserInput,
 }) {
+  console.log("This is the user variable line 42 ", user);
+  // const [userInfo, setUserInfo] = useState({});
+
   useEffect(() => {
-    if (user && user.username) {
-      getUser(user.username)
+    if (user) {
+      console.log("We are in mainpage L47", user);
+      getUser(user.email)
         .then((fetchedUser) => {
+          console.log("The value of fetchedUser is ", fetchedUser);
           setUserInfo(fetchedUser);
         })
         .catch((err) => {
@@ -63,12 +67,14 @@ function MainPage({
   return (
     <PaperProvider>
       <View className="flex-col justify-between items-center">
+        {console.log("The log on line 69", userInfo)}
         <Header
           username={user?.username}
           title="PopCorner"
           avatar={userInfo?.avatar !== "" ? userInfo.avatar : undefined}
           isOnline={!!user}
-          userInfo={userInfo} // Pass userInfo to Header
+          userInfo={userInfo}
+          newUserInput={newUserInput}
         />
       </View>
       <Tab.Navigator
@@ -133,11 +139,9 @@ function MainPage({
               return <Icon source="chat" size={size} color={color} />;
             },
           }}
-          initialParams={{ isLoggedIn, user }}
+          // initialParams={{ isLoggedIn, user }}
         >
-          {(props) => (
-            <ChatScreen {...props} isLoggedIn={isLoggedIn} user={user} />
-          )}
+          {(props) => <Chat {...props} isLoggedIn={isLoggedIn} user={user} />}
         </Tab.Screen>
         <Tab.Screen
           name="Communities"
@@ -180,7 +184,7 @@ function MainPage({
           </Tab.Screen>
         ) : (
           <>
-            <Tab.Screen
+            {/* <Tab.Screen
               name="SignUp"
               options={{ title: "SignUp" }}
               initialParams={{ setIsLoggedIn, user, setUser }}
@@ -207,7 +211,7 @@ function MainPage({
                   setUser={setUser}
                 />
               )}
-            </Tab.Screen>
+            </Tab.Screen> */}
           </>
         )}
       </Tab.Navigator>

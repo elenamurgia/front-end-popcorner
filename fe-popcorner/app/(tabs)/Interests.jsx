@@ -9,11 +9,12 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import { postUser } from "../../utils/api";
 
-function Interests({ setIsLoggedIn, user, setNewUserInput, newUserInput }) {
+function Interests({ setNewUserInput, newUserInput, setIsLoggedIn, setUser }) {
+  console.log("This is the new userinput line 13", newUserInput);
   const [interests, setInterests] = useState({});
   const navigation = useNavigation();
+
   const handleInterestPress = (category, item) => {
-    // Calculate the total number of selected interests
     const totalSelectedInterests = Object.values(interests).reduce(
       (total, current) => total + current.length,
       0
@@ -25,13 +26,11 @@ function Interests({ setIsLoggedIn, user, setNewUserInput, newUserInput }) {
     }
 
     if (!interests[category]) {
-      // If the category doesn't exist in interests, initialize it
       setInterests({
         ...interests,
         [category]: [item],
       });
     } else if (!interests[category].includes(item)) {
-      // If the category exists but the item is not in the category, add the item
       setInterests({
         ...interests,
         [category]: [...interests[category], item],
@@ -42,13 +41,24 @@ function Interests({ setIsLoggedIn, user, setNewUserInput, newUserInput }) {
   };
 
   const navigateToMainPage = () => {
-    // Update newUserInput with the interests object
-    setNewUserInput({ ...newUserInput, interests: interests });
+    setNewUserInput((prevState) => {
+      const updatedUserInput = { ...prevState, interests: interests };
 
-    postUser(newUserInput);
-    setIsLoggedIn(true);
+      console.log("This is the log on line 47 in interests", updatedUserInput);
+      console.log("This is the log on line 48 in interests", interests);
 
-    navigation.navigate("MainPage"); // Uncomment when navigation is defined
+      setUser({
+        username: updatedUserInput.username,
+        password: updatedUserInput.password,
+        email: updatedUserInput.email.replace(".", "-"),
+      });
+
+      postUser(updatedUserInput);
+      setIsLoggedIn(true);
+      navigation.navigate("MainPage");
+
+      return updatedUserInput;
+    });
   };
 
   const interestList = [
@@ -107,7 +117,6 @@ function Interests({ setIsLoggedIn, user, setNewUserInput, newUserInput }) {
           {Object.values(interests).flat().length}/5 interests selected (min. 3
           max. 5)
         </Text>
-        {/* Render category-wise interests */}
         {interestList.map((interestCategory) => (
           <View
             key={interestCategory.category}
@@ -148,7 +157,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    padding: 20,
+    padding: 30,
   },
   interestsContainer: {
     flexDirection: "row",
@@ -158,6 +167,7 @@ const styles = StyleSheet.create({
   mainTitle: {
     fontSize: 40,
     textAlign: "center",
+    marginTop: 10,
     paddingBottom: 20,
     fontWeight: "bold",
   },
@@ -182,6 +192,15 @@ const styles = StyleSheet.create({
   },
   interestBox: {
     backgroundColor: "red",
+    justifyContent: "center",
+    alignItems: "center",
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+    borderRadius: 20,
+    margin: 5,
+  },
+  btnActive: {
+    backgroundColor: "black",
     justifyContent: "center",
     alignItems: "center",
     paddingHorizontal: 15,

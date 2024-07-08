@@ -1,8 +1,17 @@
 import { StyleSheet, Image, ScrollView, Text, View } from "react-native";
 import { useEffect, useState } from "react";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
-function UserInfo({ isLoggedIn, user, navigation, userInfo }) {
+function UserInfo({ isLoggedIn, user, navigation, newUserInput, userInfo }) {
   const [interestsArray, setInterestsArray] = useState([]);
+
+  const navigateToHome = () => {
+    if (userInfo) {
+      navigation.navigate("MainPage", { userInfo });
+    } else {
+      console.log("User info is not available");
+    }
+  };
 
   useEffect(() => {
     if (userInfo?.interests && Object.keys(userInfo.interests).length > 0) {
@@ -18,8 +27,9 @@ function UserInfo({ isLoggedIn, user, navigation, userInfo }) {
     }
   }, [userInfo]);
 
-  console.log(userInfo);
-
+  // console.log("This is line 21 in UserInfo", userInfo);
+  // console.log("This is line 22 in newUserInput", newUserInput);
+  // console.log(userInfo);
   return (
     <ScrollView contentContainerStyle={styles.container}>
       {/* <View style={styles.container}> */}
@@ -110,6 +120,10 @@ function UserInfo({ isLoggedIn, user, navigation, userInfo }) {
           ) : (
             <Text>Not banned from any events</Text>
           )}
+
+          <TouchableOpacity onPress={navigateToHome} style={styles.backButton}>
+            <Text style={styles.backButtonText}> Back to home </Text>
+          </TouchableOpacity>
         </View>
       ) : (
         <Text>Waiting for user info</Text>
@@ -165,6 +179,27 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     margin: 5,
     color: "white",
+  },
+  backButtonText: {
+    fontSize: 30,
+    color: "white",
+    fontWeight: "bold",
+  },
+  backButton: {
+    backgroundColor: "red",
+    justifyContent: "center",
+    alignItems: "center",
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+    borderRadius: 20,
+    margin: 5,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
   },
 });
 

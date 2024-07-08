@@ -40,9 +40,13 @@ export const Header = ({
   const [filteredCommunities, setFilteredCommunities] = useState();
 
   const navigation = useNavigation();
-
+  console.log("This is line 44", userInfo);
   const navigateToUserProfile = () => {
-    navigation.navigate("UserInfo", { userInfo });
+    if (userInfo) {
+      navigation.navigate("UserInfo", { userInfo });
+    } else {
+      console.log("User info is not available");
+    }
   };
 
   useEffect(() => {

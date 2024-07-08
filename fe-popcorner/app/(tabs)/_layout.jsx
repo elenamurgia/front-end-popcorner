@@ -1,11 +1,12 @@
 import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { useNavigation } from "@react-navigation/native";
+import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import UserInfo from "./UserInfo";
 import PopularMovies from "../../components/Movies/PopularMovies";
 import HomeScreen from "../../screens/HomeScreen";
 import ChatScreen from "./ChatScreen"; // Correct import
+import MainPage from "./mainpage";
 
 const Tab = createBottomTabNavigator();
 
@@ -17,6 +18,18 @@ export default function TabLayout({
 }) {
   const navigation = useNavigation();
 
+  function AuthStack() {
+    return (
+      <Stack.Navigator
+        defaultScreenOptions={Login}
+        screenOptions={{ headerShown: false }}
+      >
+        <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen name="Signup" component={Signup} />
+      </Stack.Navigator>
+    );
+  }
+
   const navigateToSignUp = () => {
     navigation.navigate("SignUp");
   };
@@ -25,34 +38,20 @@ export default function TabLayout({
   };
 
   return (
-    <View style={styles.container}>
-      {isLoggedIn ? (
-        <Tab.Navigator>
-          <Tab.Screen
-            name="UserInfo"
-            options={{ title: "" }}
-            initialParams={{ isLoggedIn, user }}
-          >
-            {(props) => (
-              <UserInfo {...props} isLoggedIn={isLoggedIn} user={user} />
-            )}
-          </Tab.Screen>
-        </Tab.Navigator>
-      ) : (
-        <View>
-          <Text style={styles.mainTitle}>Welcome to the app</Text>
-          <TouchableOpacity
-            onPress={navigateToSignUp}
-            style={styles.nextButton}
-          >
-            <Text style={styles.nextButtonText}>Create an account</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={navigateToLogin} style={styles.nextButton}>
-            <Text style={styles.nextButtonText}>Login</Text>
-          </TouchableOpacity>
-        </View>
-      )}
-    </View>
+    <></>
+    // <View style={styles.container}>
+    //   <Text style={styles.mainTitle}>Welcome to the app</Text>
+    //   <TouchableOpacity onPress={navigateToSignUp} style={styles.nextButton}>
+    //     <Text style={styles.nextButtonText}>Create an account</Text>
+    //   </TouchableOpacity>
+    //   <TouchableOpacity onPress={navigateToLogin} style={styles.nextButton}>
+    //     <Text style={styles.nextButtonText}>Login</Text>
+    //   </TouchableOpacity>
+    // </View>
+
+    // <NavigationContainer>
+    //   {userVariable ? <MainPage /> : <AuthStack />}
+    // </NavigationContainer>
   );
 }
 
