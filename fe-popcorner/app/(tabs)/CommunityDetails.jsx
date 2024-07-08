@@ -1,4 +1,3 @@
-import axios from "axios";
 import React, { useState } from "react";
 import {
   View,
@@ -11,7 +10,7 @@ import {
   TextInput,
   Button,
 } from "react-native";
-export default function CommunityDetails({ route, user }) {
+export default function CommunityDetails({ route }) {
   const { community } = route.params;
   const [selectedTab, setSelectedTab] = useState("posts");
   const [comments, setComments] = useState({});
@@ -43,13 +42,8 @@ export default function CommunityDetails({ route, user }) {
     console.log("Confirmed attendance for", event);
   };
   const handleCreatePost = () => {
-    console.log("The value of communitiies is ", { community });
     if (newPost.title.trim() && newPost.body.trim()) {
-      // community.posts.push({ ...newPost, author: "CurrentUser" });
-      axios.post(
-        `https://popcorner.vercel.app/communities/${community}/posts`,
-        { ...newPost }
-      );
+      community.posts.push({ ...newPost, author: "CurrentUser" });
       setNewPost({ title: "", body: "" });
     }
   };
@@ -145,9 +139,7 @@ export default function CommunityDetails({ route, user }) {
             style={[styles.input, styles.textArea]}
             placeholder="Post Body"
             value={newPost.body}
-            onChangeText={(text) =>
-              setNewPost({ ...newPost, body: text, author: "Charley" })
-            }
+            onChangeText={(text) => setNewPost({ ...newPost, body: text })}
             multiline
           />
           <Button title="Create Post" onPress={handleCreatePost} />
