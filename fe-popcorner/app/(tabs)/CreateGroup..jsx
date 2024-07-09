@@ -27,33 +27,35 @@ import { useNavigation } from "@react-navigation/native";
 import { AntDesign } from "@expo/vector-icons";
 import colors from "../../colors";
 
-function CreateGroup({ navigation }) {
+async function CreateGroup({ navigation, inputGroupName }) {
   const [groupName, setGroupName] = useState("");
 
-  const newGroup = async () => {
-    try {
-      const docRef = await addDoc(collection(database, "groups"), {
-        name: groupName,
-        createdAt: new Date(),
-      });
-      navigation.navigate("Chat", { groupId: docRef.id });
-      setGroupName("");
-    } catch (err) {
-      console.log(err);
-      //   alert("Group name is invalid");
-    }
-  };
+  // const newGroup = async () => {
+  try {
+    const docRef = await addDoc(collection(database, "groups"), {
+      name: inputGroupName,
+      createdAt: new Date(),
+      groupMembers: [],
+    });
+    navigation.navigate("Chat", { groupId: docRef.id });
+    setGroupName("");
+  } catch (err) {
+    console.log(err);
+    //   alert("Group name is invalid");
+  }
+  // };
   return (
-    <View style={styles.container}>
-      <Text>Click here to add a new group</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Enter Group Name"
-        value={groupName}
-        onChangeText={setGroupName}
-      />
-      <Button title="Create Group" onPress={newGroup} />
-    </View>
+    <></>
+    // <View style={styles.container}>
+    //   <Text>Click here to add a new group</Text>
+    //   <TextInput
+    //     style={styles.input}
+    //     placeholder="Enter Group Name"
+    //     value={groupName}
+    //     onChangeText={setGroupName}
+    //   />
+    //   <Button title="Create Group" onPress={newGroup} />
+    // </View>
   );
 }
 
