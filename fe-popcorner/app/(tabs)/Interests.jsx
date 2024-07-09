@@ -10,7 +10,7 @@ import { useNavigation } from "@react-navigation/native";
 import { postUser } from "../../utils/api";
 
 function Interests({ setNewUserInput, newUserInput, setIsLoggedIn, setUser }) {
-  console.log("This is the new userinput line 13", newUserInput);
+  // console.log("This is the new userinput line 13", newUserInput);
   const [interests, setInterests] = useState({});
   const navigation = useNavigation();
 
@@ -44,8 +44,8 @@ function Interests({ setNewUserInput, newUserInput, setIsLoggedIn, setUser }) {
     setNewUserInput((prevState) => {
       const updatedUserInput = { ...prevState, interests: interests };
 
-      console.log("This is the log on line 47 in interests", updatedUserInput);
-      console.log("This is the log on line 48 in interests", interests);
+      // console.log("This is the log on line 47 in interests", updatedUserInput);
+      // console.log("This is the log on line 48 in interests", interests);
 
       setUser({
         username: updatedUserInput.username,
