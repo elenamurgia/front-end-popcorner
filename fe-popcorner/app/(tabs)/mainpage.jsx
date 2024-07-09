@@ -25,37 +25,19 @@ const Stack = createStackNavigator();
 
 const CommunitiesStack = ({ user }) => (
   <Stack.Navigator>
-    <Stack.Screen
-      name="CommunitiesList"
-      component={CommunitiesList}
-      options={{ headerShown: false }}
-    />
+    <Stack.Screen name="CommunitiesList" component={CommunitiesList} options={{ headerShown: false }} />
     <Stack.Screen name="CommunityDetails" options={{ headerShown: false }}>
       {(props) => <CommunityDetails {...props} user={user} />}
     </Stack.Screen>
-    <Stack.Screen name="CreateCommunity">
-      {(props) => <CreateCommunity {...props} user={user} />}
-    </Stack.Screen>
+    <Stack.Screen name="CreateCommunity">{(props) => <CreateCommunity {...props} user={user} />}</Stack.Screen>
   </Stack.Navigator>
 );
 
-function MainPage({
-  isLoggedIn,
-  user,
-  userInfo,
-  setUserInfo,
-  newUserInput,
-  setNewUserInput,
-}) {
-  console.log("This is the user variable line 42 ", user);
-  // const [userInfo, setUserInfo] = useState({});
-
+function MainPage({ isLoggedIn, user, userInfo, setUserInfo, newUserInput, setNewUserInput }) {
   useEffect(() => {
     if (user) {
-      console.log("We are in mainpage L47", user);
       getUser(user.email)
         .then((fetchedUser) => {
-          console.log("The value of fetchedUser is ", fetchedUser);
           setUserInfo(fetchedUser);
         })
         .catch((err) => {
@@ -67,7 +49,6 @@ function MainPage({
   return (
     <PaperProvider>
       <View className="flex-col justify-between items-center">
-        {console.log("The log on line 69", userInfo)}
         <Header
           username={user?.username}
           title="PopCorner"
@@ -150,14 +131,12 @@ function MainPage({
             title: "",
             headerShown: false,
             tabBarIcon: ({ color, size }) => {
-              return (
-                <Icon source="account-supervisor" size={size} color={color} />
-              );
+              return <Icon source="account-supervisor" size={size} color={color} />;
             },
           }}
-          initialParams={{ user }}
+          initialParams={{ userInfo }}
         >
-          {(props) => <CommunitiesStack {...props} user={user} />}
+          {(props) => <CommunitiesStack {...props} user={userInfo} />}
         </Tab.Screen>
         {isLoggedIn ? (
           <Tab.Screen
@@ -166,21 +145,12 @@ function MainPage({
               title: "User profile",
               headerShown: false,
               tabBarIcon: ({ color, size }) => {
-                return (
-                  <Icon source="account-circle" size={size} color={color} />
-                );
+                return <Icon source="account-circle" size={size} color={color} />;
               },
             }}
             initialParams={{ isLoggedIn, user, userInfo }}
           >
-            {(props) => (
-              <UserInfo
-                {...props}
-                isLoggedIn={isLoggedIn}
-                user={user}
-                userInfo={userInfo}
-              />
-            )}
+            {(props) => <UserInfo {...props} isLoggedIn={isLoggedIn} user={user} userInfo={userInfo} />}
           </Tab.Screen>
         ) : (
           <>
