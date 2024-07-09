@@ -11,13 +11,15 @@ export const getUser = (userID) => {
 };
 
 export const getUsers = () => {
-  return userAPI.get(`/users`).then(({ data }) => {
+  return userAPI.get(`/users/`).then(({ data }) => {
     return data;
   });
 };
 
 export const postUser = (postBody) => {
-  return userAPI.post(`/users/`, postBody).then(({ data }) => {
+  console.log(postBody);
+
+  return userAPI.post(`/users`, postBody).then(({ data }) => {
     return data.user;
   });
 };
@@ -143,6 +145,7 @@ export const listCinemas = () => {
   });
 };
 
+
 export const getMoviesByGenre = async (genre_id) => {
   return moviesApi
     .get(
@@ -168,3 +171,4 @@ export const getMovieRecommendations = (movie_id) => {
       return res.data;
     });
 };
+

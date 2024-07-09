@@ -23,7 +23,14 @@ import { listCommunities, searchMovies, searchPeople } from "../utils/api";
 import { useNavigation } from "@react-navigation/native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
-export const Header = ({ avatar, isOnline, username, title, navigator }) => {
+export const Header = ({
+  avatar,
+  isOnline,
+  username,
+  title,
+  navigator,
+  userInfo,
+}) => {
   const [searchText, setSearchText] = useState("");
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
   const [movies, setMovies] = useState();
@@ -33,9 +40,13 @@ export const Header = ({ avatar, isOnline, username, title, navigator }) => {
   const [filteredCommunities, setFilteredCommunities] = useState();
 
   const navigation = useNavigation();
-
+  console.log("This is line 44", userInfo);
   const navigateToUserProfile = () => {
-    navigation.navigate("UserInfo");
+    if (userInfo) {
+      navigation.navigate("UserInfo", { userInfo });
+    } else {
+      console.log("User info is not available");
+    }
   };
 
   useEffect(() => {

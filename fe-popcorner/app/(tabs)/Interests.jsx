@@ -1,23 +1,14 @@
 import React, { useState } from "react";
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-  ScrollView,
-} from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { postUser } from "../../utils/api";
 
-function Interests({ setIsLoggedIn, user, setNewUserInput, newUserInput }) {
+function Interests({ setNewUserInput, newUserInput, setIsLoggedIn, setUser }) {
   const [interests, setInterests] = useState({});
   const navigation = useNavigation();
+
   const handleInterestPress = (category, item) => {
-    // Calculate the total number of selected interests
-    const totalSelectedInterests = Object.values(interests).reduce(
-      (total, current) => total + current.length,
-      0
-    );
+    const totalSelectedInterests = Object.values(interests).reduce((total, current) => total + current.length, 0);
 
     if (totalSelectedInterests >= 5) {
       alert("You have already selected all your interests");
@@ -25,13 +16,11 @@ function Interests({ setIsLoggedIn, user, setNewUserInput, newUserInput }) {
     }
 
     if (!interests[category]) {
-      // If the category doesn't exist in interests, initialize it
       setInterests({
         ...interests,
         [category]: [item],
       });
     } else if (!interests[category].includes(item)) {
-      // If the category exists but the item is not in the category, add the item
       setInterests({
         ...interests,
         [category]: [...interests[category], item],
@@ -42,52 +31,35 @@ function Interests({ setIsLoggedIn, user, setNewUserInput, newUserInput }) {
   };
 
   const navigateToMainPage = () => {
-    // Update newUserInput with the interests object
-    setNewUserInput({ ...newUserInput, interests: interests });
+    setNewUserInput((prevState) => {
+      const updatedUserInput = { ...prevState, interests: interests };
 
-    postUser(newUserInput);
-    setIsLoggedIn(true);
+      setUser({
+        username: updatedUserInput.username,
+        password: updatedUserInput.password,
+        email: updatedUserInput.email.replace(".", "-"),
+      });
 
-    navigation.navigate("MainPage"); // Uncomment when navigation is defined
+      postUser(updatedUserInput);
+      setIsLoggedIn(true);
+      navigation.navigate("MainPage");
+
+      return updatedUserInput;
+    });
   };
 
   const interestList = [
     {
       category: "Tech 💻",
-      list: [
-        "Programming",
-        "AI",
-        "Electronics",
-        "VR",
-        "AR",
-        "Blockchain/Crypto",
-      ],
+      list: ["Programming", "AI", "Electronics", "VR", "AR", "Blockchain/Crypto"],
     },
     {
       category: "Movies 🍿",
-      list: [
-        "Horror",
-        "Comedy",
-        "Romance",
-        "RomCom",
-        "Bollywood",
-        "Action",
-        "Thriller",
-      ],
+      list: ["Horror", "Comedy", "Romance", "RomCom", "Bollywood", "Action", "Thriller"],
     },
     {
       category: "Music 🎵",
-      list: [
-        "Hip-Hop",
-        "Rock",
-        "Country",
-        "R&B",
-        "Pop",
-        "Soul",
-        "Electronic",
-        "Trance",
-        "DnB",
-      ],
+      list: ["Hip-Hop", "Rock", "Country", "R&B", "Pop", "Soul", "Electronic", "Trance", "DnB"],
     },
     {
       category: "Sports 🏅",
@@ -104,26 +76,17 @@ function Interests({ setIsLoggedIn, user, setNewUserInput, newUserInput }) {
       <View style={styles.container}>
         <Text style={styles.mainTitle}>Select your interests</Text>
         <Text style={styles.subHeading}>
-          {Object.values(interests).flat().length}/5 interests selected (min. 3
-          max. 5)
+          {Object.values(interests).flat().length}/5 interests selected (min. 3 max. 5)
         </Text>
-        {/* Render category-wise interests */}
         {interestList.map((interestCategory) => (
-          <View
-            key={interestCategory.category}
-            style={styles.interestsOuterBox}
-          >
-            <Text style={styles.categoryTitle}>
-              {interestCategory.category}
-            </Text>
+          <View key={interestCategory.category} style={styles.interestsOuterBox}>
+            <Text style={styles.categoryTitle}>{interestCategory.category}</Text>
             <View style={styles.interestsContainer}>
               {interestCategory.list.map((interestItem, index) => (
                 <TouchableOpacity
                   key={index}
                   style={styles.interestBox}
-                  onPress={() =>
-                    handleInterestPress(interestCategory.category, interestItem)
-                  }
+                  onPress={() => handleInterestPress(interestCategory.category, interestItem)}
                 >
                   <Text style={styles.interestText}>{interestItem}</Text>
                 </TouchableOpacity>
@@ -132,10 +95,7 @@ function Interests({ setIsLoggedIn, user, setNewUserInput, newUserInput }) {
           </View>
         ))}
 
-        <TouchableOpacity
-          onPress={navigateToMainPage}
-          style={styles.nextButton}
-        >
+        <TouchableOpacity onPress={navigateToMainPage} style={styles.nextButton}>
           <Text style={styles.nextButtonText}>Next</Text>
         </TouchableOpacity>
       </View>
@@ -148,7 +108,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    padding: 20,
+    padding: 30,
   },
   interestsContainer: {
     flexDirection: "row",
@@ -158,6 +118,7 @@ const styles = StyleSheet.create({
   mainTitle: {
     fontSize: 40,
     textAlign: "center",
+    marginTop: 10,
     paddingBottom: 20,
     fontWeight: "bold",
   },
@@ -182,6 +143,15 @@ const styles = StyleSheet.create({
   },
   interestBox: {
     backgroundColor: "red",
+    justifyContent: "center",
+    alignItems: "center",
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+    borderRadius: 20,
+    margin: 5,
+  },
+  btnActive: {
+    backgroundColor: "black",
     justifyContent: "center",
     alignItems: "center",
     paddingHorizontal: 15,

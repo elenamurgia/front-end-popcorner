@@ -1,22 +1,27 @@
 import { StyleSheet, Image, ScrollView, Text, View } from "react-native";
 import { useEffect, useState } from "react";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
-function UserInfo({ isLoggedIn, user, navigation, userInfo }) {
+function UserInfo({ isLoggedIn, user, navigation, newUserInput, userInfo }) {
   const [interestsArray, setInterestsArray] = useState([]);
 
+  const navigateToHome = () => {
+    if (userInfo) {
+      navigation.navigate("MainPage", { userInfo });
+    }
+  };
+
   useEffect(() => {
-    if (userInfo.interests && Object.keys(userInfo.interests).length > 0) {
+    if (userInfo?.interests && Object.keys(userInfo.interests).length > 0) {
       // Convert interests object to array
-      const newInterestsArray = Object.values(userInfo.interests).flatMap(
-        (category) => {
-          return Object.values(category);
-        }
-      );
+      const newInterestsArray = Object.values(userInfo.interests).flatMap((category) => {
+        return Object.values(category);
+      });
       setInterestsArray(newInterestsArray);
     } else {
       setInterestsArray([]);
     }
-  }, [userInfo.interests]);
+  }, [userInfo]);
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -27,15 +32,10 @@ function UserInfo({ isLoggedIn, user, navigation, userInfo }) {
             Hello {userInfo.firstName} {userInfo.lastName}
           </Text>
 
-          {userInfo.avatar ? (
-            <Image source={{ uri: userInfo.avatar }} style={styles.avatar} />
-          ) : (
-            <Text>No avatar</Text>
-          )}
+          {userInfo.avatar ? <Image source={{ uri: userInfo.avatar }} style={styles.avatar} /> : <Text>No avatar</Text>}
 
           <Text style={styles.title}> Communities: </Text>
-          {userInfo.communities &&
-          Object.keys(userInfo.communities).length > 0 ? (
+          {userInfo.communities && Object.keys(userInfo.communities).length > 0 ? (
             Object.values(userInfo.communities).map((community, index) => (
               <Text style={styles.interestBox} key={index}>
                 {community}
@@ -85,9 +85,7 @@ function UserInfo({ isLoggedIn, user, navigation, userInfo }) {
           )}
 
           <Text style={styles.title}> Moderator: </Text>
-          {userInfo.moderator &&
-          userInfo.moderator.moderatorOf &&
-          userInfo.moderator.moderatorOf.length > 0 ? (
+          {userInfo.moderator && userInfo.moderator.moderatorOf && userInfo.moderator.moderatorOf.length > 0 ? (
             userInfo.moderator.moderatorOf.map((moderatorOf, index) => (
               <Text style={styles.interestBox} key={index}>
                 {moderatorOf}
@@ -98,8 +96,7 @@ function UserInfo({ isLoggedIn, user, navigation, userInfo }) {
           )}
 
           <Text style={styles.title}> Banned From: </Text>
-          {userInfo.isBannedFrom &&
-          Object.keys(userInfo.isBannedFrom).length > 0 ? (
+          {userInfo.isBannedFrom && Object.keys(userInfo.isBannedFrom).length > 0 ? (
             Object.values(userInfo.isBannedFrom).map((bannedFrom, index) => (
               <Text style={styles.interestBox} key={index}>
                 {bannedFrom}
@@ -108,6 +105,10 @@ function UserInfo({ isLoggedIn, user, navigation, userInfo }) {
           ) : (
             <Text>Not banned from any events</Text>
           )}
+
+          <TouchableOpacity onPress={navigateToHome} style={styles.backButton}>
+            <Text style={styles.backButtonText}> Back to home </Text>
+          </TouchableOpacity>
         </View>
       ) : (
         <Text>Waiting for user info</Text>
@@ -163,6 +164,27 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     margin: 5,
     color: "white",
+  },
+  backButtonText: {
+    fontSize: 30,
+    color: "white",
+    fontWeight: "bold",
+  },
+  backButton: {
+    backgroundColor: "red",
+    justifyContent: "center",
+    alignItems: "center",
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+    borderRadius: 20,
+    margin: 5,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
   },
 });
 

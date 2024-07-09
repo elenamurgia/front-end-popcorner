@@ -24,6 +24,14 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "apiKey": "AIzaSyCG2hhXmTHekwks1Gp6-wGbZWB9kI9AtLw",
+  "authDomain": "practice-group-chat.firebaseapp.com",
+  "projectId": "practice-group-chat",
+  "storageBucket": "practice-group-chat.appspot.com",
+  "messagingSenderId": "1028564997218",
+  "appId": "1:1028564997218:web:5424394a904159f6b02d3b"
     }
   }
 }

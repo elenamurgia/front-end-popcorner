@@ -17,7 +17,7 @@ import { useNavigation } from "@react-navigation/native";
 import moment from "moment";
 import { getUsers } from "../../utils/api";
 
-function SignUp({
+function oldSignUp({
   setIsLoggedIn,
   user,
   setUser,
@@ -312,4 +312,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SignUp;
+export default oldSignUp;
