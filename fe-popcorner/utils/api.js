@@ -137,9 +137,34 @@ export const listCommunities = () => {
   });
 };
 
- export const listCinemas = () => {
+export const listCinemas = () => {
   return popcornerApi.get("/cinemas").then(({ data }) => {
-    return data
-  })
- }
+    return data;
+  });
+};
 
+export const getMoviesByGenre = async (genre_id) => {
+  return moviesApi
+    .get(
+      `https://api.themoviedb.org/3/discover/movie?api_key=${moviesApiKey}&with_genres=${genre_id}`
+    )
+    .then((res) => {
+      return res.data.results;
+    });
+};
+
+export const getCasting = (person_id) => {
+  return moviesApi
+    .get(`/person/${person_id}?api_key=${moviesApiKey}`)
+    .then((res) => {
+      return res.data;
+    });
+};
+
+export const getMovieRecommendations = (movie_id) => {
+  return moviesApi
+    .get(`/movie/${movie_id}/recommendations?api_key=${moviesApiKey}`)
+    .then((res) => {
+      return res.data;
+    });
+};

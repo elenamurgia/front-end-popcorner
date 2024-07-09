@@ -1,12 +1,21 @@
 import React, { useState, useEffect } from "react";
-import { View, StyleSheet, ActivityIndicator, ScrollView } from "react-native";
-import { Card, Text, Avatar } from "react-native-paper";
+import {
+  View,
+  StyleSheet,
+  ActivityIndicator,
+  ScrollView,
+  TouchableOpacity,
+  Text,
+  Image,
+} from "react-native";
+import { Card, Avatar } from "react-native-paper";
 import { getMovieReviews } from "../../utils/api";
 
 export default function MovieReviews({ movie_id }) {
   const [reviews, setReviews] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [reviewsToShow, setReviewsToShow] = useState(1);
 
   useEffect(() => {
     const fetchReviews = async () => {
@@ -17,7 +26,6 @@ export default function MovieReviews({ movie_id }) {
         setReviews(reviewData.results);
         setIsLoading(false);
       } catch (error) {
-        console.error("Fetch Error:", error);
         setError("Something went wrong, please try again");
         setIsLoading(false);
       }
@@ -41,42 +49,67 @@ export default function MovieReviews({ movie_id }) {
     );
   }
 
-  const LeftContent = (props) => <Avatar.Icon {...props} icon="comment" />;
+  const handleLoadMore = () => {
+    setReviewsToShow(reviewsToShow + 1);
+  };
 
   return (
-    <ScrollView>
-      <Card>
-        <Card.Title
-          title="Reviews"
-          left={LeftContent}
-          titleStyle={{ fontSize: 25, fontWeight: "bold" }}
-        />
-        {reviews.length > 0 ? (
-          reviews.map((review) => {
-            const formattedDate = new Date(
-              review.created_at
-            ).toLocaleDateString();
-            return (
-              <Card.Content key={review.id}>
-                <Text variant="bodyMedium">{review.author}</Text>
-                <Text variant="bodyMedium">{formattedDate}</Text>
-                <Text variant="bodyMedium">{review.content}</Text>
-              </Card.Content>
-            );
-          })
-        ) : (
-          <Text>No reviews yet</Text>
-        )}
-      </Card>
-    </ScrollView>
+    <View>
+      {reviews.length > 0 ? (
+        reviews.slice(0, reviewsToShow).map((review) => {
+          const formattedDate = new Date(review.created_at).toLocaleDateString(
+            "en-GB",
+            {
+              day: "numeric",
+              month: "long",
+              year: "numeric",
+            }
+          );
+          const avatarUri = review.author_details.avatar_path
+            ? review.author_details.avatar_path.startsWith("/http")
+              ? review.author_details.avatar_path.substring(1)
+              : `https://image.tmdb.org/t/p/w500/${review.author_details.avatar_path}`
+            : null;
+
+          return (
+            <Card.Content key={review.id} style={styles.reviewContent}>
+              <View style={styles.avatarAuthorContainer}>
+                {avatarUri ? (
+                  <Image source={{ uri: avatarUri }} style={styles.avatar} />
+                ) : (
+                  <Avatar.Icon
+                    size={30}
+                    icon="account"
+                    color="#FFFFFF"
+                    style={styles.avatarIcon}
+                  />
+                )}
+                <Text style={styles.author}>{review.author}</Text>
+              </View>
+              <Text style={styles.date}>{formattedDate}</Text>
+              <Text style={styles.content}>{review.content}</Text>
+            </Card.Content>
+          );
+        })
+      ) : (
+        <Text style={styles.noReviewsText}>No reviews yet</Text>
+      )}
+      {reviewsToShow < reviews.length && (
+        <TouchableOpacity
+          onPress={handleLoadMore}
+          style={styles.loadMoreButton}
+        >
+          <Text style={styles.loadMoreText}>Load more reviews...</Text>
+        </TouchableOpacity>
+      )}
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: "#0C1844",
-    alignItems: "center",
+    padding: 10,
+    backgroundColor: "#f5f5f5",
   },
   loadingContainer: {
     flex: 1,
@@ -87,5 +120,73 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+  },
+  errorText: {
+    color: "red",
+    fontSize: 18,
+  },
+  card: {
+    margin: 10,
+    borderRadius: 10,
+  },
+  title: {
+    fontSize: 25,
+    fontWeight: "bold",
+    color: "black",
+  },
+  reviewContent: {
+    marginBottom: 15,
+    borderBottomWidth: 1,
+    paddingBottom: 10,
+  },
+  avatarAuthorContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 5,
+    marginTop: 20,
+  },
+  avatar: {
+    width: 30,
+    height: 30,
+    borderRadius: 25,
+    marginRight: 10,
+  },
+  avatarIcon: {
+    backgroundColor: "#B0B0B0",
+    marginRight: 10,
+  },
+  author: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "black",
+  },
+  writtenBy: {
+    fontSize: 16,
+    color: "black",
+    marginBottom: 5,
+  },
+  date: {
+    fontSize: 14,
+    color: "black",
+    marginBottom: 5,
+  },
+  content: {
+    fontSize: 16,
+    color: "black",
+  },
+  noReviewsText: {
+    fontSize: 16,
+    color: "black",
+    textAlign: "center",
+    padding: 20,
+  },
+  loadMoreButton: {
+    padding: 10,
+    alignItems: "center",
+  },
+  loadMoreText: {
+    color: "grey",
+    fontSize: 16,
+    fontWeight: "bold",
   },
 });
