@@ -15,7 +15,10 @@ import Interests from "./app/(tabs)/Interests";
 import MainPage from "./app/(tabs)/mainpage";
 import UserInfo from "./app/(tabs)/UserInfo";
 import AllMoviesScreen from "./screens/AllMoviesScreen";
+import CastScreen from "./screens/CastScreen";
+
 import MovieScreen from "./screens/MovieScreen";
+
 
 const Stack = createStackNavigator();
 const AuthenticatedUserContext = createContext({});
@@ -162,14 +165,20 @@ function AuthStack() {
         options={{ title: "", headerBackTitle: "Back" }}
       ></Stack.Screen>
 
-      <Stack.Screen
-        name="AllMoviesScreen"
-        component={AllMoviesScreen}
-        options={{ title: "", headerBackTitle: "Back" }}
-      ></Stack.Screen>
+   <Stack.Screen
+          name="AllMoviesScreen"
+          component={AllMoviesScreen}
+          options={{ title: "", headerBackTitle: "Back" }}
+        ></Stack.Screen>
+  <Stack.Screen
+          name="CastScreen"
+          component={CastScreen}
+          options={{ title: "", headerBackTitle: "Back" }}
+        ></Stack.Screen>
     </Stack.Navigator>
   );
 }
+
 
 function RootNavigator() {
   const { user, setUser } = useContext(AuthenticatedUserContext);
@@ -194,6 +203,7 @@ function RootNavigator() {
   return (
     <NavigationContainer>
       {finishedSignUp ? <Text>Hello </Text> : <AuthStack />}
+
     </NavigationContainer>
   );
 }
