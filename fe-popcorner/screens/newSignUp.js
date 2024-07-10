@@ -14,7 +14,7 @@ import {
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../config/firebase";
 const backImage = require("../assets/backImage.png");
-const popcorn = require("../assets/popcorn.png");
+const popcorn = require("../assets/popcornerLogo-Large.png");
 
 export default function Signup({
   navigation,
