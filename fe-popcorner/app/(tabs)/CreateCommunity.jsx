@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { View, Text, TextInput, StyleSheet, Button } from "react-native";
 import axios from "axios";
+import uuid from "react-native-uuid";
 export default function CreateCommunity({ navigation, user }) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -15,6 +16,7 @@ export default function CreateCommunity({ navigation, user }) {
       posts: [],
       events: [],
       memberCount: 1,
+      chatId: uuid.v4(),
     };
     axios
       .post("https://popcorner.vercel.app/communities", newCommunity)
