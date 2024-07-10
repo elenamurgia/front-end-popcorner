@@ -1,17 +1,17 @@
 import axios from "axios";
 
-const popcornerApi = axios.create({
-  baseURL: "https://popcorner.vercel.app",
+const userAPI = axios.create({
+  baseURL: "http://popcorner.vercel.app/",
 });
 
 export const getUser = (userID) => {
-  return popcornerApi.get(`/users/${userID}`).then(({ data }) => {
+  return userAPI.get(`/users/${userID}`).then(({ data }) => {
     return data.user;
   });
 };
 
 export const getUsers = () => {
-  return popcornerApi.get(`/users/`).then(({ data }) => {
+  return userAPI.get(`/users/`).then(({ data }) => {
     return data;
   });
 };
@@ -19,7 +19,7 @@ export const getUsers = () => {
 export const postUser = (postBody) => {
   console.log(postBody);
 
-  return popcornerApi.post(`/users`, postBody).then(({ data }) => {
+  return userAPI.post(`/users`, postBody).then(({ data }) => {
     return data.user;
   });
 };
@@ -107,6 +107,10 @@ const movieApi = axios.create({
   baseURL: "https://api.themoviedb.org/3",
 });
 
+const popcornerApi = axios.create({
+  baseURL: "https://popcorner.vercel.app",
+});
+
 export const searchMovies = (searchQuery) => {
   return movieApi
     .get("/search/movie", {
@@ -131,6 +135,12 @@ export const searchPeople = (searchQuery) => {
 
 export const listCommunities = () => {
   return popcornerApi.get("/communities").then(({ data }) => {
+    return data;
+  });
+};
+
+export const listCinemas = () => {
+  return popcornerApi.get("/cinemas").then(({ data }) => {
     return data;
   });
 };
