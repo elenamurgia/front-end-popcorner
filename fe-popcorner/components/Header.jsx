@@ -50,6 +50,7 @@ export const Header = ({
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const navigation = useNavigation();
+
   const navigateToUserProfile = () => {
     if (userInfo) {
       navigation.navigate("UserInfo", { userInfo });
