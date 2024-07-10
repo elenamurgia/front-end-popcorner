@@ -1,61 +1,59 @@
 import axios from "axios";
 import React, { useState } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  FlatList,
-  ScrollView,
-  TouchableOpacity,
-  TextInput,
-  Button,
-} from "react-native";
+import { View, Text, StyleSheet, Image, FlatList, ScrollView, TouchableOpacity, TextInput, Button } from "react-native";
 export default function CommunityDetails({ route, user }) {
   const { community } = route.params;
   const [selectedTab, setSelectedTab] = useState("posts");
   const [comments, setComments] = useState({});
-  const [newComment, setNewComment] = useState("");
-  const [newPost, setNewPost] = useState({ title: "", body: "" });
+  const [newComment, setNewComment] = useState({ comment: "", author: "" });
+  const [newPost, setNewPost] = useState({ title: "", body: "", author: "", commentCount: 0 });
   const [newEvent, setNewEvent] = useState({
     title: "",
     description: "",
     venue: "",
     date: "",
     time: "",
+    attendeeCount: 0,
   });
-  const handleVote = (item, type) => {
-    console.log(`Voted ${type} on`, item);
-  };
-  const handleComment = (postId) => {
-    if (newComment.trim()) {
-      setComments((prev) => ({
-        ...prev,
-        [postId]: [
-          ...(prev[postId] || []),
-          { author: "CurrentUser", body: newComment },
-        ],
-      }));
-      setNewComment("");
+  console.log(user, "the user");
+  const handleVote = (item, type) => {};
+  const handleComment = (post) => {
+    if (newComment.comment.trim()) {
+      axios
+        .post(`https://popcorner.vercel.app/communities/${community.title}/posts/${post}/comments`, {
+          comment: newComment.comment,
+          author: user.username,
+        })
+        .then((response) => {
+          const updatedComments = { ...comments };
+          updatedComments[post.id] = [...(updatedComments[post.id] || []), response.data];
+          setComments(updatedComments);
+          setNewComment({ comment: "", author: "" });
+        })
+        .catch((error) => {
+          console.error("Error posting comment:", error);
+        });
     }
   };
-  const handleAttendance = (event) => {
-    console.log("Confirmed attendance for", event);
-  };
+  const handleAttendance = (event) => {};
   const handleCreatePost = () => {
-    console.log("The value of communitiies is ", { community });
     if (newPost.title.trim() && newPost.body.trim()) {
-      // community.posts.push({ ...newPost, author: "CurrentUser" });
-      axios.post(
-        `https://popcorner.vercel.app/communities/${community}/posts`,
-        { ...newPost }
-      );
-      setNewPost({ title: "", body: "" });
+      axios.post(`https://popcorner.vercel.app/communities/${community.title}/posts`, newPost);
+      setNewPost({ title: "", body: "", author: "", commentCount: 0 });
     }
   };
   const handleCreateEvent = () => {
     if (newEvent.title.trim() && newEvent.description.trim()) {
-      community.events.push({ ...newEvent, attendees: {}, attendeeCount: 0 });
+      axios.post(`https://popcorner.vercel.app/communities/${community.title}/events`, {
+        title: newEvent.title,
+        description: newEvent.description,
+        venue: newEvent.venue,
+        date: newEvent.date,
+        time: newEvent.time,
+        moderators: user.username,
+        attendeeCount: 1,
+        attendees: [user.username],
+      });
       setNewEvent({
         title: "",
         description: "",
@@ -69,7 +67,7 @@ export default function CommunityDetails({ route, user }) {
   const renderComment = ({ item }) => (
     <View style={styles.comment}>
       <Text style={styles.commentAuthor}>{item.author}:</Text>
-      <Text style={styles.commentBody}>{item.body}</Text>
+      <Text style={styles.commentBody}>{item.comment}</Text>
       <View style={styles.voteContainer}>
         <TouchableOpacity onPress={() => handleVote(item, "up")}>
           <Text style={styles.voteButton}>Upvote</Text>
@@ -102,10 +100,10 @@ export default function CommunityDetails({ route, user }) {
       <TextInput
         style={styles.commentInput}
         placeholder="Add a comment..."
-        value={newComment}
+        value={newComment.comment}
         onChangeText={setNewComment}
       />
-      <Button title="Comment" onPress={() => handleComment(item.id)} />
+      <Button title="Comment" onPress={() => handleComment(item.title)} />
     </View>
   );
   const renderEvent = ({ item }) => (
@@ -115,13 +113,8 @@ export default function CommunityDetails({ route, user }) {
       <Text style={styles.cardAuthor}>Venue: {item.venue}</Text>
       <Text style={styles.cardAuthor}>Date: {item.date}</Text>
       <Text style={styles.cardAuthor}>Time: {item.time}</Text>
-      <Text style={styles.cardAuthor}>
-        Attendee Count: {item.attendeeCount}
-      </Text>
-      <Button
-        title="Confirm Attendance"
-        onPress={() => handleAttendance(item)}
-      />
+      <Text style={styles.cardAuthor}>Attendee Count: {item.attendeeCount}</Text>
+      <Button title="Confirm Attendance" onPress={() => handleAttendance(item)} />
       <Text style={styles.sectionTitle}>Attendees:</Text>
       <FlatList
         data={Object.values(item.attendees || {})}
@@ -139,15 +132,13 @@ export default function CommunityDetails({ route, user }) {
             style={styles.input}
             placeholder="Post Title"
             value={newPost.title}
-            onChangeText={(text) => setNewPost({ ...newPost, title: text })}
+            onChangeText={(text) => setNewPost({ title: text, author: user.username, commentCount: 0 })}
           />
           <TextInput
             style={[styles.input, styles.textArea]}
             placeholder="Post Body"
             value={newPost.body}
-            onChangeText={(text) =>
-              setNewPost({ ...newPost, body: text, author: "Charley" })
-            }
+            onChangeText={(text) => setNewPost({ ...newPost, body: text })}
             multiline
           />
           <Button title="Create Post" onPress={handleCreatePost} />
@@ -172,9 +163,7 @@ export default function CommunityDetails({ route, user }) {
             style={styles.input}
             placeholder="Event Description"
             value={newEvent.description}
-            onChangeText={(text) =>
-              setNewEvent({ ...newEvent, description: text })
-            }
+            onChangeText={(text) => setNewEvent({ ...newEvent, description: text })}
           />
           <TextInput
             style={styles.input}
@@ -192,7 +181,15 @@ export default function CommunityDetails({ route, user }) {
             style={styles.input}
             placeholder="Event Time"
             value={newEvent.time}
-            onChangeText={(text) => setNewEvent({ ...newEvent, time: text })}
+            onChangeText={(text) =>
+              setNewEvent({
+                ...newEvent,
+                time: text,
+                moderators: user.username,
+                attendeeCount: 1,
+                attendees: user.username,
+              })
+            }
           />
           <Button title="Create Event" onPress={handleCreateEvent} />
           <FlatList
@@ -228,36 +225,16 @@ export default function CommunityDetails({ route, user }) {
       />
       <View style={styles.buttonContainer}>
         <TouchableOpacity
-          style={[
-            styles.button,
-            selectedTab === "posts" && styles.selectedButton,
-          ]}
+          style={[styles.button, selectedTab === "posts" && styles.selectedButton]}
           onPress={() => setSelectedTab("posts")}
         >
-          <Text
-            style={[
-              styles.buttonText,
-              selectedTab === "posts" && styles.selectedButtonText,
-            ]}
-          >
-            Posts
-          </Text>
+          <Text style={[styles.buttonText, selectedTab === "posts" && styles.selectedButtonText]}>Posts</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={[
-            styles.button,
-            selectedTab === "events" && styles.selectedButton,
-          ]}
+          style={[styles.button, selectedTab === "events" && styles.selectedButton]}
           onPress={() => setSelectedTab("events")}
         >
-          <Text
-            style={[
-              styles.buttonText,
-              selectedTab === "events" && styles.selectedButtonText,
-            ]}
-          >
-            Events
-          </Text>
+          <Text style={[styles.buttonText, selectedTab === "events" && styles.selectedButtonText]}>Events</Text>
         </TouchableOpacity>
       </View>
       {renderContent()}

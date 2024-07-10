@@ -2,20 +2,15 @@ import React, { useState, useEffect } from "react";
 import {
   View,
   StyleSheet,
-  Image,
-  Dimensions,
+  ScrollView,
   Text,
-  TouchableOpacity,
   ActivityIndicator,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import Carousel from "react-native-reanimated-carousel";
-import MovieCard from "./MovieCard";
+import AllMovieCard from "./AllMovieCard";
 import { getNowPlayingMovies } from "../../utils/api";
 
-const windowDimensions = Dimensions.get("screen");
-
-function NowPlayingMovies({ data }) {
+function NowPlayingMovies() {
   const [nowPlayingMovies, setNowPlayingMovies] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -60,38 +55,11 @@ function NowPlayingMovies({ data }) {
   };
 
   return (
-    <View style={[styles.outerContainer, { width: windowDimensions.width }]}>
-      <Carousel
-        loop
-        data={nowPlayingMovies}
-        renderItem={({ item }) => (
-          <TouchableOpacity onPress={() => handleClick(item)}>
-            <View style={styles.movieContainer}>
-              <MovieCard movie={item} handleClick={handleClick} />
-              <Image
-                source={{
-                  uri: `https://image.tmdb.org/t/p/w500/${item.poster_path}`,
-                }}
-              />
-              <Text style={styles.movieTitle}>
-                {item.original_title.length > 18
-                  ? `${item.original_title.slice(0, 18)}...`
-                  : item.original_title}
-              </Text>
-            </View>
-          </TouchableOpacity>
-        )}
-        width={windowDimensions.width}
-        height={250}
-        scrollAnimationDuration={1000}
-        mode="parallax"
-        modeConfig={{
-          parallaxScrollingOffset: 220,
-          parallaxScrollingScale: 1,
-          parallaxAdjacentItemScale: 1,
-        }}
-      />
-    </View>
+    <ScrollView contentContainerStyle={styles.container}>
+      {nowPlayingMovies.map((item) => (
+        <AllMovieCard key={item.id} movie={item} />
+      ))}
+    </ScrollView>
   );
 }
 

@@ -6,27 +6,22 @@ import {
   StyleSheet,
   SafeAreaView,
 } from "react-native";
-import { SegmentedButtons, Button } from "react-native-paper";
+import { Button } from "react-native-paper";
 import { StatusBar } from "expo-status-bar";
-import PopularMovies from "../components/Movies/PopularMovies";
 import TopRatedMovies from "../components/Movies/TopRatedMovies";
-import { getPopularMovies, getTopRatedMovies } from "../utils/api";
+import { getTopRatedMovies } from "../utils/api";
 
 export default function HomeScreen({ navigation }) {
-  const [popularMovies, setPopularMovies] = useState([]);
   const [topRatedMovies, setTopRatedMovies] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [value, setValue] = useState("popular");
 
   useEffect(() => {
     const fetchMovies = async () => {
       setLoading(true);
       try {
-        const popularResponse = await getPopularMovies();
         const topRatedResponse = await getTopRatedMovies();
 
-        setPopularMovies(popularResponse.results);
         setTopRatedMovies(topRatedResponse.results);
         setLoading(false);
       } catch (error) {
@@ -57,7 +52,6 @@ export default function HomeScreen({ navigation }) {
 
   const handleClick = () => {
     navigation.navigate("AllMoviesScreen", {
-      popularMovies: popularMovies,
       topRatedMovies: topRatedMovies,
     });
   };
@@ -89,19 +83,7 @@ export default function HomeScreen({ navigation }) {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 10 }}
       >
-        <SegmentedButtons
-          value={value}
-          onValueChange={setValue}
-          buttons={[
-            { value: "popular", label: "Popular Movies" },
-            { value: "top rated", label: "Top Rated" },
-          ]}
-        />
-        {value === "popular" ? (
-          <PopularMovies data={popularMovies} />
-        ) : (
-          <TopRatedMovies data={topRatedMovies} />
-        )}
+        <TopRatedMovies data={topRatedMovies} />
       </View>
     </View>
   );
@@ -110,7 +92,7 @@ export default function HomeScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#0C1844",
+    backgroundColor: "white",
     alignItems: "center",
   },
   loadingContainer: {

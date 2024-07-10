@@ -1,24 +1,15 @@
 import React, { useState } from "react";
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-  ScrollView,
-} from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { postUser } from "../../utils/api";
 
 function Interests({ setNewUserInput, newUserInput, setIsLoggedIn, setUser }) {
-  // console.log("This is the new userinput line 13", newUserInput);
+
   const [interests, setInterests] = useState({});
   const navigation = useNavigation();
 
   const handleInterestPress = (category, item) => {
-    const totalSelectedInterests = Object.values(interests).reduce(
-      (total, current) => total + current.length,
-      0
-    );
+    const totalSelectedInterests = Object.values(interests).reduce((total, current) => total + current.length, 0);
 
     if (totalSelectedInterests >= 5) {
       alert("You have already selected all your interests");
@@ -44,8 +35,6 @@ function Interests({ setNewUserInput, newUserInput, setIsLoggedIn, setUser }) {
     setNewUserInput((prevState) => {
       const updatedUserInput = { ...prevState, interests: interests };
 
-      // console.log("This is the log on line 47 in interests", updatedUserInput);
-      // console.log("This is the log on line 48 in interests", interests);
 
       setUser({
         username: updatedUserInput.username,
@@ -64,40 +53,15 @@ function Interests({ setNewUserInput, newUserInput, setIsLoggedIn, setUser }) {
   const interestList = [
     {
       category: "Tech 💻",
-      list: [
-        "Programming",
-        "AI",
-        "Electronics",
-        "VR",
-        "AR",
-        "Blockchain/Crypto",
-      ],
+      list: ["Programming", "AI", "Electronics", "VR", "AR", "Blockchain/Crypto"],
     },
     {
       category: "Movies 🍿",
-      list: [
-        "Horror",
-        "Comedy",
-        "Romance",
-        "RomCom",
-        "Bollywood",
-        "Action",
-        "Thriller",
-      ],
+      list: ["Horror", "Comedy", "Romance", "RomCom", "Bollywood", "Action", "Thriller"],
     },
     {
       category: "Music 🎵",
-      list: [
-        "Hip-Hop",
-        "Rock",
-        "Country",
-        "R&B",
-        "Pop",
-        "Soul",
-        "Electronic",
-        "Trance",
-        "DnB",
-      ],
+      list: ["Hip-Hop", "Rock", "Country", "R&B", "Pop", "Soul", "Electronic", "Trance", "DnB"],
     },
     {
       category: "Sports 🏅",
@@ -114,25 +78,17 @@ function Interests({ setNewUserInput, newUserInput, setIsLoggedIn, setUser }) {
       <View style={styles.container}>
         <Text style={styles.mainTitle}>Select your interests</Text>
         <Text style={styles.subHeading}>
-          {Object.values(interests).flat().length}/5 interests selected (min. 3
-          max. 5)
+          {Object.values(interests).flat().length}/5 interests selected (min. 3 max. 5)
         </Text>
         {interestList.map((interestCategory) => (
-          <View
-            key={interestCategory.category}
-            style={styles.interestsOuterBox}
-          >
-            <Text style={styles.categoryTitle}>
-              {interestCategory.category}
-            </Text>
+          <View key={interestCategory.category} style={styles.interestsOuterBox}>
+            <Text style={styles.categoryTitle}>{interestCategory.category}</Text>
             <View style={styles.interestsContainer}>
               {interestCategory.list.map((interestItem, index) => (
                 <TouchableOpacity
                   key={index}
                   style={styles.interestBox}
-                  onPress={() =>
-                    handleInterestPress(interestCategory.category, interestItem)
-                  }
+                  onPress={() => handleInterestPress(interestCategory.category, interestItem)}
                 >
                   <Text style={styles.interestText}>{interestItem}</Text>
                 </TouchableOpacity>
@@ -141,10 +97,7 @@ function Interests({ setNewUserInput, newUserInput, setIsLoggedIn, setUser }) {
           </View>
         ))}
 
-        <TouchableOpacity
-          onPress={navigateToMainPage}
-          style={styles.nextButton}
-        >
+        <TouchableOpacity onPress={navigateToMainPage} style={styles.nextButton}>
           <Text style={styles.nextButtonText}>Next</Text>
         </TouchableOpacity>
       </View>
