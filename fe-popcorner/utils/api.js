@@ -139,13 +139,6 @@ export const listCommunities = () => {
   });
 };
 
-export const listCinemas = () => {
-  return popcornerApi.get("/cinemas").then(({ data }) => {
-    return data;
-  });
-};
-
-
 export const getMoviesByGenre = async (genre_id) => {
   return moviesApi
     .get(
@@ -172,3 +165,18 @@ export const getMovieRecommendations = (movie_id) => {
     });
 };
 
+export const getLocation = (search) => {
+  return popcornerApi.get(`/geolocation/${search}`).then(({ data }) => {
+    return data[0]?.location;
+  });
+};
+
+export const getCinemasNearLocation = (latitude, longitude) => {
+  return popcornerApi
+    .get(`/cinemas/${latitude},${longitude}`)
+    .then(({ data }) => {
+      return data;
+    });
+};
+
+export const googleApiKey = "AIzaSyC7sEQLuAlk3tHkiAyPbrHAfq5QRycH8Ww";
