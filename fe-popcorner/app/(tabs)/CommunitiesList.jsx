@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import {
   View,
   Text,
@@ -9,9 +9,20 @@ import {
 } from "react-native";
 import axios from "axios";
 import { useFocusEffect } from "@react-navigation/native";
+import addUserToGroup from "./AddUserToGroup";
+import { auth, database } from "../../config/firebase";
 export function CommunitiesList({ navigation }) {
   const [communities, setCommunities] = useState([]);
+  const [existingMembers, setExistingMembers] = useState([]);
   const [err, setErr] = useState(null);
+  const [currentUser, setCurrentUser] = useState(null);
+
+  useEffect(() => {
+    if (auth.currentUser) {
+      setCurrentUser(auth.currentUser.email);
+    }
+  }, []);
+
   const fetchCommunities = () => {
     axios
       .get("https://popcorner.vercel.app/communities")
@@ -29,6 +40,30 @@ export function CommunitiesList({ navigation }) {
         // setErr(err);
       });
   };
+
+  // useEffect(() => {
+  //   console.log(existingMembers);
+  // }, [existingMembers]);
+
+  const handleJoin = async (item) => {
+    // await addUserToGroup()
+    console.log(item.members);
+    setExistingMembers(item.members);
+    if (!item.members.includes(currentUser)) {
+      console.log(currentUser);
+      setExistingMembers([...existingMembers, currentUser]);
+      //   axios
+      //     .patch("https://popcorner.vercel.app/communities")
+      //     .send({ members: existingMembers })
+      //     .then((response) => {
+      //       alert(response);
+      //     });
+      //   await addUserToGroup(item.chatId);
+      // } else {
+      //   alert("You are already a member of this community");
+    }
+  };
+
   useFocusEffect(
     useCallback(() => {
       fetchCommunities();
@@ -47,6 +82,12 @@ export function CommunitiesList({ navigation }) {
           <Text style={styles.title}>{item.title}</Text>
           <Text style={styles.description}>{item.description}</Text>
         </View>
+        <TouchableOpacity
+          onPress={() => handleJoin(item)}
+          style={styles.buttonBox}
+        >
+          <Text style={styles.createButtonText}> Join </Text>
+        </TouchableOpacity>
       </View>
     </TouchableOpacity>
   );
@@ -81,6 +122,17 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     marginBottom: 16,
     alignItems: "center",
+  },
+  buttonBox: {
+    backgroundColor: "maroon",
+    padding: 15,
+    marginLeft: 15,
+    marginBottom: 20,
+    // borderBlockColor: "black",
+    // height: "100%",
+    // borderRadius: 8,
+    // marginBottom: 16,
+    // alignItems: "center",
   },
   createButtonText: {
     color: "#fff",

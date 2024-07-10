@@ -2,11 +2,18 @@ import React, { useState } from "react";
 import { View, Text, TextInput, StyleSheet, Button } from "react-native";
 import axios from "axios";
 import uuid from "react-native-uuid";
+import CreateGroup from "./CreateGroup";
+// import AddUserToChat from "./AddUserToGroup";
+import addUserToGroup from "./AddUserToGroup";
 export default function CreateCommunity({ navigation, user }) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [logo, setLogo] = useState("");
-  const handleCreate = () => {
+  const [groupChatId, setGroupChatId] = useState("");
+  const handleCreate = async () => {
+    const newGroupID = await CreateGroup(title);
+    AddUserToChat(newGroupID);
+    await addUserToGroup(newGroupID);
     const newCommunity = {
       title,
       description,
@@ -16,8 +23,9 @@ export default function CreateCommunity({ navigation, user }) {
       posts: [],
       events: [],
       memberCount: 1,
-      chatId: uuid.v4(),
+      chatId: newGroupID,
     };
+
     axios
       .post("https://popcorner.vercel.app/communities", newCommunity)
       .then(() => {
@@ -30,7 +38,12 @@ export default function CreateCommunity({ navigation, user }) {
   return (
     <View style={styles.container}>
       <Text style={styles.label}>Title:</Text>
-      <TextInput style={styles.input} value={title} onChangeText={setTitle} placeholder="Community Title" />
+      <TextInput
+        style={styles.input}
+        value={title}
+        onChangeText={setTitle}
+        placeholder="Community Title"
+      />
       <Text style={styles.label}>Description:</Text>
       <TextInput
         style={styles.input}
@@ -39,7 +52,12 @@ export default function CreateCommunity({ navigation, user }) {
         placeholder="Community Description"
       />
       <Text style={styles.label}>Logo URL:</Text>
-      <TextInput style={styles.input} value={logo} onChangeText={setLogo} placeholder="Logo URL" />
+      <TextInput
+        style={styles.input}
+        value={logo}
+        onChangeText={setLogo}
+        placeholder="Logo URL"
+      />
       <Button title="Create" onPress={handleCreate} />
     </View>
   );

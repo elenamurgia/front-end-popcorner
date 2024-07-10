@@ -1,23 +1,178 @@
-import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import React, { useState, useEffect } from "react";
+import {
+  TouchableOpacity,
+  Text,
+  StyleSheet,
+  View,
+  FlatList,
+  Button,
+  Alert,
+} from "react-native";
+import {
+  collection,
+  onSnapshot,
+  getDoc,
+  doc,
+  updateDoc,
+} from "firebase/firestore";
+import { useNavigation, useRoute } from "@react-navigation/native";
+import { auth, database } from "../../config/firebase";
 
-function ChatScreen() {
+export default function ChatScreen() {
+  const [groups, setGroups] = useState([]);
+  const [filteredGroups, setFilteredGroups] = useState([]);
+  const [groupId, setGroupId] = useState(null);
+  const [groupName, setGroupName] = useState("");
+  const [groupMembers, setGroupMembers] = useState([]);
+  const [isEditing, setIsEditing] = useState(false);
+  const [currentUser, setCurrentUser] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const navigation = useNavigation();
+  const route = useRoute();
+
+  useEffect(() => {
+    const collectionRef = collection(database, "groups");
+
+    const unsubscribe = onSnapshot(collectionRef, (snapshot) => {
+      const fetchedGroups = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setGroups(fetchedGroups);
+      setIsLoading(false);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  useEffect(() => {
+    if (groups.length > 0 && currentUser) {
+      const memberOf = groups.filter((singleGroup) =>
+        singleGroup.groupMembers.includes(currentUser)
+      );
+      setFilteredGroups(memberOf);
+    }
+  }, [groups, currentUser]);
+
+  useEffect(() => {
+    if (auth.currentUser) {
+      setCurrentUser(auth.currentUser.email);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (route.params && route.params.groupId) {
+      const { groupId } = route.params;
+      fetchGroupDetails(groupId);
+    }
+  }, [route.params]);
+
+  const fetchGroupDetails = async (groupId) => {
+    const groupDoc = doc(database, "groups", groupId);
+    const docSnap = await getDoc(groupDoc);
+
+    if (docSnap.exists()) {
+      const data = docSnap.data();
+      setGroupName(data.name);
+      setGroupMembers(data.groupMembers || []);
+      setIsEditing(true);
+    } else {
+      alert("Document does not exist");
+    }
+  };
+
+  const updateGroupUsers = async (groupId) => {
+    const groupDoc = doc(database, "groups", groupId);
+    const docSnap = await getDoc(groupDoc);
+
+    if (docSnap.exists()) {
+      const data = docSnap.data();
+      const existingMembers = data.groupMembers || [];
+
+      if (!existingMembers.includes(currentUser)) {
+        const updatedMembers = [...existingMembers, currentUser];
+        await updateDoc(groupDoc, {
+          groupMembers: updatedMembers,
+        });
+        setGroupMembers(updatedMembers);
+        Alert.alert("Success", "You have joined the group.");
+      } else {
+        Alert.alert(
+          "Already a Member",
+          "You are already a member of this group."
+        );
+      }
+    } else {
+      alert("Document does not exist");
+    }
+  };
+
+  const handleJoinGroup = async (groupId) => {
+    await fetchGroupDetails(groupId);
+    updateGroupUsers(groupId);
+  };
+
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Chats</Text>
+      {isLoading ? (
+        <Text>Loading chats...</Text>
+      ) : (
+        <FlatList
+          data={filteredGroups}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
+            <View style={styles.chatCard}>
+              <TouchableOpacity
+                style={styles.groupItem}
+                onPress={() =>
+                  navigation.navigate("Chat", { groupId: item.id })
+                }
+                onLongPress={() => {
+                  setGroupId(item.id);
+                  fetchGroupDetails(item.id);
+                }}
+              >
+                <Text style={styles.groupName}>{item.name}</Text>
+                {/* {item.groupMembers?.map((member, index) => (
+                <Text key={index}>{member}</Text>
+              ))} */}
+              </TouchableOpacity>
+              {/* <Button
+              style={styles.memberButton}
+              title={isEditing ? "Already a member" : "Join Group"}
+              onPress={() => handleJoinGroup(item.id)}
+            /> */}
+            </View>
+          )}
+        />
+      )}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    padding: 20,
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 30,
   },
-  header: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 100,
+  memberButton: {
+    color: "white",
+  },
+  groupItem: {
+    padding: 20,
+    borderBottomWidth: 1,
+    borderBottomColor: "#ccc",
+  },
+  groupName: {
+    fontSize: 18,
+    color: "white",
+  },
+  chatCard: {
+    flex: 1,
+    backgroundColor: "red",
+    justifyContent: "space-between",
   },
 });
-
-export default ChatScreen;

@@ -20,7 +20,7 @@ import { getUser } from "../../utils/api";
 import { View, Text } from "react-native";
 import Chat from "../../screens/Chat";
 import GroupList from "./GroupList";
-import CreateGroup from "./CreateGroup.";
+import CreateGroup from "./CreateGroup";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -41,15 +41,18 @@ const CommunitiesStack = ({ user }) => (
   </Stack.Navigator>
 );
 
-
-
-function MainPage({ isLoggedIn, user, userInfo, setUserInfo, newUserInput, setNewUserInput }) {
-
+function MainPage({
+  isLoggedIn,
+  user,
+  userInfo,
+  setUserInfo,
+  newUserInput,
+  setNewUserInput,
+}) {
   useEffect(() => {
     if (user) {
       getUser(user.email)
         .then((fetchedUser) => {
-
           setUserInfo(fetchedUser);
         })
         .catch((err) => {
@@ -61,7 +64,6 @@ function MainPage({ isLoggedIn, user, userInfo, setUserInfo, newUserInput, setNe
   return (
     <PaperProvider>
       <View className="flex-col justify-between items-center">
-
         <Header
           username={user?.username}
           title="PopCorner"
@@ -124,7 +126,6 @@ function MainPage({ isLoggedIn, user, userInfo, setUserInfo, newUserInput, setNe
         >
           {(props) => <HomeScreen {...props} />}
         </Tab.Screen>
-        {/* 
         <Tab.Screen
           name="ChatScreen"
           options={{
@@ -135,8 +136,11 @@ function MainPage({ isLoggedIn, user, userInfo, setUserInfo, newUserInput, setNe
           }}
           // initialParams={{ isLoggedIn, user }}
         >
-          {(props) => <Chat {...props} isLoggedIn={isLoggedIn} user={user} />}
-        </Tab.Screen> */}
+          {(props) => (
+            <ChatScreen {...props} isLoggedIn={isLoggedIn} user={user} />
+          )}
+        </Tab.Screen>
+
         {/* 
         <Tab.Screen
           name="GroupList"
