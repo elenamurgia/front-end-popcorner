@@ -1,17 +1,17 @@
 import axios from "axios";
 
-const userAPI = axios.create({
-  baseURL: "http://popcorner.vercel.app/",
+const popcornerApi = axios.create({
+  baseURL: "https://popcorner.vercel.app",
 });
 
 export const getUser = (userID) => {
-  return userAPI.get(`/users/${userID}`).then(({ data }) => {
+  return popcornerApi.get(`/users/${userID}`).then(({ data }) => {
     return data.user;
   });
 };
 
 export const getUsers = () => {
-  return userAPI.get(`/users/`).then(({ data }) => {
+  return popcornerApi.get(`/users/`).then(({ data }) => {
     return data;
   });
 };
@@ -19,7 +19,7 @@ export const getUsers = () => {
 export const postUser = (postBody) => {
   console.log(postBody);
 
-  return userAPI.post(`/users`, postBody).then(({ data }) => {
+  return popcornerApi.post(`/users`, postBody).then(({ data }) => {
     return data.user;
   });
 };
@@ -105,10 +105,6 @@ const API_KEY =
 
 const movieApi = axios.create({
   baseURL: "https://api.themoviedb.org/3",
-});
-
-const popcornerApi = axios.create({
-  baseURL: "https://popcorner.vercel.app",
 });
 
 export const searchMovies = (searchQuery) => {

@@ -50,7 +50,6 @@ export const Header = ({
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const navigation = useNavigation();
-  console.log("This is line 44", userInfo);
   const navigateToUserProfile = () => {
     if (userInfo) {
       navigation.navigate("UserInfo", { userInfo });
@@ -110,8 +109,6 @@ export const Header = ({
       clearTimeout(timeout);
     };
   }, [communities, searchText]);
-
-  console.log(cinemas);
 
   const avatarComponent = avatar ? (
     <Avatar.Image size={40} source={{ uri: avatar }} />

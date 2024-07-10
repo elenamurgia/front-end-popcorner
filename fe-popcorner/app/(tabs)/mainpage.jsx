@@ -25,19 +25,33 @@ const Stack = createStackNavigator();
 
 const CommunitiesStack = ({ user }) => (
   <Stack.Navigator>
-    <Stack.Screen name="CommunitiesList" component={CommunitiesList} options={{ headerShown: false }} />
+    <Stack.Screen
+      name="CommunitiesList"
+      component={CommunitiesList}
+      options={{ headerShown: false }}
+    />
     <Stack.Screen name="CommunityDetails" options={{ headerShown: false }}>
       {(props) => <CommunityDetails {...props} user={user} />}
     </Stack.Screen>
-    <Stack.Screen name="CreateCommunity">{(props) => <CreateCommunity {...props} user={user} />}</Stack.Screen>
+    <Stack.Screen name="CreateCommunity">
+      {(props) => <CreateCommunity {...props} user={user} />}
+    </Stack.Screen>
   </Stack.Navigator>
 );
 
-function MainPage({ isLoggedIn, user, userInfo, setUserInfo, newUserInput, setNewUserInput }) {
+function MainPage({
+  isLoggedIn,
+  user,
+  userInfo,
+  setUserInfo,
+  newUserInput,
+  setNewUserInput,
+}) {
   useEffect(() => {
     if (user) {
       getUser(user.email)
         .then((fetchedUser) => {
+          console.log(fetchedUser);
           setUserInfo(fetchedUser);
         })
         .catch((err) => {
@@ -131,7 +145,9 @@ function MainPage({ isLoggedIn, user, userInfo, setUserInfo, newUserInput, setNe
             title: "",
             headerShown: false,
             tabBarIcon: ({ color, size }) => {
-              return <Icon source="account-supervisor" size={size} color={color} />;
+              return (
+                <Icon source="account-supervisor" size={size} color={color} />
+              );
             },
           }}
           initialParams={{ userInfo }}
@@ -145,12 +161,21 @@ function MainPage({ isLoggedIn, user, userInfo, setUserInfo, newUserInput, setNe
               title: "User profile",
               headerShown: false,
               tabBarIcon: ({ color, size }) => {
-                return <Icon source="account-circle" size={size} color={color} />;
+                return (
+                  <Icon source="account-circle" size={size} color={color} />
+                );
               },
             }}
             initialParams={{ isLoggedIn, user, userInfo }}
           >
-            {(props) => <UserInfo {...props} isLoggedIn={isLoggedIn} user={user} userInfo={userInfo} />}
+            {(props) => (
+              <UserInfo
+                {...props}
+                isLoggedIn={isLoggedIn}
+                user={user}
+                userInfo={userInfo}
+              />
+            )}
           </Tab.Screen>
         ) : (
           <>
