@@ -115,6 +115,7 @@ export default function ChatScreen() {
 
   return (
     <View style={styles.container}>
+      <Text style={styles.mainTitle}>Chat List</Text>
       {isLoading ? (
         <Text>Loading chats...</Text>
       ) : (
@@ -122,9 +123,10 @@ export default function ChatScreen() {
           data={filteredGroups}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
-            <View style={styles.chatCard}>
+            // <View style={styles.chatCardOuter}>
+            <View style={styles.itemContent}>
               <TouchableOpacity
-                style={styles.groupItem}
+                style={styles.item}
                 onPress={() =>
                   navigation.navigate("Chat", { groupId: item.id })
                 }
@@ -143,6 +145,7 @@ export default function ChatScreen() {
               title={isEditing ? "Already a member" : "Join Group"}
               onPress={() => handleJoinGroup(item.id)}
             /> */}
+              {/* </View> */}
             </View>
           )}
         />
@@ -155,13 +158,32 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
+    backgroundColor: "#E2D0B9",
     alignItems: "center",
     padding: 30,
+  },
+  mainTitle: {
+    fontSize: 40,
+    textAlign: "center",
+    marginTop: 10,
+    paddingBottom: 40,
+    fontWeight: "bold",
+  },
+  item: {
+    backgroundColor: "#D41F2D",
+    padding: 20,
+    marginVertical: 8,
+    borderRadius: 8,
+  },
+  itemContent: {
+    flexDirection: "row",
+    alignItems: "center",
   },
   memberButton: {
     color: "white",
   },
   groupItem: {
+    borderRadius: 10,
     padding: 20,
     borderBottomWidth: 1,
     borderBottomColor: "#ccc",
@@ -170,9 +192,18 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: "white",
   },
+  chatCardOuter: {
+    flex: 1,
+    // marginVertical: 10,
+    backgroundColor: "red",
+    // justifyContent: "space-between",
+    borderRadius: 20,
+  },
   chatCard: {
     flex: 1,
-    backgroundColor: "red",
+    marginVertical: 10,
+    backgroundColor: "maroon",
     justifyContent: "space-between",
+    borderRadius: 20,
   },
 });
