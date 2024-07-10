@@ -40,7 +40,7 @@ export const Header = ({
   const [filteredCommunities, setFilteredCommunities] = useState();
 
   const navigation = useNavigation();
-  console.log("This is line 44", userInfo);
+
   const navigateToUserProfile = () => {
     if (userInfo) {
       navigation.navigate("UserInfo", { userInfo });

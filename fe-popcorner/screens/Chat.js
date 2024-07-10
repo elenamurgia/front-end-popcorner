@@ -20,9 +20,11 @@ import { useNavigation } from "@react-navigation/native";
 import { AntDesign } from "@expo/vector-icons";
 import colors from "../colors";
 
-export default function Chat() {
+export default function Chat({ route }) {
   const [messages, setMessages] = useState([]);
   const navigation = useNavigation();
+  console.log("The value of the route is ", route);
+  const { groupId } = route.params;
 
   const onSignOut = () => {
     signOut(auth).catch((err) => {
@@ -46,7 +48,7 @@ export default function Chat() {
   }, [navigation]);
 
   useLayoutEffect(() => {
-    const collectionRef = collection(database, "chats");
+    const collectionRef = collection(database, `groups/${groupId}/messages`);
     const q = query(collectionRef, orderBy("createdAt", "desc"));
 
     const unsubscribe = onSnapshot(q, (snapshot) => {
@@ -61,20 +63,23 @@ export default function Chat() {
       );
     });
     return () => unsubscribe();
-  }, []);
-  const onSend = useCallback((messages = []) => {
-    setMessages((previousMessages) =>
-      GiftedChat.append(previousMessages, messages)
-    );
-    // setMessages([...messages, ...messages]);
-    const { _id, createdAt, text, user } = messages[0];
-    addDoc(collection(database, "chats"), {
-      _id,
-      createdAt,
-      text,
-      user,
-    });
-  }, []);
+  }, [groupId]);
+  const onSend = useCallback(
+    (messages = []) => {
+      setMessages((previousMessages) =>
+        GiftedChat.append(previousMessages, messages)
+      );
+      // setMessages([...messages, ...messages]);
+      const { _id, createdAt, text, user } = messages[0];
+      addDoc(collection(database, `groups/${groupId}/messages`), {
+        _id,
+        createdAt,
+        text,
+        user,
+      });
+    },
+    [groupId]
+  );
 
   return (
     <GiftedChat
