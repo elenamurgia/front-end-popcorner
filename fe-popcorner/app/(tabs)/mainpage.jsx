@@ -12,6 +12,7 @@ import ChatScreen from "./ChatScreen";
 import CommunitiesScreen from "../../screens/CommunitiesScreen";
 import { CommunitiesList } from "./CommunitiesList";
 import CommunityDetails from "./CommunityDetails";
+import EventDetail from "./EventDetail";
 import CreateCommunity from "./CreateCommunity";
 import { Header } from "../../components/Header";
 import { BottomNavigation, Icon, PaperProvider } from "react-native-paper";
@@ -37,6 +38,9 @@ const CommunitiesStack = ({ user }) => (
     </Stack.Screen>
     <Stack.Screen name="CreateCommunity">
       {(props) => <CreateCommunity {...props} user={user} />}
+    </Stack.Screen>
+    <Stack.Screen name="EventDetail" options={{ headerShown: false }}>
+      {(props) => <EventDetail {...props} user={user} />}
     </Stack.Screen>
   </Stack.Navigator>
 );

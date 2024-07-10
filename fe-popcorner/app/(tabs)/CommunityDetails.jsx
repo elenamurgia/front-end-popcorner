@@ -1,7 +1,17 @@
 import axios from "axios";
 import React, { useState } from "react";
-import { View, Text, StyleSheet, Image, FlatList, ScrollView, TouchableOpacity, TextInput, Button } from "react-native";
-export default function CommunityDetails({ route, user }) {
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  FlatList,
+  ScrollView,
+  TouchableOpacity,
+  TextInput,
+  Button,
+} from "react-native";
+export default function CommunityDetails({ route, navigation, user }) {
   const { community } = route.params;
   const [selectedTab, setSelectedTab] = useState("posts");
   const [comments, setComments] = useState({});
@@ -82,7 +92,7 @@ export default function CommunityDetails({ route, user }) {
     <View style={styles.card}>
       <Text style={styles.cardTitle}>{item.title}</Text>
       <Text style={styles.cardBody}>{item.body}</Text>
-      <Text style={styles.cardAuthor}>By: {item.author}</Text>
+      <Text style={styles.cardTextDimmed}>By: {item.author}</Text>
       <View style={styles.voteContainer}>
         <TouchableOpacity onPress={() => handleVote(item, "up")}>
           <Text style={styles.voteButton}>Upvote</Text>
@@ -109,19 +119,28 @@ export default function CommunityDetails({ route, user }) {
   const renderEvent = ({ item }) => (
     <View style={styles.card}>
       <Text style={styles.cardTitle}>{item.title}</Text>
-      <Text style={styles.cardBody}>{item.description}</Text>
-      <Text style={styles.cardAuthor}>Venue: {item.venue}</Text>
-      <Text style={styles.cardAuthor}>Date: {item.date}</Text>
-      <Text style={styles.cardAuthor}>Time: {item.time}</Text>
-      <Text style={styles.cardAuthor}>Attendee Count: {item.attendeeCount}</Text>
-      <Button title="Confirm Attendance" onPress={() => handleAttendance(item)} />
-      <Text style={styles.sectionTitle}>Attendees:</Text>
-      <FlatList
-        data={Object.values(item.attendees || {})}
-        renderItem={renderMember}
-        keyExtractor={(attendee, index) => `attendee-${index}`}
-        scrollEnabled={false}
-      />
+      <Text style={styles.cardTextDimmed}>{item.description}</Text>
+      <Text style={styles.cardBody}>
+        {item.venue} at {item.time} on {item.date}
+      </Text>
+      <Text style={styles.cardTextDimmed}>
+        {item.attendeeCount} attendees
+      </Text>
+      <View style={styles.cardButtons}>
+        <Button
+          title="Sign up"
+          onPress={() => handleAttendance(item)}
+        />
+        <TouchableOpacity
+          onPress={() =>
+            navigation.navigate("EventDetail", { community: community, event: item.title })
+          }
+        >
+            <View style={styles.button}>
+              <Text style={styles.buttonText}>Details</Text>
+            </View>
+          </TouchableOpacity>
+      </View>
     </View>
   );
   const renderContent = () => {
@@ -311,6 +330,11 @@ const styles = StyleSheet.create({
     marginHorizontal: 16,
     marginVertical: 8,
   },
+  cardButtons: {
+    display: "flex",
+    flexDirection: "row",
+    gap: 10
+  },
   cardTitle: {
     fontSize: 20,
     fontWeight: "bold",
@@ -320,8 +344,9 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginBottom: 8,
   },
-  cardAuthor: {
+  cardTextDimmed: {
     fontSize: 14,
+    marginBottom: 7,
     color: "gray",
   },
   voteContainer: {
