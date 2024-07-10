@@ -132,7 +132,7 @@ function MainPage({
         >
           {(props) => <HomeScreen {...props} />}
         </Tab.Screen>
-
+        {/* 
         <Tab.Screen
           name="ChatScreen"
           options={{
@@ -144,8 +144,8 @@ function MainPage({
           // initialParams={{ isLoggedIn, user }}
         >
           {(props) => <Chat {...props} isLoggedIn={isLoggedIn} user={user} />}
-        </Tab.Screen>
-
+        </Tab.Screen> */}
+        {/* 
         <Tab.Screen
           name="GroupList"
           options={{
@@ -173,7 +173,7 @@ function MainPage({
           {(props) => (
             <CreateGroup {...props} isLoggedIn={isLoggedIn} user={user} />
           )}
-        </Tab.Screen>
+        </Tab.Screen> */}
         <Tab.Screen
           name="Communities"
           options={{
