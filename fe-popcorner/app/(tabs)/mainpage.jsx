@@ -162,7 +162,7 @@ function MainPage({ isLoggedIn, user, userInfo, setUserInfo, newUserInput, setNe
         >
           {(props) => <EventsStack {...props} user={ userInfo } />}
         </Tab.Screen>
-        {/* 
+         
 
         <Tab.Screen
           name="ChatScreen"
