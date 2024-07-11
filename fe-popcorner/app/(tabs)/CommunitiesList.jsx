@@ -1,3 +1,4 @@
+
 import React, { useState, useCallback, useEffect } from "react";
 import {
   View,
@@ -7,6 +8,7 @@ import {
   StyleSheet,
   Image,
 } from "react-native";
+
 import axios from "axios";
 import { useFocusEffect } from "@react-navigation/native";
 import addUserToGroup from "./AddUserToGroup";
@@ -76,12 +78,7 @@ export function CommunitiesList({ navigation, user }) {
     }, [])
   );
   const renderItem = ({ item }) => (
-    <TouchableOpacity
-      style={styles.item}
-      onPress={() =>
-        navigation.navigate("CommunityDetails", { community: item })
-      }
-    >
+    <TouchableOpacity style={styles.item} onPress={() => navigation.navigate("CommunityDetails", { community: item })}>
       <View style={styles.itemContent}>
         <Image source={{ uri: item.logo }} style={styles.logo} />
         <View style={styles.textContainer}>
@@ -99,17 +96,10 @@ export function CommunitiesList({ navigation, user }) {
   );
   return (
     <View style={styles.container}>
-      <TouchableOpacity
-        style={styles.createButton}
-        onPress={() => navigation.navigate("CreateCommunity")}
-      >
+      <TouchableOpacity style={styles.createButton} onPress={() => navigation.navigate("CreateCommunity")}>
         <Text style={styles.createButtonText}>Create Community</Text>
       </TouchableOpacity>
-      <FlatList
-        data={communities}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.id}
-      />
+      <FlatList data={communities} renderItem={renderItem} keyExtractor={(item) => item.id} />
 
       {err ? <Text> Error in loading </Text> : <Text> {""} </Text>}
     </View>
@@ -119,11 +109,12 @@ const styles = StyleSheet.create({
   container: {
     marginTop: 30,
     flex: 1,
-    backgroundColor: "#E2D0B9",
+    backgroundColor: "#333", // Background color
     padding: 16,
   },
   createButton: {
-    backgroundColor: "#D41F2D",
+    borderColor: "#F2055C", // Button border color
+    borderWidth: 2,
     padding: 15,
     borderRadius: 8,
     marginBottom: 16,
@@ -141,12 +132,14 @@ const styles = StyleSheet.create({
     // alignItems: "center",
   },
   createButtonText: {
-    color: "#fff",
+    color: "#F2055C", // Button text color
     fontSize: 18,
     fontWeight: "bold",
   },
   item: {
-    backgroundColor: "#D41F2D",
+    // Transparent item background color
+    borderColor: "#F2055C", // Item border color
+    borderWidth: 1,
     padding: 20,
     marginVertical: 8,
     borderRadius: 8,
@@ -167,11 +160,11 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: "bold",
-    color: "#fff",
+    color: "#F2055C", // Title color
   },
   description: {
     fontSize: 16,
-    color: "#fff",
+    color: "#F2055C", // Description color
     marginTop: 8,
   },
 });
