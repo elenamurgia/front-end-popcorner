@@ -11,7 +11,7 @@ import axios from "axios";
 import { useFocusEffect } from "@react-navigation/native";
 import addUserToGroup from "./AddUserToGroup";
 import { auth, database } from "../../config/firebase";
-export function CommunitiesList({ navigation }) {
+export function CommunitiesList({ navigation, user }) {
   const [communities, setCommunities] = useState([]);
   const [existingMembers, setExistingMembers] = useState([]);
   const [err, setErr] = useState(null);
@@ -36,31 +36,37 @@ export function CommunitiesList({ navigation }) {
         setCommunities(parsedData);
       })
       .catch((err) => {
-        console.error("Error fetching communities:", err);
-        // setErr(err);
+        alert("Error fetching communities:", err);
       });
   };
 
-  // useEffect(() => {
-  //   console.log(existingMembers);
-  // }, [existingMembers]);
+  const handleJoin = async (item, user) => {
+    const userToAdd = user.username;
+    const userEmailReady = currentUser.replace(".", "-");
 
-  const handleJoin = async (item) => {
-    // await addUserToGroup()
-    console.log(item.members);
     setExistingMembers(item.members);
-    if (!item.members.includes(currentUser)) {
-      console.log(currentUser);
-      setExistingMembers([...existingMembers, currentUser]);
-      //   axios
-      //     .patch("https://popcorner.vercel.app/communities")
-      //     .send({ members: existingMembers })
-      //     .then((response) => {
-      //       alert(response);
-      //     });
-      //   await addUserToGroup(item.chatId);
-      // } else {
-      //   alert("You are already a member of this community");
+
+    if (currentUser) {
+      if (!item.members.includes(currentUser)) {
+        await addUserToGroup(item.chatId);
+        axios
+          .post(`https://popcorner.vercel.app/communities/${item.title}`, {
+            user: userToAdd,
+          })
+          .then((response) => {
+            // alert(response);
+          });
+        axios
+          .post(
+            `https://popcorner.vercel.app/users/${userEmailReady}/communities`,
+            { community: item.title }
+          )
+          .then((response) => {
+            // alert(response);
+          });
+      } else {
+        alert("You are already a member of this community");
+      }
     }
   };
 
@@ -83,7 +89,7 @@ export function CommunitiesList({ navigation }) {
           <Text style={styles.description}>{item.description}</Text>
         </View>
         <TouchableOpacity
-          onPress={() => handleJoin(item)}
+          onPress={() => handleJoin(item, user)}
           style={styles.buttonBox}
         >
           <Text style={styles.createButtonText}> Join </Text>

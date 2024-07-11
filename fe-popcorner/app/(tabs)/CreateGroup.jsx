@@ -10,7 +10,6 @@ async function createGroup(inputGroupName) {
     });
     return docRef.id;
   } catch (err) {
-    console.log("Error creating group:", err);
     throw err;
   }
 }

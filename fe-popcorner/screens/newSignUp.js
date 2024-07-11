@@ -28,7 +28,7 @@ export default function Signup({
   const onHandleSignup = () => {
     if (email !== "" && password !== "") {
       createUserWithEmailAndPassword(auth, email, password)
-        .then(() => console.log("Signup success"))
+        .then(() => alert("Signup success"))
         .catch((err) => {
           Alert.alert("Login error", err.message);
           navigation.navigate("Signup");

@@ -12,7 +12,7 @@ export default function CreateCommunity({ navigation, user }) {
   const [groupChatId, setGroupChatId] = useState("");
   const handleCreate = async () => {
     const newGroupID = await CreateGroup(title);
-    AddUserToChat(newGroupID);
+    // AddUserToChat(newGroupID);
     await addUserToGroup(newGroupID);
     const newCommunity = {
       title,

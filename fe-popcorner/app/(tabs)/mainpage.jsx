@@ -27,11 +27,9 @@ const Stack = createStackNavigator();
 
 const CommunitiesStack = ({ user }) => (
   <Stack.Navigator>
-    <Stack.Screen
-      name="CommunitiesList"
-      component={CommunitiesList}
-      options={{ headerShown: false }}
-    />
+    <Stack.Screen name="CommunitiesList" options={{ headerShown: false }}>
+      {(props) => <CommunitiesList {...props} user={user} />}
+    </Stack.Screen>
     <Stack.Screen name="CommunityDetails" options={{ headerShown: false }}>
       {(props) => <CommunityDetails {...props} user={user} />}
     </Stack.Screen>
@@ -130,7 +128,6 @@ function MainPage({
           name="ChatScreen"
           options={{
             title: "Chat",
-            headerShown: false,
             tabBarIcon: ({ color, size }) => {
               return <Icon source="chat" size={size} color={color} />;
             },
