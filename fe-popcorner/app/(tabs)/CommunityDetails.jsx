@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useState } from "react";
+
 import {
   View,
   Text,
@@ -11,6 +12,7 @@ import {
   TextInput,
   Button,
 } from "react-native";
+
 
 export default function CommunityDetails({ route, navigation, user }) {
 
@@ -132,7 +134,9 @@ export default function CommunityDetails({ route, navigation, user }) {
         value={newComment.comment}
         onChangeText={setNewComment}
       />
-      <Button title="Comment" onPress={() => handleComment(item.title)} />
+      <TouchableOpacity style={styles.button} onPress={() => handleComment(item.title)}>
+        <Text style={styles.buttonText}>Comment</Text>
+      </TouchableOpacity>
     </View>
   );
   const renderEvent = ({ item }) => (
@@ -143,23 +147,18 @@ export default function CommunityDetails({ route, navigation, user }) {
       <Text style={styles.cardBody}>
         {item.venue} at {item.time} on {item.date}
       </Text>
-      <Text style={styles.cardTextDimmed}>
-        {item.attendeeCount} attendees
-      </Text>
+      <Text style={styles.cardTextDimmed}>{item.attendeeCount} attendees</Text>
       <View style={styles.cardButtons}>
-        <Button
-          title="Sign up"
-          onPress={() => handleAttendance(item)}
-        />
+        <TouchableOpacity style={styles.button} onPress={() => handleAttendance(item)}>
+          <Text style={styles.buttonText}>Sign up</Text>
+        </TouchableOpacity>
         <TouchableOpacity
-          onPress={() =>
-            navigation.navigate("EventDetail", { community: community, event: item.title })
-          }
+          onPress={() => navigation.navigate("EventDetail", { community: community, event: item.title })}
         >
-            <View style={styles.button}>
-              <Text style={styles.buttonText}>Details</Text>
-            </View>
-          </TouchableOpacity>
+          <View style={styles.button}>
+            <Text style={styles.buttonText}>Details</Text>
+          </View>
+        </TouchableOpacity>
       </View>
 
     </View>
@@ -187,7 +186,9 @@ export default function CommunityDetails({ route, navigation, user }) {
             onChangeText={(text) => setNewPost({ ...newPost, body: text })}
             multiline
           />
-          <Button title="Create Post" onPress={handleCreatePost} />
+          <TouchableOpacity style={styles.button} onPress={handleCreatePost}>
+            <Text style={styles.buttonText}>Create Post</Text>
+          </TouchableOpacity>
           <FlatList
             data={Object.values(community.posts || {})}
             renderItem={renderPost}
@@ -239,7 +240,9 @@ export default function CommunityDetails({ route, navigation, user }) {
               })
             }
           />
-          <Button title="Create Event" onPress={handleCreateEvent} />
+          <TouchableOpacity style={styles.button} onPress={handleCreateEvent}>
+            <Text style={styles.buttonText}>Create Event</Text>
+          </TouchableOpacity>
           <FlatList
             data={Object.values(community.events || {})}
             renderItem={renderEvent}
@@ -312,14 +315,19 @@ export default function CommunityDetails({ route, navigation, user }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#E2D0B9",
+    backgroundColor: "#333",
   },
   headerContainer: {
-    backgroundColor: "#D41F2D",
+    backgroundColor: "#F2055C",
     padding: 16,
     borderRadius: 8,
     alignItems: "center",
     margin: 16,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 5,
   },
   logo: {
     width: 100,
@@ -330,25 +338,25 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 32,
     fontWeight: "bold",
-    color: "#fff",
+    color: "#EEEEEE",
     textAlign: "center",
   },
   description: {
     fontSize: 18,
     marginVertical: 8,
-    color: "#fff",
+    color: "#EEEEEE",
     textAlign: "center",
   },
   sectionTitle: {
     fontSize: 20,
     fontWeight: "bold",
     marginVertical: 8,
-    color: "#D41F2D",
+    color: "#F2055C",
     marginLeft: 16,
   },
   member: {
     fontSize: 16,
-    color: "#333",
+    color: "#EEEEEE",
     paddingVertical: 4,
     paddingLeft: 16,
   },
@@ -358,39 +366,49 @@ const styles = StyleSheet.create({
     marginVertical: 16,
   },
   button: {
-    padding: 10,
-    backgroundColor: "#D41F2D",
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderColor: "#F2055C",
+    borderWidth: 2,
     borderRadius: 8,
+    backgroundColor: "transparent",
   },
   selectedButton: {
-    backgroundColor: "#B31621",
+    backgroundColor: "#F2055C",
   },
   buttonText: {
-    color: "#fff",
+    color: "#F2055C",
     fontWeight: "bold",
+    textAlign: "center",
   },
   selectedButtonText: {
     color: "#FFD700",
   },
   card: {
-    backgroundColor: "#fff",
+    backgroundColor: "#555",
     padding: 16,
     borderRadius: 8,
     marginHorizontal: 16,
     marginVertical: 8,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 3,
   },
   cardButtons: {
-    display: "flex",
     flexDirection: "row",
-    gap: 10
+    gap: 10,
   },
   cardTitle: {
     fontSize: 20,
     fontWeight: "bold",
+    color: "#EEEEEE",
     marginBottom: 8,
   },
   cardBody: {
     fontSize: 16,
+    color: "#EEEEEE",
     marginBottom: 8,
   },
   cardTextDimmed: {
@@ -404,37 +422,47 @@ const styles = StyleSheet.create({
     marginVertical: 8,
   },
   voteButton: {
-    color: "#D41F2D",
+    color: "#F2055C",
     fontWeight: "bold",
   },
   comment: {
-    backgroundColor: "#F0F0F0",
+    backgroundColor: "#555",
     padding: 8,
     borderRadius: 8,
     marginVertical: 4,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 2,
   },
   commentAuthor: {
     fontWeight: "bold",
+    color: "#EEEEEE",
   },
   commentBody: {
     marginLeft: 8,
+    color: "#EEEEEE",
   },
   commentInput: {
-    borderColor: "#ccc",
+    borderColor: "#F2055C",
     borderWidth: 1,
     padding: 8,
     borderRadius: 8,
     marginVertical: 8,
+    color: "#EEEEEE",
   },
   input: {
-    borderColor: "#ccc",
+    borderColor: "#F2055C",
     borderWidth: 1,
     padding: 8,
     borderRadius: 8,
     marginHorizontal: 16,
     marginVertical: 8,
+    color: "#EEEEEE",
   },
   textArea: {
     height: 100,
+    textAlignVertical: "top", // for multiline text alignment
   },
 });

@@ -1,12 +1,6 @@
 import React, { useState, useCallback, useEffect } from "react";
-import {
-  View,
-  Text,
-  FlatList,
-  TouchableOpacity,
-  StyleSheet,
-  Image,
-} from "react-native";
+import { View, Text, FlatList, TouchableOpacity, StyleSheet, Image } from "react-native";
+
 import axios from "axios";
 import { useFocusEffect } from "@react-navigation/native";
 import addUserToGroup from "./AddUserToGroup";
@@ -57,10 +51,7 @@ export function CommunitiesList({ navigation, user }) {
             // alert(response);
           });
         axios
-          .post(
-            `https://popcorner.vercel.app/users/${userEmailReady}/communities`,
-            { community: item.title }
-          )
+          .post(`https://popcorner.vercel.app/users/${userEmailReady}/communities`, { community: item.title })
           .then((response) => {
             // alert(response);
           });
@@ -76,22 +67,14 @@ export function CommunitiesList({ navigation, user }) {
     }, [])
   );
   const renderItem = ({ item }) => (
-    <TouchableOpacity
-      style={styles.item}
-      onPress={() =>
-        navigation.navigate("CommunityDetails", { community: item })
-      }
-    >
+    <TouchableOpacity style={styles.item} onPress={() => navigation.navigate("CommunityDetails", { community: item })}>
       <View style={styles.itemContent}>
         <Image source={{ uri: item.logo }} style={styles.logo} />
         <View style={styles.textContainer}>
           <Text style={styles.title}>{item.title}</Text>
           <Text style={styles.description}>{item.description}</Text>
         </View>
-        <TouchableOpacity
-          onPress={() => handleJoin(item, user)}
-          style={styles.buttonBox}
-        >
+        <TouchableOpacity onPress={() => handleJoin(item, user)} style={styles.buttonBox}>
           <Text style={styles.createButtonText}> Join </Text>
         </TouchableOpacity>
       </View>
@@ -99,17 +82,10 @@ export function CommunitiesList({ navigation, user }) {
   );
   return (
     <View style={styles.container}>
-      <TouchableOpacity
-        style={styles.createButton}
-        onPress={() => navigation.navigate("CreateCommunity")}
-      >
+      <TouchableOpacity style={styles.createButton} onPress={() => navigation.navigate("CreateCommunity")}>
         <Text style={styles.createButtonText}>Create Community</Text>
       </TouchableOpacity>
-      <FlatList
-        data={communities}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.id}
-      />
+      <FlatList data={communities} renderItem={renderItem} keyExtractor={(item) => item.id} />
 
       {err ? <Text> Error in loading </Text> : <Text> {""} </Text>}
     </View>
@@ -119,21 +95,23 @@ const styles = StyleSheet.create({
   container: {
     marginTop: 30,
     flex: 1,
-    backgroundColor: "#E2D0B9",
+    backgroundColor: "#333", // Background color
     padding: 16,
   },
   createButton: {
-    backgroundColor: "#D41F2D",
+    borderColor: "#F2055C", // Button border color
+    borderWidth: 2,
     padding: 15,
     borderRadius: 8,
     marginBottom: 16,
     alignItems: "center",
   },
   buttonBox: {
-    backgroundColor: "maroon",
+    backgroundColor: "#474747",
     padding: 15,
     marginLeft: 15,
     marginBottom: 20,
+
     // borderBlockColor: "black",
     // height: "100%",
     // borderRadius: 8,
@@ -141,15 +119,18 @@ const styles = StyleSheet.create({
     // alignItems: "center",
   },
   createButtonText: {
-    color: "#fff",
+    color: "#F2055C", // Button text color
     fontSize: 18,
     fontWeight: "bold",
   },
   item: {
-    backgroundColor: "#D41F2D",
+    // Transparent item background color
+    borderColor: "#F2055C", // Item border color
+    borderWidth: 1,
     padding: 20,
     marginVertical: 8,
     borderRadius: 8,
+    backgroundColor: "#F31E6C",
   },
   itemContent: {
     flexDirection: "row",
@@ -167,11 +148,11 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: "bold",
-    color: "#fff",
+    color: "#EEEEEE", // Title color
   },
   description: {
     fontSize: 16,
-    color: "#fff",
+    color: "#EEEEEE", // Description color
     marginTop: 8,
   },
 });

@@ -114,19 +114,21 @@ export default function ChatScreen() {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.mainTitle}>Chat List</Text>
+    <View className="flex-grow bg-BlackBackground justify-center items-center ">
+      <Text className="text-5xl font-bold text-hotPink mb-5 items-center justify-center mt-5">
+        Chat List
+      </Text>
       {isLoading ? (
         <Text>Loading chats...</Text>
       ) : (
         <FlatList
           data={filteredGroups}
           keyExtractor={(item) => item.id}
+          contentContainerStyle={styles.listContainer}
           renderItem={({ item }) => (
-            // <View style={styles.chatCardOuter}>
             <View style={styles.itemContent}>
               <TouchableOpacity
-                style={styles.item}
+                className="bg-hotPink justify-center margin-5 rounded px-7 text-White m-1 py-5 my-2"
                 onPress={() =>
                   navigation.navigate("Chat", { groupId: item.id })
                 }
@@ -136,16 +138,7 @@ export default function ChatScreen() {
                 }}
               >
                 <Text style={styles.groupName}>{item.name}</Text>
-                {/* {item.groupMembers?.map((member, index) => (
-                <Text key={index}>{member}</Text>
-              ))} */}
               </TouchableOpacity>
-              {/* <Button
-              style={styles.memberButton}
-              title={isEditing ? "Already a member" : "Join Group"}
-              onPress={() => handleJoinGroup(item.id)}
-            /> */}
-              {/* </View> */}
             </View>
           )}
         />
@@ -157,8 +150,9 @@ export default function ChatScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    backgroundColor: "#E2D0B9",
+    // justifyContent: "center",
+    width: "100%",
+    backgroundColor: "#333",
     alignItems: "center",
     padding: 30,
   },
@@ -169,15 +163,24 @@ const styles = StyleSheet.create({
     paddingBottom: 40,
     fontWeight: "bold",
   },
+  listContainer: {
+    flexGrow: 1,
+    // justifyContent: "center",
+    alignItems: "center",
+    width: "100%",
+  },
   item: {
     backgroundColor: "#D41F2D",
     padding: 20,
     marginVertical: 8,
     borderRadius: 8,
+    justifyContent: "center",
+    alignItems: "center",
   },
   itemContent: {
     flexDirection: "row",
     alignItems: "center",
+    width: "100%",
   },
   memberButton: {
     color: "white",

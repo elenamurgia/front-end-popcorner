@@ -53,6 +53,9 @@ const EventsStack = ({ user }) => (
     <Stack.Screen name="EventDetail" options={{ headerShown: false }}>
       {(props) => <EventDetail {...props} user={user} />}
     </Stack.Screen>
+    <Stack.Screen name="CommunityDetails" options={{ headerShown: false }}>
+      {(props) => <CommunityDetails {...props} user={user} />}
+    </Stack.Screen>
   </Stack.Navigator>
 );
 
@@ -148,6 +151,21 @@ function MainPage({
             title: "",
             headerShown: false,
             tabBarLabel: "Events",
+
+            tabBarIcon: ({ color, size }) => {
+              return <Icon source="calendar" size={size} color="#F2055C" />;
+            },
+          }}
+        >
+          {(props) => <EventsStack {...props} user={userInfo} />}
+        </Tab.Screen>
+
+        <Tab.Screen
+          name="ChatScreen"
+          options={{
+            title: "Chat",
+            headerShown: false,
+
             tabBarIcon: ({ size }) => {
               return <Icon source="calendar" size={size} color="#F2055C" />;
             },

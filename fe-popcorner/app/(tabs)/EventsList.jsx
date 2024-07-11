@@ -6,7 +6,7 @@ import {
   StyleSheet,
   Image,
   ActivityIndicator,
-  ScrollView
+  ScrollView,
 } from "react-native";
 import axios from "axios";
 import { useFocusEffect } from "@react-navigation/native";
@@ -45,18 +45,20 @@ export function EventsList({ navigation }) {
               return {
                 ...event,
                 communityName: value.title,
-                communityLogo: value.logo
-              }
-            })
+                communityLogo: value.logo,
+              };
+            });
 
             return {
               name: value.title,
               logo: value.logo,
-              events
+              events,
             };
           }
         });
-        const filteredEvents = events.filter((community) => community !== undefined);
+        const filteredEvents = events.filter(
+          (community) => community !== undefined
+        );
         setCommunityEvents(filteredEvents);
       })
       .catch((err) => {
@@ -72,7 +74,9 @@ export function EventsList({ navigation }) {
   );
 
   const renderEvent = (event) => {
-    const community = communities.find((community) => community.title === event.communityName);
+    const community = communities.find(
+      (community) => community.title === event.communityName
+    );
 
     return (
       <TouchableOpacity
@@ -91,39 +95,42 @@ export function EventsList({ navigation }) {
           </View>
         </View>
       </TouchableOpacity>
-    )
+    );
   };
 
-  return (
-    communityEvents ?
-      <ScrollView style={styles.container}>
-        {
-          communityEvents.map((community) => (
-            <>
-              <View style={styles.communityHeadingContainer}>
-                <Image source={{ uri: community.logo }} style={styles.logo} />
-                <Text style={styles.communityHeadingText}>
-                  { community.name }
-                </Text>
-              </View>
-              <View style={styles.eventsContainer}>
-                {
-                  community.events.map((event) => renderEvent(event))
-                }
-              </View>
-            </>
-          ))
-        }
-      </ScrollView> :
-      <View style={styles.container}>
-        <ActivityIndicator size="large" color="#D41F2D" />
-      </View>
+  return communityEvents ? (
+    <ScrollView style={styles.container}>
+      {communityEvents.map((community) => {
+        const communityObj = communities.find(
+          (c) => c.title === community.name
+        );
+
+        return (
+          <>
+          <TouchableOpacity onPress={() => navigation.navigate("CommunityDetails", { community: communityObj })}>
+            <View style={styles.communityHeadingContainer} key={community.name}>
+              <Image source={{ uri: community.logo }} style={styles.logo} />
+              <Text style={styles.communityHeadingText}>{community.name}</Text>
+            </View>
+
+          </TouchableOpacity>
+            <View style={styles.eventsContainer}>
+              {community.events.map((event) => renderEvent(event))}
+            </View>
+          </>
+        );
+      })}
+    </ScrollView>
+  ) : (
+    <View style={styles.container}>
+      <ActivityIndicator size="large" color="#D41F2D" />
+    </View>
   );
 }
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#E2D0B9",
+    backgroundColor: "#333333",
     padding: 16,
   },
   communityHeadingContainer: {
@@ -131,15 +138,12 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     width: "100%",
-    borderBottomColor: "#71685d",
-    borderBottomWidth: 1,
-    paddingBottom: 8,
-    marginBottom: 12
+    marginBottom: 12,
   },
   communityHeadingText: {
     fontSize: 24,
-    color: "#333",
-    fontWeight: "bold"
+    color: "#ffffff",
+    fontWeight: "bold",
   },
   eventsContainer: {
     display: "flex",
@@ -147,10 +151,11 @@ const styles = StyleSheet.create({
     width: "100%",
     paddingHorizontal: 4,
     gap: 12,
-    marginBottom: 24
+    marginBottom: 24,
   },
   item: {
-    backgroundColor: "#D41F2D",
+    backgroundColor: "#f31e6c",
+    borderColor: "#f982ae",
     padding: 20,
     borderRadius: 8,
   },
