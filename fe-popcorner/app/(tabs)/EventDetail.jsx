@@ -93,7 +93,7 @@ export default function EventDetail({ route, navigation }) {
               showAttendees &&
               <View style={styles.attendeesContainer}>
                 <Text style={styles.attendeesHeading}>
-                  Currently attending:
+                  Attendees
                 </Text>
                 { Object.values(currentEvent.attendees).map((attendee) => (
                   <Text key={attendee} style={styles.attendee}>
@@ -155,7 +155,7 @@ export default function EventDetail({ route, navigation }) {
 const styles = StyleSheet.create({
   scrollContainer: {
     flex: 1,
-    backgroundColor: "#E2D0B9",
+    backgroundColor: "#333333",
   },
   container: {
     display: "flex",
@@ -163,7 +163,7 @@ const styles = StyleSheet.create({
     width: "100%",
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#E2D0B9",
+    backgroundColor: "#EEEEEE",
   },
   contentContainer: {
     display: "flex",
@@ -192,12 +192,12 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "column",
     gap: 8,
-    backgroundColor: "#d83542",
+    backgroundColor: "#474747",
     borderRadius: 8,
     padding: 16,
   },
   cardTitle: {
-    color: "#fff",
+    color: "#EEEEEE",
     fontSize: 20,
     fontWeight: "bold",
     marginBottom: 4
@@ -207,7 +207,9 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     padding: 8,
     borderRadius: 8,
-    backgroundColor: "#eea5ab",
+    borderStyle: "solid",
+    borderColor: "#f2055c",
+    borderWidth: 1,
     gap: 4
   },
   showAttendeesButton: {
@@ -215,12 +217,13 @@ const styles = StyleSheet.create({
     textAlign: "left"
   },
   attendeesHeading: {
-    fontSize: 16,
-    color: "#333"
+    fontSize: 14,
+    color: "#eeeeee",
+    fontWeight: "bold"
   },
   attendee: {
     fontSize: 14,
-    color: "#333"
+    color: "#eeeeee"
   },
   detailRow: {
     display: "flex",
@@ -229,11 +232,11 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   textLight: {
-    color: "#fff",
+    color: "#F2055C",
     fontSize: 16
   },
   textLabel: {
-    color: "#ededed",
+    color: "#F2055C",
     fontSize: 14
   },
   textLightBold: {
@@ -244,16 +247,16 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 32,
     fontWeight: "bold",
-    color: "#D41F2D",
+    color: "#F2055C",
     marginBottom: 4
   },
   description: {
     fontSize: 16,
-    color: "#333",
+    color: "#eeeeee",
   },
   subheading: {
     fontSize: 16,
-    color: "#dd4c57",
+    color: "#c2044a",
   },
   buttonContainer: {
     display: "flex",
@@ -269,7 +272,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     flexDirection: "row",
     padding: 10,
-    backgroundColor: "#D41F2D",
+    backgroundColor: "#f2055c",
     borderRadius: 8,
     width: "100%",
   },
@@ -278,8 +281,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     flexDirection: "row",
     padding: 10,
-    backgroundColor: "#f1e8dc",
-    borderColor: "#D41F2D",
+    backgroundColor: "#eeeeee",
+    borderColor: "#f2055c",
     borderStyle: "solid",
     borderWidth: 2,
     borderRadius: 8,
@@ -287,7 +290,7 @@ const styles = StyleSheet.create({
   },
   button: {
     padding: 10,
-    backgroundColor: "#D41F2D",
+    backgroundColor: "#f2055c",
     borderRadius: 8,
   },
   buttonText: {
@@ -295,7 +298,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   buttonTextDark: {
-    color: "#333",
+    color: "#f2055c",
     fontWeight: "bold",
   }
 });
