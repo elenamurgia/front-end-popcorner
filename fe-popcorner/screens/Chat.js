@@ -23,13 +23,11 @@ import colors from "../colors";
 export default function Chat({ route }) {
   const [messages, setMessages] = useState([]);
   const navigation = useNavigation();
-  console.log("The value of the route is ", route);
+
   const { groupId } = route.params;
 
   const onSignOut = () => {
-    signOut(auth).catch((err) => {
-      console.log(err);
-    });
+    signOut(auth).catch((err) => {});
   };
 
   useLayoutEffect(() => {
@@ -52,7 +50,6 @@ export default function Chat({ route }) {
     const q = query(collectionRef, orderBy("createdAt", "desc"));
 
     const unsubscribe = onSnapshot(q, (snapshot) => {
-      console.log("snapshot");
       setMessages(
         snapshot.docs.map((doc) => ({
           _id: doc.id,
@@ -102,6 +99,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     // height: "%",
+    // padding: 50,
     width: "100%",
   },
   navContainer: {

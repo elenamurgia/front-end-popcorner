@@ -22,18 +22,16 @@ import { getUser } from "../../utils/api";
 import { View, Text } from "react-native";
 import Chat from "../../screens/Chat";
 import GroupList from "./GroupList";
-import CreateGroup from "./CreateGroup.";
+import CreateGroup from "./CreateGroup";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
 const CommunitiesStack = ({ user }) => (
   <Stack.Navigator>
-    <Stack.Screen
-      name="CommunitiesList"
-      component={CommunitiesList}
-      options={{ headerShown: false }}
-    />
+    <Stack.Screen name="CommunitiesList" options={{ headerShown: false }}>
+      {(props) => <CommunitiesList {...props} user={user} />}
+    </Stack.Screen>
     <Stack.Screen name="CommunityDetails" options={{ headerShown: false }}>
       {(props) => <CommunityDetails {...props} user={user} />}
     </Stack.Screen>
@@ -45,6 +43,7 @@ const CommunitiesStack = ({ user }) => (
     </Stack.Screen>
   </Stack.Navigator>
 );
+
 
 const EventsStack = ({ user }) => (
   <Stack.Navigator>
@@ -62,11 +61,11 @@ const EventsStack = ({ user }) => (
 
 function MainPage({ isLoggedIn, user, userInfo, setUserInfo, newUserInput, setNewUserInput }) {
 
+
   useEffect(() => {
     if (user) {
       getUser(user.email)
         .then((fetchedUser) => {
-
           setUserInfo(fetchedUser);
         })
         .catch((err) => {
@@ -78,7 +77,6 @@ function MainPage({ isLoggedIn, user, userInfo, setUserInfo, newUserInput, setNe
   return (
     <PaperProvider>
       <View className="flex-col justify-between items-center">
-
         <Header
           username={user?.username}
           title="PopCorner"
@@ -141,6 +139,7 @@ function MainPage({ isLoggedIn, user, userInfo, setUserInfo, newUserInput, setNe
         >
           {(props) => <HomeScreen {...props} />}
         </Tab.Screen>
+
         <Tab.Screen
           name="Events"
           options={{
@@ -155,6 +154,7 @@ function MainPage({ isLoggedIn, user, userInfo, setUserInfo, newUserInput, setNe
           {(props) => <EventsStack {...props} user={ userInfo } />}
         </Tab.Screen>
         {/* 
+
         <Tab.Screen
           name="ChatScreen"
           options={{
@@ -165,8 +165,11 @@ function MainPage({ isLoggedIn, user, userInfo, setUserInfo, newUserInput, setNe
           }}
           // initialParams={{ isLoggedIn, user }}
         >
-          {(props) => <Chat {...props} isLoggedIn={isLoggedIn} user={user} />}
-        </Tab.Screen> */}
+          {(props) => (
+            <ChatScreen {...props} isLoggedIn={isLoggedIn} user={user} />
+          )}
+        </Tab.Screen>
+
         {/* 
         <Tab.Screen
           name="GroupList"

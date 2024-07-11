@@ -12,7 +12,6 @@ export const DrawerComponent = ({ onClose }) => {
     return outerRoute?.name;
   });
 
-  console.log(currentRouteName);
   return (
     <Drawer.Section title="Some title" className="flex-1">
       <Drawer.Item

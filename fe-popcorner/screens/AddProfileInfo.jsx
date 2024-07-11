@@ -25,7 +25,6 @@ function AddProfileInfo({ navigation, setNewUserInput, newUserInput }) {
   const [open, setOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [date, setDate] = useState("12/12/2023");
-  // console.log(newUserInput);
 
   const handleDateSelect = (date) => {
     setDateOfBirth(new Date(date));

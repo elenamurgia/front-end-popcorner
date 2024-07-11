@@ -55,7 +55,7 @@ export const Header = ({
     if (userInfo) {
       navigation.navigate("UserInfo", { userInfo });
     } else {
-      console.log("User info is not available");
+      alert("User info is not available");
     }
   };
 
