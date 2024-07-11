@@ -142,7 +142,7 @@ const styles = StyleSheet.create({
   },
   communityHeadingText: {
     fontSize: 24,
-    color: "#F2055C",
+    color: "#ffffff",
     fontWeight: "bold",
   },
   eventsContainer: {
@@ -154,8 +154,8 @@ const styles = StyleSheet.create({
     marginBottom: 24,
   },
   item: {
-    backgroundColor: "#F2055C",
-    borderColor: "#C2044A",
+    backgroundColor: "#f31e6c",
+    borderColor: "#f982ae",
     padding: 20,
     borderRadius: 8,
   },
