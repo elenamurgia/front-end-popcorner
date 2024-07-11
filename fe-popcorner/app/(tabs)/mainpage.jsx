@@ -149,7 +149,7 @@ function MainPage({
             headerShown: false,
             tabBarLabel: "Events",
             tabBarIcon: ({ color, size }) => {
-              return <Icon source="calendar" size={size} color={color} />;
+              return <Icon source="calendar" size={size} color="#F2055C" />;
             },
           }}
         >

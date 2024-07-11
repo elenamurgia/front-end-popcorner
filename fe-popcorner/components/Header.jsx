@@ -126,13 +126,11 @@ export const Header = ({
   return (
     <View className="w-full">
       <Appbar.Header className="" mode="center-aligned" elevated>
-
-        <Appbar.Action icon="menu" />
+        {/* <Appbar.Action icon="menu" /> */}
         <Appbar.Content title="PopCorner" titleStyle={styles.title} />
 
         {/* <Appbar.Action icon="menu" onPress={() => setIsDrawerOpen(true)} /> */}
 
-     
         <Appbar.Action
           icon="magnify"
           onPress={() => setIsSearchModalOpen(true)}
@@ -423,7 +421,7 @@ const styles = StyleSheet.create({
   title: {
     color: "#F2055C",
     fontWeight: "bold",
-    fontSize: 45,
+    fontSize: 38,
     padding: 20,
   },
 });
