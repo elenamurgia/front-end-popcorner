@@ -13,9 +13,7 @@ import {
   Button,
 } from "react-native";
 
-
 export default function CommunityDetails({ route, navigation, user }) {
-
   const { community } = route.params;
   const [selectedTab, setSelectedTab] = useState("posts");
   const [comments, setComments] = useState({});
@@ -134,7 +132,10 @@ export default function CommunityDetails({ route, navigation, user }) {
         value={newComment.comment}
         onChangeText={setNewComment}
       />
-      <TouchableOpacity style={styles.button} onPress={() => handleComment(item.title)}>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => handleComment(item.title)}
+      >
         <Text style={styles.buttonText}>Comment</Text>
       </TouchableOpacity>
     </View>
@@ -149,18 +150,25 @@ export default function CommunityDetails({ route, navigation, user }) {
       </Text>
       <Text style={styles.cardTextDimmed}>{item.attendeeCount} attendees</Text>
       <View style={styles.cardButtons}>
-        <TouchableOpacity style={styles.button} onPress={() => handleAttendance(item)}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => handleAttendance(item)}
+        >
           <Text style={styles.buttonText}>Sign up</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => navigation.navigate("EventDetail", { community: community, event: item.title })}
+          onPress={() =>
+            navigation.navigate("EventDetail", {
+              community: community,
+              event: item.title,
+            })
+          }
         >
           <View style={styles.button}>
             <Text style={styles.buttonText}>Details</Text>
           </View>
         </TouchableOpacity>
       </View>
-
     </View>
   );
   const renderContent = () => {
@@ -203,12 +211,14 @@ export default function CommunityDetails({ route, navigation, user }) {
           <TextInput
             style={styles.input}
             placeholder="Event Title"
+            placeholderTextColor="#FFFFFF"
             value={newEvent.title}
             onChangeText={(text) => setNewEvent({ ...newEvent, title: text })}
           />
           <TextInput
             style={styles.input}
             placeholder="Event Description"
+            placeholderTextColor="#FFFFFF"
             value={newEvent.description}
             onChangeText={(text) =>
               setNewEvent({ ...newEvent, description: text })
@@ -217,18 +227,21 @@ export default function CommunityDetails({ route, navigation, user }) {
           <TextInput
             style={styles.input}
             placeholder="Event Venue"
+            placeholderTextColor="#FFFFFF"
             value={newEvent.venue}
             onChangeText={(text) => setNewEvent({ ...newEvent, venue: text })}
           />
           <TextInput
             style={styles.input}
             placeholder="Event Date"
+            placeholderTextColor="#FFFFFF"
             value={newEvent.date}
             onChangeText={(text) => setNewEvent({ ...newEvent, date: text })}
           />
           <TextInput
             style={styles.input}
             placeholder="Event Time"
+            placeholderTextColor="#FFFFFF"
             value={newEvent.time}
             onChangeText={(text) =>
               setNewEvent({
@@ -459,7 +472,8 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     marginHorizontal: 16,
     marginVertical: 8,
-    color: "#EEEEEE",
+    // color: "#EEEEEE",
+    color: "white",
   },
   textArea: {
     height: 100,

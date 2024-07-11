@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
+console.disableYellowBox = true;
 import { StyleSheet, View, Text } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
