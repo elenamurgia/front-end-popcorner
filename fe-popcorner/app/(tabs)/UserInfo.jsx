@@ -30,7 +30,7 @@ function UserInfo({ isLoggedIn, user, navigation, newUserInput, userInfo }) {
       {/* <View style={styles.container}> */}
       {userInfo ? (
         <View style={styles.profileContainer}>
-          <Text className="text-4xl font-bold text-hotPink">
+          <Text className="text-4xl font-bold text-White">
             Hello {userInfo.firstName} {userInfo.lastName}
           </Text>
 
