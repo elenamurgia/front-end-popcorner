@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import Modal from "react-native-modal";
-import { SegmentedButtons } from "react-native-paper";
+import { Provider as PaperProvider } from "react-native-paper";
 import { getMoviesByGenre } from "../utils/api";
 import AllMovieCard from "../components/Movies/AllMovieCard";
 import PopularMovies from "../components/Movies/PopularMovies";
@@ -124,55 +124,69 @@ export default function AllMoviesScreen() {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.stickyHeader}>
-        <TouchableOpacity style={styles.dropdown} onPress={toggleModal}>
-          <Text style={styles.threeDots}>...</Text>
-        </TouchableOpacity>
-        <Modal isVisible={modalVisible} onBackdropPress={toggleModal}>
-          <View style={styles.modalContainer}>
-            <View style={styles.modalContent}>
-              {sortOptions.map((option) => (
-                <TouchableOpacity
-                  key={option.value}
-                  onPress={() => handleMenuPress(option.value)}
-                  style={styles.modalOption}
-                >
-                  <Text style={styles.modalOptionText}>{option.label}</Text>
-                </TouchableOpacity>
-              ))}
+    <PaperProvider>
+      <View style={styles.container}>
+        <View style={styles.stickyHeader}>
+          <TouchableOpacity style={styles.dropdown} onPress={toggleModal}>
+            <Text style={styles.threeDots}>...</Text>
+          </TouchableOpacity>
+          <Modal isVisible={modalVisible} onBackdropPress={toggleModal}>
+            <View style={styles.modalContainer}>
+              <View style={styles.modalContent}>
+                {sortOptions.map((option) => (
+                  <TouchableOpacity
+                    key={option.value}
+                    onPress={() => handleMenuPress(option.value)}
+                    style={styles.modalOption}
+                  >
+                    <Text style={styles.modalOptionText}>{option.label}</Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
             </View>
-          </View>
-        </Modal>
+          </Modal>
+        </View>
+        <View style={styles.genreContainer}>
+          <ScrollView horizontal contentContainerStyle={styles.genreScrollView}>
+            {genres.map((genre) => (
+              <TouchableOpacity
+                key={genre.id}
+                onPress={() => handleGenreChange(genre.id)}
+                style={[
+                  styles.genreButton,
+                  selectedGenre === genre.id && styles.genreButtonSelected,
+                ]}
+              >
+                <Text
+                  style={[
+                    styles.genreButtonText,
+                    selectedGenre === genre.id &&
+                      styles.genreButtonTextSelected,
+                  ]}
+                >
+                  {genre.name}
+                </Text>
+              </TouchableOpacity>
+            ))}
+          </ScrollView>
+        </View>
+
+        <ScrollView contentContainerStyle={styles.scrollViewContent}>
+          {renderMovies()}
+        </ScrollView>
       </View>
-
-      <ScrollView horizontal contentContainerStyle={styles.genreScrollView}>
-        <SegmentedButtons
-          value={selectedGenre ? selectedGenre.toString() : ""}
-          onValueChange={(value) => handleGenreChange(parseInt(value))}
-          buttons={genres.map((genre) => ({
-            value: genre.id.toString(),
-            label: genre.name,
-            showSelectedCheck: true,
-          }))}
-          style={styles.segmentedButtons}
-        />
-      </ScrollView>
-
-      <ScrollView contentContainerStyle={styles.scrollViewContent}>
-        {renderMovies()}
-      </ScrollView>
-    </View>
+    </PaperProvider>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "white",
+    backgroundColor: "#333",
+    paddingTop: 40,
   },
   stickyHeader: {
-    backgroundColor: "white",
+    backgroundColor: "#333",
     zIndex: 1,
     flexDirection: "row",
     justifyContent: "flex-end",
@@ -190,14 +204,30 @@ const styles = StyleSheet.create({
     color: "black",
   },
   threeDots: {
-    fontSize: 30,
+    backgroundColor: "#333",
+    fontSize: 40,
+    color: "#EEEEEE",
+  },
+  genreContainer: {
+    alignItems: "flex-end",
   },
   genreScrollView: {
     paddingHorizontal: 16,
   },
-  segmentedButtons: {
-    backgroundColor: "white",
-    borderColor: "#ffffff",
+  genreButton: {
+    padding: 10,
+    borderRadius: 20,
+    backgroundColor: "#F2055C",
+    marginHorizontal: 5,
+  },
+  genreButtonSelected: {
+    backgroundColor: "#EEEEEE",
+  },
+  genreButtonText: {
+    color: "#EEEEEE",
+  },
+  genreButtonTextSelected: {
+    color: "#F2055C",
   },
   scrollViewContent: {
     padding: 16,
@@ -208,7 +238,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   modalContent: {
-    backgroundColor: "white",
+    backgroundColor: "#F2055C",
     width: 200,
     padding: 20,
     borderRadius: 10,
@@ -220,6 +250,7 @@ const styles = StyleSheet.create({
   },
   modalOptionText: {
     fontSize: 16,
-    color: "black",
+    color: "#EEEEEE",
+    fontWeight: "bold",
   },
 });

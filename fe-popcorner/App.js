@@ -19,7 +19,6 @@ import CastScreen from "./screens/CastScreen";
 
 import MovieScreen from "./screens/MovieScreen";
 
-
 const Stack = createStackNavigator();
 const AuthenticatedUserContext = createContext({});
 
@@ -85,7 +84,6 @@ function AuthStack() {
   });
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  // console.log(newUserInput);
 
   return (
     <Stack.Navigator
@@ -134,6 +132,7 @@ function AuthStack() {
           />
         )}
       </Stack.Screen>
+
       <Stack.Screen name="MainPage">
         {(props) => (
           <MainPage
@@ -146,6 +145,7 @@ function AuthStack() {
           />
         )}
       </Stack.Screen>
+
       <Stack.Screen name="UserInfo">
         {(props) => (
           <UserInfo
@@ -165,20 +165,19 @@ function AuthStack() {
         options={{ title: "", headerBackTitle: "Back" }}
       ></Stack.Screen>
 
-   <Stack.Screen
-          name="AllMoviesScreen"
-          component={AllMoviesScreen}
-          options={{ title: "", headerBackTitle: "Back" }}
-        ></Stack.Screen>
-  <Stack.Screen
-          name="CastScreen"
-          component={CastScreen}
-          options={{ title: "", headerBackTitle: "Back" }}
-        ></Stack.Screen>
+      <Stack.Screen
+        name="AllMoviesScreen"
+        component={AllMoviesScreen}
+        options={{ title: "", headerBackTitle: "Back" }}
+      ></Stack.Screen>
+      <Stack.Screen
+        name="CastScreen"
+        component={CastScreen}
+        options={{ title: "", headerBackTitle: "Back" }}
+      ></Stack.Screen>
     </Stack.Navigator>
   );
 }
-
 
 function RootNavigator() {
   const { user, setUser } = useContext(AuthenticatedUserContext);
@@ -203,7 +202,6 @@ function RootNavigator() {
   return (
     <NavigationContainer>
       {finishedSignUp ? <Text>Hello </Text> : <AuthStack />}
-
     </NavigationContainer>
   );
 }

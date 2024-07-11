@@ -75,7 +75,7 @@ export default function CastScreen({ route }) {
 
   return (
     <View style={styles.screenContainer}>
-      <ScrollView contentContainerStyle={styles.container}>
+      <ScrollView scrollIndicatorInsets={{ right: 1 }}>
         <Card style={styles.card}>
           <Card.Title title={cast.name} titleStyle={styles.title} />
           <Card.Cover
@@ -87,7 +87,10 @@ export default function CastScreen({ route }) {
           />
           <Divider />
           <View style={styles.infoContainer}>
-            <Text style={styles.sectionTitle}>Personal Info</Text>
+            <Text variant="labelLarge" style={styles.sectionTitle}>
+              Personal Info
+            </Text>
+
             <Text style={styles.subTitle}>Known for</Text>
             <Text style={styles.infoText}>{cast.known_for_department}</Text>
             {cast.birthday && (
@@ -113,7 +116,9 @@ export default function CastScreen({ route }) {
             )}
             {cast.biography && (
               <>
-                <Text style={styles.sectionTitle}>Biography</Text>
+                <Text variant="labelLarge" style={styles.sectionSecondTitle}>
+                  Biography
+                </Text>
                 <Text style={styles.infoText}>{cast.biography}</Text>
               </>
             )}
@@ -126,38 +131,21 @@ export default function CastScreen({ route }) {
 
 const styles = StyleSheet.create({
   screenContainer: {
+    paddingTop: 60,
     flex: 1,
-    backgroundColor: "#f5f5f5",
-    flexDirection: "row",
-    justifyContent: "flex-end",
-  },
-  loadingContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  errorContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  errorText: {
-    color: "red",
-    fontSize: 18,
-  },
-  container: {
-    flexGrow: 1,
-    padding: 16,
+    backgroundColor: "#333",
   },
   card: {
     width: "100%",
     borderRadius: 15,
+    backgroundColor: "#333",
   },
   title: {
     fontSize: 25,
     fontWeight: "bold",
     textAlign: "center",
     marginVertical: 10,
+    color: "#F2055C",
   },
   movieImage: {
     width: "100%",
@@ -165,20 +153,33 @@ const styles = StyleSheet.create({
     borderRadius: 15,
   },
   infoContainer: {
-    padding: 16,
+    padding: 10,
+    backgroundColor: "#444",
+    borderRadius: 10,
   },
   sectionTitle: {
-    fontSize: 20,
+    fontSize: 30,
     fontWeight: "bold",
     marginVertical: 10,
+    color: "#F2055C",
+    paddingTop: 20,
   },
   subTitle: {
     fontSize: 18,
     fontWeight: "bold",
+    color: "#F2055C",
     marginTop: 10,
   },
   infoText: {
     fontSize: 16,
     marginVertical: 5,
+    color: "#EEEEEE",
+  },
+  sectionSecondTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginVertical: 10,
+    color: "#F2055C",
+    paddingTop: 20,
   },
 });
