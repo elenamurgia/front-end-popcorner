@@ -1,13 +1,5 @@
-
 import React, { useState, useCallback, useEffect } from "react";
-import {
-  View,
-  Text,
-  FlatList,
-  TouchableOpacity,
-  StyleSheet,
-  Image,
-} from "react-native";
+import { View, Text, FlatList, TouchableOpacity, StyleSheet, Image } from "react-native";
 
 import axios from "axios";
 import { useFocusEffect } from "@react-navigation/native";
@@ -59,10 +51,7 @@ export function CommunitiesList({ navigation, user }) {
             // alert(response);
           });
         axios
-          .post(
-            `https://popcorner.vercel.app/users/${userEmailReady}/communities`,
-            { community: item.title }
-          )
+          .post(`https://popcorner.vercel.app/users/${userEmailReady}/communities`, { community: item.title })
           .then((response) => {
             // alert(response);
           });
@@ -85,10 +74,7 @@ export function CommunitiesList({ navigation, user }) {
           <Text style={styles.title}>{item.title}</Text>
           <Text style={styles.description}>{item.description}</Text>
         </View>
-        <TouchableOpacity
-          onPress={() => handleJoin(item, user)}
-          style={styles.buttonBox}
-        >
+        <TouchableOpacity onPress={() => handleJoin(item, user)} style={styles.buttonBox}>
           <Text style={styles.createButtonText}> Join </Text>
         </TouchableOpacity>
       </View>
@@ -121,10 +107,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   buttonBox: {
-    backgroundColor: "maroon",
+    backgroundColor: "#474747",
     padding: 15,
     marginLeft: 15,
     marginBottom: 20,
+
     // borderBlockColor: "black",
     // height: "100%",
     // borderRadius: 8,
@@ -143,6 +130,7 @@ const styles = StyleSheet.create({
     padding: 20,
     marginVertical: 8,
     borderRadius: 8,
+    backgroundColor: "#F31E6C",
   },
   itemContent: {
     flexDirection: "row",
@@ -160,11 +148,11 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: "bold",
-    color: "#F2055C", // Title color
+    color: "#EEEEEE", // Title color
   },
   description: {
     fontSize: 16,
-    color: "#F2055C", // Description color
+    color: "#EEEEEE", // Description color
     marginTop: 8,
   },
 });
