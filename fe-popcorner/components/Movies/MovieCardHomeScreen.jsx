@@ -22,15 +22,14 @@ const MovieCard = ({ movie, handleClick }) => {
 
 const styles = StyleSheet.create({
   card: {
-    marginBottom: 16,
     backgroundColor: "333",
   },
   movieImage: {
-    width: width * 0.5,
-    height: 300,
-    borderRadius: 10,
-    borderWidth: 2,
-    borderColor: "#EEEEEE",
+    width: 200,
+    height: 280,
+    borderRadius: 8,
+    borderWidth: 8,
+    borderColor: "#F2E4E4",
   },
 });
 

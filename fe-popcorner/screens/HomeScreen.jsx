@@ -1,11 +1,20 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, ActivityIndicator, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  ActivityIndicator,
+  StyleSheet,
+  ScrollView,
+} from "react-native";
 import { Button, Divider } from "react-native-paper";
 import TopRatedMovies from "../components/Movies/TopRatedMovies";
+import UpComingMoviesHomepage from "../components/Movies/UpcomingMoviesHomePage";
 import { getTopRatedMovies } from "../utils/api";
+import { getUpComingMovies } from "../utils/api";
 
 export default function HomeScreen({ navigation }) {
   const [topRatedMovies, setTopRatedMovies] = useState([]);
+  const [upComingMovies, setUpComingMovies] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -14,8 +23,10 @@ export default function HomeScreen({ navigation }) {
       setLoading(true);
       try {
         const topRatedResponse = await getTopRatedMovies();
+        const upComingResponse = await getUpComingMovies();
 
         setTopRatedMovies(topRatedResponse.results);
+        setUpComingMovies(upComingResponse.results);
         setLoading(false);
       } catch (error) {
         console.error("Fetch Error:", error);
@@ -51,6 +62,12 @@ export default function HomeScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
+      <ScrollView>
+        <TopRatedMovies data={topRatedMovies} />
+      </ScrollView>
+      <ScrollView>
+        <UpComingMoviesHomepage data={upComingMovies} />
+      </ScrollView>
       <Button
         icon="movie-open-star"
         mode="contained"
@@ -60,7 +77,6 @@ export default function HomeScreen({ navigation }) {
       >
         All Movies
       </Button>
-      <TopRatedMovies data={topRatedMovies} />
     </View>
   );
 }
@@ -77,23 +93,21 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   container: {
-    flex: 1,
-    backgroundColor: "#333",
+    backgroundColor: "#474747",
     alignItems: "center",
-    paddingHorizontal: 10,
   },
   button: {
-    marginTop: 10,
     flexDirection: "row",
     alignItems: "center",
-    alignSelf: "flex-start",
-    backgroundColor: "#333",
+    backgroundColor: "#F2055C",
     borderWidth: 1.5,
-    borderColor: "#F2055C",
+    borderColor: "#C2044A",
     borderRadius: 25,
+    marginTop: 20,
+    marginBottom: 60,
   },
   buttonLabel: {
-    color: "#F2055C",
+    color: "#EEEEEE",
     fontWeight: "bold",
     fontSize: 16,
   },

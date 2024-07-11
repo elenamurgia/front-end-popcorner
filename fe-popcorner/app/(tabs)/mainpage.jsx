@@ -148,27 +148,12 @@ function MainPage({
             title: "",
             headerShown: false,
             tabBarLabel: "Events",
-            tabBarIcon: ({ color, size }) => {
-              return <Icon source="calendar" size={size} color={color} />;
+            tabBarIcon: ({ size }) => {
+              return <Icon source="calendar" size={size} color="#F2055C" />;
             },
           }}
         >
           {(props) => <EventsStack {...props} user={userInfo} />}
-        </Tab.Screen>
-
-        <Tab.Screen
-          name="ChatScreen"
-          options={{
-            title: "Chat",
-            tabBarIcon: ({ size }) => {
-              return <Icon source="chat" size={size} color="#F2055C" />;
-            },
-          }}
-          // initialParams={{ isLoggedIn, user }}
-        >
-          {(props) => (
-            <ChatScreen {...props} isLoggedIn={isLoggedIn} user={user} />
-          )}
         </Tab.Screen>
 
         {/* 
@@ -216,6 +201,21 @@ function MainPage({
           initialParams={{ userInfo }}
         >
           {(props) => <CommunitiesStack {...props} user={userInfo} />}
+        </Tab.Screen>
+
+        <Tab.Screen
+          name="ChatScreen"
+          options={{
+            title: "Chat",
+            tabBarIcon: ({ size }) => {
+              return <Icon source="chat" size={size} color="#F2055C" />;
+            },
+          }}
+          // initialParams={{ isLoggedIn, user }}
+        >
+          {(props) => (
+            <ChatScreen {...props} isLoggedIn={isLoggedIn} user={user} />
+          )}
         </Tab.Screen>
         {isLoggedIn ? (
           <Tab.Screen
