@@ -53,6 +53,9 @@ const EventsStack = ({ user }) => (
     <Stack.Screen name="EventDetail" options={{ headerShown: false }}>
       {(props) => <EventDetail {...props} user={user} />}
     </Stack.Screen>
+    <Stack.Screen name="CommunityDetails" options={{ headerShown: false }}>
+      {(props) => <CommunityDetails {...props} user={user} />}
+    </Stack.Screen>
   </Stack.Navigator>
 );
 
