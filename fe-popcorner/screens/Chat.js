@@ -100,6 +100,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     // height: "%",
     // padding: 50,
+    margin: 10,
     width: "100%",
   },
   navContainer: {

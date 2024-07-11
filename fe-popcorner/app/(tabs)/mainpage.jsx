@@ -160,6 +160,7 @@ function MainPage({
           name="ChatScreen"
           options={{
             title: "Chat",
+            headerShown: false,
             tabBarIcon: ({ size }) => {
               return <Icon source="chat" size={size} color="#F2055C" />;
             },
