@@ -10,8 +10,10 @@ import Interests from "./Interests";
 import HomeScreen from "../../screens/HomeScreen";
 import ChatScreen from "./ChatScreen";
 import CommunitiesScreen from "../../screens/CommunitiesScreen";
+import { EventsList } from "./EventsList";
 import { CommunitiesList } from "./CommunitiesList";
 import CommunityDetails from "./CommunityDetails";
+import EventDetail from "./EventDetail";
 import CreateCommunity from "./CreateCommunity";
 import { Header } from "../../components/Header";
 import { BottomNavigation, Icon, PaperProvider } from "react-native-paper";
@@ -36,17 +38,30 @@ const CommunitiesStack = ({ user }) => (
     <Stack.Screen name="CreateCommunity">
       {(props) => <CreateCommunity {...props} user={user} />}
     </Stack.Screen>
+    <Stack.Screen name="EventDetail" options={{ headerShown: false }}>
+      {(props) => <EventDetail {...props} user={user} />}
+    </Stack.Screen>
   </Stack.Navigator>
 );
 
-function MainPage({
-  isLoggedIn,
-  user,
-  userInfo,
-  setUserInfo,
-  newUserInput,
-  setNewUserInput,
-}) {
+
+const EventsStack = ({ user }) => (
+  <Stack.Navigator>
+    <Stack.Screen
+      name="EventsList"
+      component={EventsList}
+      options={{ headerShown: false }}
+    />
+    <Stack.Screen name="EventDetail" options={{ headerShown: false }}>
+      {(props) => <EventDetail {...props} user={user} />}
+    </Stack.Screen>
+  </Stack.Navigator>
+);
+
+
+function MainPage({ isLoggedIn, user, userInfo, setUserInfo, newUserInput, setNewUserInput }) {
+
+
   useEffect(() => {
     if (user) {
       getUser(user.email)
@@ -124,6 +139,22 @@ function MainPage({
         >
           {(props) => <HomeScreen {...props} />}
         </Tab.Screen>
+
+        <Tab.Screen
+          name="Events"
+          options={{
+            title: "",
+            headerShown: false,
+            tabBarLabel: "Events",
+            tabBarIcon: ({ color, size }) => {
+              return <Icon source="calendar" size={size} color={color} />;
+            },
+          }}
+        >
+          {(props) => <EventsStack {...props} user={ userInfo } />}
+        </Tab.Screen>
+        {/* 
+
         <Tab.Screen
           name="ChatScreen"
           options={{

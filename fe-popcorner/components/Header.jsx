@@ -125,7 +125,8 @@ export const Header = ({
   return (
     <View className="w-full">
       <Appbar.Header className="" mode="center-aligned" elevated>
-        <Appbar.Action icon="menu" onPress={() => setIsDrawerOpen(true)} />
+        {/* <Appbar.Action icon="menu" onPress={() => setIsDrawerOpen(true)} /> */}
+
         <Appbar.Content title="PopCorner" />
         <Appbar.Action
           icon="magnify"
@@ -142,7 +143,7 @@ export const Header = ({
         </TouchableOpacity>
       </Appbar.Header>
       <Portal>
-        <Modal
+        {/* <Modal
           contentContainerStyle={{
             backgroundColor: "white",
             width: "70%",
@@ -153,7 +154,7 @@ export const Header = ({
           onDismiss={() => setIsDrawerOpen(false)}
         >
           <DrawerComponent onClose={() => setIsDrawerOpen(false)} />
-        </Modal>
+        </Modal> */}
         <Modal
           visible={isSearchModalOpen}
           onDismiss={clearSearch}
