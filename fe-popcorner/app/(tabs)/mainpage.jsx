@@ -10,6 +10,7 @@ import Interests from "./Interests";
 import HomeScreen from "../../screens/HomeScreen";
 import ChatScreen from "./ChatScreen";
 import CommunitiesScreen from "../../screens/CommunitiesScreen";
+import { EventsList } from "./EventsList";
 import { CommunitiesList } from "./CommunitiesList";
 import CommunityDetails from "./CommunityDetails";
 import EventDetail from "./EventDetail";
@@ -45,6 +46,18 @@ const CommunitiesStack = ({ user }) => (
   </Stack.Navigator>
 );
 
+const EventsStack = ({ user }) => (
+  <Stack.Navigator>
+    <Stack.Screen
+      name="EventsList"
+      component={EventsList}
+      options={{ headerShown: false }}
+    />
+    <Stack.Screen name="EventDetail" options={{ headerShown: false }}>
+      {(props) => <EventDetail {...props} user={user} />}
+    </Stack.Screen>
+  </Stack.Navigator>
+);
 
 
 function MainPage({ isLoggedIn, user, userInfo, setUserInfo, newUserInput, setNewUserInput }) {
@@ -127,6 +140,19 @@ function MainPage({ isLoggedIn, user, userInfo, setUserInfo, newUserInput, setNe
           }}
         >
           {(props) => <HomeScreen {...props} />}
+        </Tab.Screen>
+        <Tab.Screen
+          name="Events"
+          options={{
+            title: "",
+            headerShown: false,
+            tabBarLabel: "Events",
+            tabBarIcon: ({ color, size }) => {
+              return <Icon source="calendar" size={size} color={color} />;
+            },
+          }}
+        >
+          {(props) => <EventsStack {...props} user={ userInfo } />}
         </Tab.Screen>
         {/* 
         <Tab.Screen
