@@ -46,16 +46,16 @@ const AllMovieCard = ({ movie }) => {
 const styles = StyleSheet.create({
   card: {
     marginBottom: 16,
-    backgroundColor: "#9B86BD",
+    backgroundColor: "#333",
   },
   container: {
     flexDirection: "row",
-    padding: 16,
+    padding: 10,
   },
   poster: {
     width: 100,
     height: 150,
-    borderRadius: 8,
+    borderRadius: 5,
   },
   details: {
     marginLeft: 16,
@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 18,
     fontWeight: "bold",
-    color: "#ffffff",
+    color: "#F2055C",
     marginBottom: 8,
   },
   releaseDate: {
@@ -74,12 +74,12 @@ const styles = StyleSheet.create({
   },
   overview: {
     fontSize: 14,
-    color: "#d0d0d0",
+    color: "#EEEEEE",
     marginBottom: 8,
   },
   voteAverage: {
     fontSize: 14,
-    color: "#ffcc00",
+    color: "#F2055C",
   },
 });
 

@@ -73,7 +73,7 @@ export default function RecommendedMovies({ movie_id }) {
               />
               <Text style={styles.movieTitle}>
                 {item.original_title.length > 18
-                  ? `${item.original_title.slice(0, 14)}...`
+                  ? `${item.original_title.slice(0, 16)}...`
                   : item.original_title}
               </Text>
             </View>
@@ -95,7 +95,7 @@ export default function RecommendedMovies({ movie_id }) {
 
 const styles = StyleSheet.create({
   outerContainer: {
-    backgroundColor: "#f5f5f5",
+    backgroundColor: "#333",
     position: "relative",
     display: "flex",
     justifyContent: "center",
@@ -105,20 +105,16 @@ const styles = StyleSheet.create({
   container: {
     padding: 20,
   },
-  header: {
-    fontSize: 18,
-    fontWeight: "bold",
-    color: "#FFF5E1",
-    marginBottom: 15,
-  },
   movieContainer: {
     alignItems: "center",
+    margin: 3,
+    paddingBottom: 4,
   },
 
   movieTitle: {
     fontSize: 15,
-    color: "black",
-    textAlign: "center",
-    margin: 10,
+    color: "#EEEEEE",
+    fontWeight: "bold",
+    paddingTop: 3,
   },
 });

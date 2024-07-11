@@ -17,6 +17,7 @@ import EventDetail from "./EventDetail";
 import CreateCommunity from "./CreateCommunity";
 import { Header } from "../../components/Header";
 import { BottomNavigation, Icon, PaperProvider } from "react-native-paper";
+import { StyleSheet } from "react-native";
 import { getUser } from "../../utils/api";
 
 import { View, Text } from "react-native";
@@ -29,15 +30,23 @@ const Stack = createStackNavigator();
 
 const CommunitiesStack = ({ user }) => (
   <Stack.Navigator>
+
     <Stack.Screen name="CommunitiesList" options={{ headerShown: false }}>
       {(props) => <CommunitiesList {...props} user={user} />}
     </Stack.Screen>
+
     <Stack.Screen name="CommunityDetails" options={{ headerShown: false }}>
       {(props) => <CommunityDetails {...props} user={user} />}
     </Stack.Screen>
     <Stack.Screen name="CreateCommunity">
       {(props) => <CreateCommunity {...props} user={user} />}
     </Stack.Screen>
+
+  </Stack.Navigator>
+);
+
+
+
     <Stack.Screen name="EventDetail" options={{ headerShown: false }}>
       {(props) => <EventDetail {...props} user={user} />}
     </Stack.Screen>
@@ -132,8 +141,8 @@ function MainPage({ isLoggedIn, user, userInfo, setUserInfo, newUserInput, setNe
             title: "",
             headerShown: false,
             tabBarLabel: "Home",
-            tabBarIcon: ({ color, size }) => {
-              return <Icon source="home" size={size} color={color} />;
+            tabBarIcon: ({ size }) => {
+              return <Icon source="home" size={size} color="#F2055C" />;
             },
           }}
         >
@@ -159,8 +168,8 @@ function MainPage({ isLoggedIn, user, userInfo, setUserInfo, newUserInput, setNe
           name="ChatScreen"
           options={{
             title: "Chat",
-            tabBarIcon: ({ color, size }) => {
-              return <Icon source="chat" size={size} color={color} />;
+            tabBarIcon: ({ size }) => {
+              return <Icon source="chat" size={size} color="#F2055C" />;
             },
           }}
           // initialParams={{ isLoggedIn, user }}
@@ -205,9 +214,11 @@ function MainPage({ isLoggedIn, user, userInfo, setUserInfo, newUserInput, setNe
             tabBarLabel: "Communities",
             title: "",
             headerShown: false,
-            tabBarIcon: ({ color, size }) => {
+
+            tabBarIcon: ({ size }) => {
               return (
-                <Icon source="account-supervisor" size={size} color={color} />
+                <Icon source="account-group" size={size} color="#F2055C" />
+
               );
             },
           }}
@@ -276,3 +287,9 @@ function MainPage({ isLoggedIn, user, userInfo, setUserInfo, newUserInput, setNe
 }
 
 export default MainPage;
+
+const styles = StyleSheet.create({
+  button: {
+    backgroundColor: "#F2055C",
+  },
+});

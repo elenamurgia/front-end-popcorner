@@ -67,7 +67,7 @@ const MovieScreen = () => {
   if (loading) {
     return (
       <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color="pink" />
+        <ActivityIndicator size="large" color="#EEEEEE" />
       </View>
     );
   }
@@ -80,7 +80,15 @@ const MovieScreen = () => {
     );
   }
 
-  const LeftContent = (props) => <Avatar.Icon {...props} icon="movie-open" />;
+  const LeftContent = (props) => (
+    <Avatar.Icon
+      {...props}
+      icon="movie-open"
+      size={50}
+      color="#EEEEEE"
+      style={styles.headerIcon}
+    />
+  );
 
   const releaseYear = movie.release_date
     ? movie.release_date.split("-")[0]
@@ -94,7 +102,7 @@ const MovieScreen = () => {
 
   return (
     <View style={styles.screenContainer}>
-      <ScrollView contentContainerStyle={styles.scrollContainer}>
+      <ScrollView scrollIndicatorInsets={{ right: 1 }}>
         <Card style={styles.card}>
           <View style={styles.cardContent}>
             <Card.Title
@@ -103,7 +111,7 @@ const MovieScreen = () => {
               titleStyle={styles.title}
             />
             <Card.Content>
-              <Text variant="labelLarge">
+              <Text variant="labelLarge" style={styles.genreText}>
                 {movie.genres?.map((genre) => genre.name).join(", ")} |{" "}
                 {totalHours}h{totalMinutes}m
               </Text>
@@ -115,9 +123,9 @@ const MovieScreen = () => {
               style={styles.movieImage}
               resizeMode="cover"
             />
-            <Divider />
+            <Divider style={styles.divider} />
             <Card.Content>
-              <Text variant="bodyMedium" style={styles.overview}>
+              <Text variant="bodyLarge" style={styles.overview}>
                 {movie.overview}
               </Text>
               <Divider style={styles.divider} />
@@ -125,6 +133,7 @@ const MovieScreen = () => {
                 <Avatar.Icon
                   size={40}
                   icon="account-group"
+                  color="#EEEEEE"
                   style={styles.castIcon}
                 />
                 <Text style={styles.castTitle}>Cast</Text>
@@ -151,13 +160,17 @@ const MovieScreen = () => {
                           uri: `https://image.tmdb.org/t/p/w500/${item.profile_path}`,
                         }}
                       />
-                      <Text variant="titleMedium">{item.name}</Text>
-                      <Text variant="bodyMedium">{item.character}</Text>
+                      <Text variant="titleMedium" style={styles.castName}>
+                        {item.name}
+                      </Text>
+                      <Text variant="bodyMedium" style={styles.castCharacter}>
+                        {item.character}
+                      </Text>
                     </View>
                   </TouchableOpacity>
                 )}
               />
-              <Divider />
+              <Divider style={styles.divider} />
               {rentProviders.length > 0 ? (
                 <>
                   <Text style={styles.rentBuy}>RENT</Text>
@@ -176,7 +189,7 @@ const MovieScreen = () => {
                   </View>
                 </>
               ) : (
-                <Text>Not available for rent</Text>
+                <Text style={styles.notRent}>Not available for rent</Text>
               )}
               {buyProviders.length > 0 ? (
                 <>
@@ -196,7 +209,9 @@ const MovieScreen = () => {
                   </View>
                 </>
               ) : (
-                <Text>Not available for purchase</Text>
+                <View>
+                  <Text style={styles.notBuy}>Not available for purchase</Text>
+                </View>
               )}
               <Divider style={styles.divider} />
               <View style={styles.reviewHeader}>
@@ -204,6 +219,7 @@ const MovieScreen = () => {
                   size={40}
                   icon="comment"
                   style={styles.reviewIcon}
+                  color="#EEEEEE"
                 />
                 <Text style={styles.reviewTitle}>Reviews</Text>
               </View>
@@ -213,6 +229,7 @@ const MovieScreen = () => {
                 <Avatar.Icon
                   size={40}
                   icon="movie-open-star"
+                  color="#EEEEEE"
                   style={styles.recommendationIcon}
                 />
                 <Text style={styles.recommendationTitle}>Recommendations</Text>
@@ -228,8 +245,9 @@ const MovieScreen = () => {
 
 const styles = StyleSheet.create({
   screenContainer: {
+    paddingTop: 50,
     flex: 1,
-    backgroundColor: "#f5f5f5",
+    backgroundColor: "#333",
   },
   loadingContainer: {
     flex: 1,
@@ -242,30 +260,37 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   errorText: {
-    color: "red",
+    color: "#EEEEEE",
     fontSize: 18,
-  },
-  scrollContainer: {
-    paddingVertical: 20,
-    paddingHorizontal: 16,
-    alignItems: "center",
   },
   card: {
     width: "100%",
     borderRadius: 15,
+    backgroundColor: "#333",
   },
   cardContent: {
     overflow: "hidden",
   },
+  headerIcon: {
+    backgroundColor: "#F2055C",
+  },
   title: {
     fontSize: 25,
     fontWeight: "bold",
+    color: "#F2055C",
+    paddingTop: 10,
+    flexShrink: 1,
+  },
+  genreText: {
+    color: "#EEEEEE",
   },
   overview: {
     marginVertical: 10,
+    color: "#EEEEEE",
   },
   divider: {
     marginVertical: 10,
+    backgroundColor: "#EEEEEE",
   },
   castHeader: {
     flexDirection: "row",
@@ -276,19 +301,26 @@ const styles = StyleSheet.create({
     fontSize: 25,
     fontWeight: "bold",
     marginLeft: 10,
+    color: "#F2055C",
   },
   castContainer: {
     alignItems: "center",
     marginHorizontal: 10,
   },
   castIcon: {
-    marginBottom: 10,
+    backgroundColor: "#F2055C",
   },
   castImage: {
     width: 120,
     height: 180,
     borderRadius: 10,
     marginBottom: 10,
+  },
+  castName: {
+    color: "#EEEEEE",
+  },
+  castCharacter: {
+    color: "#EEEEEE",
   },
   movieImage: {
     width: width * 0.9,
@@ -309,8 +341,17 @@ const styles = StyleSheet.create({
     marginBottom: 3,
   },
   rentBuy: {
-    fontSize: 12,
+    fontSize: 14,
     fontWeight: "bold",
+    marginLeft: 5,
+    color: "#F2055C",
+  },
+  notRent: {
+    color: "#EEEEEE",
+    marginLeft: 5,
+  },
+  notBuy: {
+    color: "#EEEEEE",
     marginLeft: 5,
   },
   reviewHeader: {
@@ -318,13 +359,29 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 10,
   },
-  reviewTitle: { fontSize: 25, fontWeight: "bold", marginLeft: 10 },
+  reviewTitle: {
+    fontSize: 25,
+    fontWeight: "bold",
+    marginLeft: 10,
+    color: "#F2055C",
+  },
+  reviewIcon: {
+    backgroundColor: "#F2055C",
+  },
   recommendationHeader: {
     flexDirection: "row",
     alignItems: "center",
     marginBottom: 10,
   },
-  recommendationTitle: { fontSize: 25, fontWeight: "bold", marginLeft: 10 },
+  recommendationTitle: {
+    fontSize: 25,
+    fontWeight: "bold",
+    marginLeft: 10,
+    color: "#F2055C",
+  },
+  recommendationIcon: {
+    backgroundColor: "#F2055C",
+  },
 });
 
 export default MovieScreen;

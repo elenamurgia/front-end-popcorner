@@ -1,13 +1,6 @@
 import React, { useState, useEffect } from "react";
-import {
-  View,
-  Text,
-  ActivityIndicator,
-  StyleSheet,
-  SafeAreaView,
-} from "react-native";
-import { Button } from "react-native-paper";
-import { StatusBar } from "expo-status-bar";
+import { View, Text, ActivityIndicator, StyleSheet } from "react-native";
+import { Button, Divider } from "react-native-paper";
 import TopRatedMovies from "../components/Movies/TopRatedMovies";
 import { getTopRatedMovies } from "../utils/api";
 
@@ -58,43 +51,21 @@ export default function HomeScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <SafeAreaView style={{ marginBottom: 15 }}>
-        <View style={styles.eventsContainer}>
-          <Button
-            title="Events near you"
-            onPress={() => navigation.navigate("Events")}
-          />
-        </View>
-
-        <StatusBar style="light" />
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center",
-            marginHorizontal: 16,
-          }}
-        ></View>
-      </SafeAreaView>
-      <Button icon="movie-open" mode="contained" onPress={handleClick}>
+      <Button
+        icon="movie-open-star"
+        mode="contained"
+        onPress={handleClick}
+        style={styles.button}
+        labelStyle={styles.buttonLabel}
+      >
         All Movies
       </Button>
-      <View
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingBottom: 10 }}
-      >
-        <TopRatedMovies data={topRatedMovies} />
-      </View>
+      <TopRatedMovies data={topRatedMovies} />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "white",
-    alignItems: "center",
-  },
   loadingContainer: {
     flex: 1,
     justifyContent: "center",
@@ -104,5 +75,26 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+  },
+  container: {
+    flex: 1,
+    backgroundColor: "#333",
+    alignItems: "center",
+    paddingHorizontal: 10,
+  },
+  button: {
+    marginTop: 10,
+    flexDirection: "row",
+    alignItems: "center",
+    alignSelf: "flex-start",
+    backgroundColor: "#333",
+    borderWidth: 1.5,
+    borderColor: "#F2055C",
+    borderRadius: 25,
+  },
+  buttonLabel: {
+    color: "#F2055C",
+    fontWeight: "bold",
+    fontSize: 16,
   },
 });

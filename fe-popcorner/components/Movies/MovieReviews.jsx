@@ -80,14 +80,20 @@ export default function MovieReviews({ movie_id }) {
                   <Avatar.Icon
                     size={30}
                     icon="account"
-                    color="#FFFFFF"
+                    color="#D99CA7"
                     style={styles.avatarIcon}
                   />
                 )}
-                <Text style={styles.author}>{review.author}</Text>
+                <Text variant="bodyMedium" style={styles.author}>
+                  {review.author}
+                </Text>
               </View>
-              <Text style={styles.date}>{formattedDate}</Text>
-              <Text style={styles.content}>{review.content}</Text>
+              <Text variant="bodyMedium" style={styles.date}>
+                {formattedDate}
+              </Text>
+              <Text variant="bodyMedium" style={styles.content}>
+                {review.content}
+              </Text>
             </Card.Content>
           );
         })
@@ -109,7 +115,7 @@ export default function MovieReviews({ movie_id }) {
 const styles = StyleSheet.create({
   container: {
     padding: 10,
-    backgroundColor: "#f5f5f5",
+    backgroundColor: "#333",
   },
   loadingContainer: {
     flex: 1,
@@ -152,31 +158,27 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   avatarIcon: {
-    backgroundColor: "#B0B0B0",
+    backgroundColor: "#A60321",
     marginRight: 10,
   },
   author: {
     fontSize: 16,
     fontWeight: "bold",
-    color: "black",
+    color: "#F2055C",
   },
-  writtenBy: {
-    fontSize: 16,
-    color: "black",
-    marginBottom: 5,
-  },
+
   date: {
     fontSize: 14,
-    color: "black",
+    color: "#F2055C",
     marginBottom: 5,
   },
   content: {
     fontSize: 16,
-    color: "black",
+    color: "#EEEEEE",
   },
   noReviewsText: {
     fontSize: 16,
-    color: "black",
+    color: "#EEEEEE",
     textAlign: "center",
     padding: 20,
   },
@@ -185,7 +187,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   loadMoreText: {
-    color: "grey",
+    color: "#EEEEEE",
     fontSize: 16,
     fontWeight: "bold",
   },

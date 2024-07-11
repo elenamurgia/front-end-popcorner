@@ -1,7 +1,6 @@
 import React from "react";
 import {
   View,
-  Text,
   StyleSheet,
   Dimensions,
   Image,
@@ -34,11 +33,6 @@ function TopRatedMovies({ data }) {
                   uri: `https://image.tmdb.org/t/p/w500/${item.poster_path}`,
                 }}
               />
-              <Text style={styles.movieTitle}>
-                {item.original_title.length > 18
-                  ? `${item.original_title.slice(0, 14)}...`
-                  : item.original_title}
-              </Text>
             </View>
           </TouchableOpacity>
         )}
@@ -58,31 +52,13 @@ function TopRatedMovies({ data }) {
 
 const styles = StyleSheet.create({
   outerContainer: {
-    backgroundColor: "white",
-    position: "relative",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 80,
-  },
-  container: {
-    padding: 20,
-  },
-  header: {
-    fontSize: 18,
-    fontWeight: "bold",
-    color: "#FFF5E1",
-    marginBottom: 15,
+    backgroundColor: "#333",
+    padding: 5,
   },
   movieContainer: {
     alignItems: "center",
-  },
-
-  movieTitle: {
-    fontSize: 15,
-    color: "black",
-    textAlign: "center",
-    margin: 10,
+    margin: 3,
+    paddingBottom: 4,
   },
 });
 

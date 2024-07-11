@@ -5,6 +5,7 @@ import {
   FlatList,
   SectionList,
   ScrollView,
+  StyleSheet,
 } from "react-native";
 import {
   Text,
@@ -125,9 +126,13 @@ export const Header = ({
   return (
     <View className="w-full">
       <Appbar.Header className="" mode="center-aligned" elevated>
+
+        <Appbar.Action icon="menu" />
+        <Appbar.Content title="PopCorner" titleStyle={styles.title} />
+
         {/* <Appbar.Action icon="menu" onPress={() => setIsDrawerOpen(true)} /> */}
 
-        <Appbar.Content title="PopCorner" />
+     
         <Appbar.Action
           icon="magnify"
           onPress={() => setIsSearchModalOpen(true)}
@@ -413,3 +418,12 @@ export const Header = ({
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  title: {
+    color: "#F2055C",
+    fontWeight: "bold",
+    fontSize: 45,
+    padding: 20,
+  },
+});

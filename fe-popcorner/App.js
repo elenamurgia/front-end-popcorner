@@ -132,6 +132,7 @@ function AuthStack() {
           />
         )}
       </Stack.Screen>
+
       <Stack.Screen name="MainPage">
         {(props) => (
           <MainPage
@@ -144,6 +145,7 @@ function AuthStack() {
           />
         )}
       </Stack.Screen>
+
       <Stack.Screen name="UserInfo">
         {(props) => (
           <UserInfo

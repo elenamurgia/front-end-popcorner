@@ -64,31 +64,9 @@ function PopularMovies({ data }) {
 }
 
 const styles = StyleSheet.create({
-  outerContainer: {
-    backgroundColor: "#0C1844",
-    position: "relative",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 80,
-  },
   container: {
     padding: 20,
-  },
-  header: {
-    fontSize: 18,
-    fontWeight: "bold",
-    color: "#FFF5E1",
-    marginBottom: 15,
-  },
-  movieContainer: {
-    alignItems: "center",
-  },
-  movieTitle: {
-    fontSize: 15,
-    color: "white",
-    textAlign: "center",
-    margin: 10,
+    backgroundColor: "#260101",
   },
 });
 

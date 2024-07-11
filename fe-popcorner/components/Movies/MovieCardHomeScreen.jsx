@@ -1,35 +1,13 @@
 import React from "react";
-import {
-  TouchableWithoutFeedback,
-  Dimensions,
-  StyleSheet,
-  View,
-  Text,
-} from "react-native";
+import { TouchableOpacity, Dimensions, StyleSheet } from "react-native";
 import { Card } from "react-native-paper";
 
 const { width, height } = Dimensions.get("window");
 
 const MovieCard = ({ movie, handleClick }) => {
-  if (!movie || !movie.poster_path) {
-    return (
-      <View
-        style={[
-          styles.placeholder,
-          {
-            width: width * 0.8,
-            height: height * 0.25,
-          },
-        ]}
-      >
-        <Text>No Image Available</Text>
-      </View>
-    );
-  }
-
   return (
     <Card>
-      <TouchableWithoutFeedback onPress={() => handleClick(movie)}>
+      <TouchableOpacity onPress={() => handleClick(movie)}>
         <Card.Cover
           source={{
             uri: `https://image.tmdb.org/t/p/w500/${movie.poster_path}`,
@@ -37,22 +15,22 @@ const MovieCard = ({ movie, handleClick }) => {
           style={styles.movieImage}
           resizeMode="cover"
         />
-      </TouchableWithoutFeedback>
+      </TouchableOpacity>
     </Card>
   );
 };
 
 const styles = StyleSheet.create({
-  placeholder: {
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#ccc",
-    borderRadius: 15,
+  card: {
+    marginBottom: 16,
+    backgroundColor: "333",
   },
   movieImage: {
-    width: width * 0.3,
-    height: 200,
-    borderRadius: 15,
+    width: width * 0.5,
+    height: 300,
+    borderRadius: 10,
+    borderWidth: 2,
+    borderColor: "#EEEEEE",
   },
 });
 
