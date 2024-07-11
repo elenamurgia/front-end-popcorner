@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, StyleSheet, Button } from "react-native";
+import { View, Text, TextInput, StyleSheet, TouchableOpacity } from "react-native";
 import axios from "axios";
 import uuid from "react-native-uuid";
 export default function CreateCommunity({ navigation, user }) {
@@ -40,28 +40,59 @@ export default function CreateCommunity({ navigation, user }) {
       />
       <Text style={styles.label}>Logo URL:</Text>
       <TextInput style={styles.input} value={logo} onChangeText={setLogo} placeholder="Logo URL" />
-      <Button title="Create" onPress={handleCreate} />
+      <TouchableOpacity style={styles.createButton} onPress={handleCreate}>
+        <Text style={styles.createButtonText}>Create Community</Text>
+      </TouchableOpacity>
     </View>
   );
 }
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#E2D0B9",
+    backgroundColor: "#333",
     padding: 16,
+    justifyContent: "center",
+  },
+  header: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 16,
+  },
+  backButton: {
+    color: "#F2055C",
+    fontSize: 24,
+    marginRight: 10,
+  },
+  headerText: {
+    fontSize: 20,
+    color: "#EEEEEE",
+    fontWeight: "bold",
   },
   label: {
+    color: "#EEEEEE",
     fontSize: 18,
-    marginVertical: 8,
-    color: "#333",
+    marginBottom: 8,
   },
   input: {
-    height: 40,
-    borderColor: "#ccc",
+    backgroundColor: "#555",
+    color: "#EEEEEE",
+    borderColor: "#F2055C",
     borderWidth: 1,
     borderRadius: 8,
     padding: 10,
-    backgroundColor: "#fff",
     marginBottom: 16,
+    fontSize: 16,
+  },
+  createButton: {
+    borderColor: "#F2055C",
+    borderWidth: 2,
+    borderRadius: 8,
+    padding: 15,
+    alignItems: "center",
+  },
+  createButtonText: {
+    color: "#F2055C",
+    fontSize: 18,
+    fontWeight: "bold",
   },
 });
