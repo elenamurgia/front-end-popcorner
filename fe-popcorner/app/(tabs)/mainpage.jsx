@@ -15,6 +15,7 @@ import CommunityDetails from "./CommunityDetails";
 import CreateCommunity from "./CreateCommunity";
 import { Header } from "../../components/Header";
 import { BottomNavigation, Icon, PaperProvider } from "react-native-paper";
+import { StyleSheet } from "react-native";
 import { getUser } from "../../utils/api";
 
 import { View, Text } from "react-native";
@@ -25,15 +26,28 @@ const Stack = createStackNavigator();
 
 const CommunitiesStack = ({ user }) => (
   <Stack.Navigator>
-    <Stack.Screen name="CommunitiesList" component={CommunitiesList} options={{ headerShown: false }} />
+    <Stack.Screen
+      name="CommunitiesList"
+      component={CommunitiesList}
+      options={{ headerShown: false }}
+    />
     <Stack.Screen name="CommunityDetails" options={{ headerShown: false }}>
       {(props) => <CommunityDetails {...props} user={user} />}
     </Stack.Screen>
-    <Stack.Screen name="CreateCommunity">{(props) => <CreateCommunity {...props} user={user} />}</Stack.Screen>
+    <Stack.Screen name="CreateCommunity">
+      {(props) => <CreateCommunity {...props} user={user} />}
+    </Stack.Screen>
   </Stack.Navigator>
 );
 
-function MainPage({ isLoggedIn, user, userInfo, setUserInfo, newUserInput, setNewUserInput }) {
+function MainPage({
+  isLoggedIn,
+  user,
+  userInfo,
+  setUserInfo,
+  newUserInput,
+  setNewUserInput,
+}) {
   useEffect(() => {
     if (user) {
       getUser(user.email)
@@ -104,8 +118,8 @@ function MainPage({ isLoggedIn, user, userInfo, setUserInfo, newUserInput, setNe
             title: "",
             headerShown: false,
             tabBarLabel: "Home",
-            tabBarIcon: ({ color, size }) => {
-              return <Icon source="home" size={size} color={color} />;
+            tabBarIcon: ({ size }) => {
+              return <Icon source="home" size={size} color="#F2055C" />;
             },
           }}
         >
@@ -116,8 +130,8 @@ function MainPage({ isLoggedIn, user, userInfo, setUserInfo, newUserInput, setNe
           name="ChatScreen"
           options={{
             title: "Chat",
-            tabBarIcon: ({ color, size }) => {
-              return <Icon source="chat" size={size} color={color} />;
+            tabBarIcon: ({ size }) => {
+              return <Icon source="chat" size={size} color="#F2055C" />;
             },
           }}
           // initialParams={{ isLoggedIn, user }}
@@ -130,8 +144,10 @@ function MainPage({ isLoggedIn, user, userInfo, setUserInfo, newUserInput, setNe
             tabBarLabel: "Communities",
             title: "",
             headerShown: false,
-            tabBarIcon: ({ color, size }) => {
-              return <Icon source="account-supervisor" size={size} color={color} />;
+            tabBarIcon: ({ size }) => {
+              return (
+                <Icon source="account-group" size={size} color="#F2055C" />
+              );
             },
           }}
           initialParams={{ userInfo }}
@@ -145,12 +161,21 @@ function MainPage({ isLoggedIn, user, userInfo, setUserInfo, newUserInput, setNe
               title: "User profile",
               headerShown: false,
               tabBarIcon: ({ color, size }) => {
-                return <Icon source="account-circle" size={size} color={color} />;
+                return (
+                  <Icon source="account-circle" size={size} color={color} />
+                );
               },
             }}
             initialParams={{ isLoggedIn, user, userInfo }}
           >
-            {(props) => <UserInfo {...props} isLoggedIn={isLoggedIn} user={user} userInfo={userInfo} />}
+            {(props) => (
+              <UserInfo
+                {...props}
+                isLoggedIn={isLoggedIn}
+                user={user}
+                userInfo={userInfo}
+              />
+            )}
           </Tab.Screen>
         ) : (
           <>
@@ -190,3 +215,9 @@ function MainPage({ isLoggedIn, user, userInfo, setUserInfo, newUserInput, setNe
 }
 
 export default MainPage;
+
+const styles = StyleSheet.create({
+  button: {
+    backgroundColor: "#F2055C",
+  },
+});
