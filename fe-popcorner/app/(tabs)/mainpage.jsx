@@ -30,7 +30,6 @@ const Stack = createStackNavigator();
 
 const CommunitiesStack = ({ user }) => (
   <Stack.Navigator>
-
     <Stack.Screen name="CommunitiesList" options={{ headerShown: false }}>
       {(props) => <CommunitiesList {...props} user={user} />}
     </Stack.Screen>
@@ -41,18 +40,8 @@ const CommunitiesStack = ({ user }) => (
     <Stack.Screen name="CreateCommunity">
       {(props) => <CreateCommunity {...props} user={user} />}
     </Stack.Screen>
-
   </Stack.Navigator>
 );
-
-
-
-    <Stack.Screen name="EventDetail" options={{ headerShown: false }}>
-      {(props) => <EventDetail {...props} user={user} />}
-    </Stack.Screen>
-  </Stack.Navigator>
-);
-
 
 const EventsStack = ({ user }) => (
   <Stack.Navigator>
@@ -67,10 +56,14 @@ const EventsStack = ({ user }) => (
   </Stack.Navigator>
 );
 
-
-function MainPage({ isLoggedIn, user, userInfo, setUserInfo, newUserInput, setNewUserInput }) {
-
-
+function MainPage({
+  isLoggedIn,
+  user,
+  userInfo,
+  setUserInfo,
+  newUserInput,
+  setNewUserInput,
+}) {
   useEffect(() => {
     if (user) {
       getUser(user.email)
@@ -160,9 +153,8 @@ function MainPage({ isLoggedIn, user, userInfo, setUserInfo, newUserInput, setNe
             },
           }}
         >
-          {(props) => <EventsStack {...props} user={ userInfo } />}
+          {(props) => <EventsStack {...props} user={userInfo} />}
         </Tab.Screen>
-         
 
         <Tab.Screen
           name="ChatScreen"
@@ -218,7 +210,6 @@ function MainPage({ isLoggedIn, user, userInfo, setUserInfo, newUserInput, setNe
             tabBarIcon: ({ size }) => {
               return (
                 <Icon source="account-group" size={size} color="#F2055C" />
-
               );
             },
           }}
