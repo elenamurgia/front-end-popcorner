@@ -161,49 +161,6 @@ function MainPage({
         </Tab.Screen>
 
         <Tab.Screen
-          name="ChatScreen"
-          options={{
-            title: "Chat",
-            headerShown: false,
-
-            tabBarIcon: ({ size }) => {
-              return <Icon source="calendar" size={size} color="#F2055C" />;
-            },
-          }}
-        >
-          {(props) => <EventsStack {...props} user={userInfo} />}
-        </Tab.Screen>
-
-        {/* 
-        <Tab.Screen
-          name="GroupList"
-          options={{
-            title: "GroupList",
-            tabBarIcon: ({ color, size }) => {
-              return <Icon source="chat" size={size} color={color} />;
-            },
-          }}
-          // initialParams={{ isLoggedIn, user }}
-        >
-          {(props) => (
-            <GroupList {...props} isLoggedIn={isLoggedIn} user={user} />
-          )}
-        </Tab.Screen>
-        <Tab.Screen
-          name="CreateGroup"
-          options={{
-            title: "Create a group ",
-            tabBarIcon: ({ color, size }) => {
-              return <Icon source="chat" size={size} color={color} />;
-            },
-          }}
-          // initialParams={{ isLoggedIn, user }}
-        >
-          {(props) => (
-            <CreateGroup {...props} isLoggedIn={isLoggedIn} user={user} />
-          )}
-        </Tab.Screen> */}
-        <Tab.Screen
           name="Communities"
           options={{
             tabBarLabel: "Communities",
@@ -225,11 +182,11 @@ function MainPage({
           name="ChatScreen"
           options={{
             title: "Chat",
+            headerShown: false,
             tabBarIcon: ({ size }) => {
               return <Icon source="chat" size={size} color="#F2055C" />;
             },
           }}
-          // initialParams={{ isLoggedIn, user }}
         >
           {(props) => (
             <ChatScreen {...props} isLoggedIn={isLoggedIn} user={user} />
@@ -259,36 +216,7 @@ function MainPage({
             )}
           </Tab.Screen>
         ) : (
-          <>
-            {/* <Tab.Screen
-              name="SignUp"
-              options={{ title: "SignUp" }}
-              initialParams={{ setIsLoggedIn, user, setUser }}
-            >
-              {(props) => (
-                <SignUp
-                  {...props}
-                  setIsLoggedIn={setIsLoggedIn}
-                  user={user}
-                  setUser={setUser}
-                />
-              )}
-            </Tab.Screen>
-            <Tab.Screen
-              name="Interests"
-              options={{ title: "Select interests" }}
-              initialParams={{ isLoggedIn, user, setUser }}
-            >
-              {(props) => (
-                <Interests
-                  {...props}
-                  isLoggedIn={isLoggedIn}
-                  user={user}
-                  setUser={setUser}
-                />
-              )}
-            </Tab.Screen> */}
-          </>
+          <></>
         )}
       </Tab.Navigator>
     </PaperProvider>
