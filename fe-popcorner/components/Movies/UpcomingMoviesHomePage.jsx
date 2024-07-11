@@ -11,7 +11,7 @@ import { useNavigation } from "@react-navigation/native";
 import Carousel from "react-native-reanimated-carousel";
 import MovieCardHomeScreen from "./MovieCardHomeScreen";
 
-function TopRatedMovies({ data }) {
+function UpComingMoviesHomepage({ data }) {
   const windowDimensions = Dimensions.get("screen");
 
   const navigation = useNavigation();
@@ -39,7 +39,7 @@ function TopRatedMovies({ data }) {
             </TouchableOpacity>
           )}
           width={windowDimensions.width}
-          height={330}
+          height={280}
           scrollAnimationDuration={1000}
           mode="parallax"
           modeConfig={{
@@ -57,7 +57,6 @@ const styles = StyleSheet.create({
   outerContainer: {
     backgroundColor: "#474747",
     padding: 1,
-    paddingTop: 5,
   },
   movieContainer: {
     alignItems: "center",
@@ -67,4 +66,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default TopRatedMovies;
+export default UpComingMoviesHomepage;

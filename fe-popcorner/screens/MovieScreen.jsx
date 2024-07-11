@@ -315,6 +315,8 @@ const styles = StyleSheet.create({
     height: 180,
     borderRadius: 10,
     marginBottom: 10,
+    borderWidth: 1.5,
+    borderColor: "#474747",
   },
   castName: {
     color: "#EEEEEE",
