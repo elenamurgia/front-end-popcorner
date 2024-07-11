@@ -1,12 +1,29 @@
 import axios from "axios";
 import React, { useState } from "react";
-import { View, Text, StyleSheet, Image, FlatList, ScrollView, TouchableOpacity, TextInput, Button } from "react-native";
-export default function CommunityDetails({ route, user }) {
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  FlatList,
+  ScrollView,
+  TouchableOpacity,
+  TextInput,
+  Button,
+} from "react-native";
+
+export default function CommunityDetails({ route, navigation, user }) {
+
   const { community } = route.params;
   const [selectedTab, setSelectedTab] = useState("posts");
   const [comments, setComments] = useState({});
   const [newComment, setNewComment] = useState({ comment: "", author: "" });
-  const [newPost, setNewPost] = useState({ title: "", body: "", author: "", commentCount: 0 });
+  const [newPost, setNewPost] = useState({
+    title: "",
+    body: "",
+    author: "",
+    commentCount: 0,
+  });
   const [newEvent, setNewEvent] = useState({
     title: "",
     description: "",
@@ -15,18 +32,24 @@ export default function CommunityDetails({ route, user }) {
     time: "",
     attendeeCount: 0,
   });
-  console.log(user, "the user");
+
   const handleVote = (item, type) => {};
   const handleComment = (post) => {
     if (newComment.comment.trim()) {
       axios
-        .post(`https://popcorner.vercel.app/communities/${community.title}/posts/${post}/comments`, {
-          comment: newComment.comment,
-          author: user.username,
-        })
+        .post(
+          `https://popcorner.vercel.app/communities/${community.title}/posts/${post}/comments`,
+          {
+            comment: newComment.comment,
+            author: user.username,
+          }
+        )
         .then((response) => {
           const updatedComments = { ...comments };
-          updatedComments[post.id] = [...(updatedComments[post.id] || []), response.data];
+          updatedComments[post.id] = [
+            ...(updatedComments[post.id] || []),
+            response.data,
+          ];
           setComments(updatedComments);
           setNewComment({ comment: "", author: "" });
         })
@@ -38,22 +61,28 @@ export default function CommunityDetails({ route, user }) {
   const handleAttendance = (event) => {};
   const handleCreatePost = () => {
     if (newPost.title.trim() && newPost.body.trim()) {
-      axios.post(`https://popcorner.vercel.app/communities/${community.title}/posts`, newPost);
+      axios.post(
+        `https://popcorner.vercel.app/communities/${community.title}/posts`,
+        newPost
+      );
       setNewPost({ title: "", body: "", author: "", commentCount: 0 });
     }
   };
   const handleCreateEvent = () => {
     if (newEvent.title.trim() && newEvent.description.trim()) {
-      axios.post(`https://popcorner.vercel.app/communities/${community.title}/events`, {
-        title: newEvent.title,
-        description: newEvent.description,
-        venue: newEvent.venue,
-        date: newEvent.date,
-        time: newEvent.time,
-        moderators: user.username,
-        attendeeCount: 1,
-        attendees: [user.username],
-      });
+      axios.post(
+        `https://popcorner.vercel.app/communities/${community.title}/events`,
+        {
+          title: newEvent.title,
+          description: newEvent.description,
+          venue: newEvent.venue,
+          date: newEvent.date,
+          time: newEvent.time,
+          moderators: user.username,
+          attendeeCount: 1,
+          attendees: [user.username],
+        }
+      );
       setNewEvent({
         title: "",
         description: "",
@@ -82,7 +111,7 @@ export default function CommunityDetails({ route, user }) {
     <View style={styles.card}>
       <Text style={styles.cardTitle}>{item.title}</Text>
       <Text style={styles.cardBody}>{item.body}</Text>
-      <Text style={styles.cardAuthor}>By: {item.author}</Text>
+      <Text style={styles.cardTextDimmed}>By: {item.author}</Text>
       <View style={styles.voteContainer}>
         <TouchableOpacity onPress={() => handleVote(item, "up")}>
           <Text style={styles.voteButton}>Upvote</Text>
@@ -109,19 +138,30 @@ export default function CommunityDetails({ route, user }) {
   const renderEvent = ({ item }) => (
     <View style={styles.card}>
       <Text style={styles.cardTitle}>{item.title}</Text>
-      <Text style={styles.cardBody}>{item.description}</Text>
-      <Text style={styles.cardAuthor}>Venue: {item.venue}</Text>
-      <Text style={styles.cardAuthor}>Date: {item.date}</Text>
-      <Text style={styles.cardAuthor}>Time: {item.time}</Text>
-      <Text style={styles.cardAuthor}>Attendee Count: {item.attendeeCount}</Text>
-      <Button title="Confirm Attendance" onPress={() => handleAttendance(item)} />
-      <Text style={styles.sectionTitle}>Attendees:</Text>
-      <FlatList
-        data={Object.values(item.attendees || {})}
-        renderItem={renderMember}
-        keyExtractor={(attendee, index) => `attendee-${index}`}
-        scrollEnabled={false}
-      />
+
+      <Text style={styles.cardTextDimmed}>{item.description}</Text>
+      <Text style={styles.cardBody}>
+        {item.venue} at {item.time} on {item.date}
+      </Text>
+      <Text style={styles.cardTextDimmed}>
+        {item.attendeeCount} attendees
+      </Text>
+      <View style={styles.cardButtons}>
+        <Button
+          title="Sign up"
+          onPress={() => handleAttendance(item)}
+        />
+        <TouchableOpacity
+          onPress={() =>
+            navigation.navigate("EventDetail", { community: community, event: item.title })
+          }
+        >
+            <View style={styles.button}>
+              <Text style={styles.buttonText}>Details</Text>
+            </View>
+          </TouchableOpacity>
+      </View>
+
     </View>
   );
   const renderContent = () => {
@@ -132,7 +172,13 @@ export default function CommunityDetails({ route, user }) {
             style={styles.input}
             placeholder="Post Title"
             value={newPost.title}
-            onChangeText={(text) => setNewPost({ title: text, author: user.username, commentCount: 0 })}
+            onChangeText={(text) =>
+              setNewPost({
+                title: text,
+                author: user.username,
+                commentCount: 0,
+              })
+            }
           />
           <TextInput
             style={[styles.input, styles.textArea]}
@@ -163,7 +209,9 @@ export default function CommunityDetails({ route, user }) {
             style={styles.input}
             placeholder="Event Description"
             value={newEvent.description}
-            onChangeText={(text) => setNewEvent({ ...newEvent, description: text })}
+            onChangeText={(text) =>
+              setNewEvent({ ...newEvent, description: text })
+            }
           />
           <TextInput
             style={styles.input}
@@ -225,16 +273,36 @@ export default function CommunityDetails({ route, user }) {
       />
       <View style={styles.buttonContainer}>
         <TouchableOpacity
-          style={[styles.button, selectedTab === "posts" && styles.selectedButton]}
+          style={[
+            styles.button,
+            selectedTab === "posts" && styles.selectedButton,
+          ]}
           onPress={() => setSelectedTab("posts")}
         >
-          <Text style={[styles.buttonText, selectedTab === "posts" && styles.selectedButtonText]}>Posts</Text>
+          <Text
+            style={[
+              styles.buttonText,
+              selectedTab === "posts" && styles.selectedButtonText,
+            ]}
+          >
+            Posts
+          </Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={[styles.button, selectedTab === "events" && styles.selectedButton]}
+          style={[
+            styles.button,
+            selectedTab === "events" && styles.selectedButton,
+          ]}
           onPress={() => setSelectedTab("events")}
         >
-          <Text style={[styles.buttonText, selectedTab === "events" && styles.selectedButtonText]}>Events</Text>
+          <Text
+            style={[
+              styles.buttonText,
+              selectedTab === "events" && styles.selectedButtonText,
+            ]}
+          >
+            Events
+          </Text>
         </TouchableOpacity>
       </View>
       {renderContent()}
@@ -311,6 +379,11 @@ const styles = StyleSheet.create({
     marginHorizontal: 16,
     marginVertical: 8,
   },
+  cardButtons: {
+    display: "flex",
+    flexDirection: "row",
+    gap: 10
+  },
   cardTitle: {
     fontSize: 20,
     fontWeight: "bold",
@@ -320,8 +393,9 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginBottom: 8,
   },
-  cardAuthor: {
+  cardTextDimmed: {
     fontSize: 14,
+    marginBottom: 7,
     color: "gray",
   },
   voteContainer: {

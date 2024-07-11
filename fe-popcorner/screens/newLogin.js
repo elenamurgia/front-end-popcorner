@@ -14,7 +14,7 @@ import {
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../config/firebase";
 const backImage = require("../assets/backImage.png");
-const popcorn = require("../assets/popcorn.png");
+const popcorn = require("../assets/popcornerLogo-Large.png");
 
 export default function Login({
   navigation,
@@ -34,16 +34,12 @@ export default function Login({
     setPassword(text);
   };
 
-  useEffect(() => {
-    console.log("The value of user has changed", user);
-  }, [user]);
-
   const onHandleLogin = () => {
     if (email !== "" && password !== "") {
       signInWithEmailAndPassword(auth, email, password)
         .then(() => {
           const loggedInUser = { ...user, email, password };
-          console.log("The value of user on L52", email, password);
+
           setUser({
             ...user,
             email: email.replace(".", "-"),

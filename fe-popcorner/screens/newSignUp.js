@@ -14,7 +14,7 @@ import {
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../config/firebase";
 const backImage = require("../assets/backImage.png");
-const popcorn = require("../assets/popcorn.png");
+const popcorn = require("../assets/popcornerLogo-Large.png");
 
 export default function Signup({
   navigation,
@@ -28,7 +28,7 @@ export default function Signup({
   const onHandleSignup = () => {
     if (email !== "" && password !== "") {
       createUserWithEmailAndPassword(auth, email, password)
-        .then(() => console.log("Signup success"))
+        .then(() => alert("Signup success"))
         .catch((err) => {
           Alert.alert("Login error", err.message);
           navigation.navigate("Signup");

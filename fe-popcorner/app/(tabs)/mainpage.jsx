@@ -10,8 +10,10 @@ import Interests from "./Interests";
 import HomeScreen from "../../screens/HomeScreen";
 import ChatScreen from "./ChatScreen";
 import CommunitiesScreen from "../../screens/CommunitiesScreen";
+import { EventsList } from "./EventsList";
 import { CommunitiesList } from "./CommunitiesList";
 import CommunityDetails from "./CommunityDetails";
+import EventDetail from "./EventDetail";
 import CreateCommunity from "./CreateCommunity";
 import { Header } from "../../components/Header";
 import { BottomNavigation, Icon, PaperProvider } from "react-native-paper";
@@ -20,34 +22,55 @@ import { getUser } from "../../utils/api";
 
 import { View, Text } from "react-native";
 import Chat from "../../screens/Chat";
+import GroupList from "./GroupList";
+import CreateGroup from "./CreateGroup";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
 const CommunitiesStack = ({ user }) => (
   <Stack.Navigator>
-    <Stack.Screen
-      name="CommunitiesList"
-      component={CommunitiesList}
-      options={{ headerShown: false }}
-    />
+
+    <Stack.Screen name="CommunitiesList" options={{ headerShown: false }}>
+      {(props) => <CommunitiesList {...props} user={user} />}
+    </Stack.Screen>
+
     <Stack.Screen name="CommunityDetails" options={{ headerShown: false }}>
       {(props) => <CommunityDetails {...props} user={user} />}
     </Stack.Screen>
     <Stack.Screen name="CreateCommunity">
       {(props) => <CreateCommunity {...props} user={user} />}
     </Stack.Screen>
+
   </Stack.Navigator>
 );
 
-function MainPage({
-  isLoggedIn,
-  user,
-  userInfo,
-  setUserInfo,
-  newUserInput,
-  setNewUserInput,
-}) {
+
+
+    <Stack.Screen name="EventDetail" options={{ headerShown: false }}>
+      {(props) => <EventDetail {...props} user={user} />}
+    </Stack.Screen>
+  </Stack.Navigator>
+);
+
+
+const EventsStack = ({ user }) => (
+  <Stack.Navigator>
+    <Stack.Screen
+      name="EventsList"
+      component={EventsList}
+      options={{ headerShown: false }}
+    />
+    <Stack.Screen name="EventDetail" options={{ headerShown: false }}>
+      {(props) => <EventDetail {...props} user={user} />}
+    </Stack.Screen>
+  </Stack.Navigator>
+);
+
+
+function MainPage({ isLoggedIn, user, userInfo, setUserInfo, newUserInput, setNewUserInput }) {
+
+
   useEffect(() => {
     if (user) {
       getUser(user.email)
@@ -127,6 +150,21 @@ function MainPage({
         </Tab.Screen>
 
         <Tab.Screen
+          name="Events"
+          options={{
+            title: "",
+            headerShown: false,
+            tabBarLabel: "Events",
+            tabBarIcon: ({ color, size }) => {
+              return <Icon source="calendar" size={size} color={color} />;
+            },
+          }}
+        >
+          {(props) => <EventsStack {...props} user={ userInfo } />}
+        </Tab.Screen>
+        {/* 
+
+        <Tab.Screen
           name="ChatScreen"
           options={{
             title: "Chat",
@@ -136,17 +174,51 @@ function MainPage({
           }}
           // initialParams={{ isLoggedIn, user }}
         >
-          {(props) => <Chat {...props} isLoggedIn={isLoggedIn} user={user} />}
+          {(props) => (
+            <ChatScreen {...props} isLoggedIn={isLoggedIn} user={user} />
+          )}
         </Tab.Screen>
+
+        {/* 
+        <Tab.Screen
+          name="GroupList"
+          options={{
+            title: "GroupList",
+            tabBarIcon: ({ color, size }) => {
+              return <Icon source="chat" size={size} color={color} />;
+            },
+          }}
+          // initialParams={{ isLoggedIn, user }}
+        >
+          {(props) => (
+            <GroupList {...props} isLoggedIn={isLoggedIn} user={user} />
+          )}
+        </Tab.Screen>
+        <Tab.Screen
+          name="CreateGroup"
+          options={{
+            title: "Create a group ",
+            tabBarIcon: ({ color, size }) => {
+              return <Icon source="chat" size={size} color={color} />;
+            },
+          }}
+          // initialParams={{ isLoggedIn, user }}
+        >
+          {(props) => (
+            <CreateGroup {...props} isLoggedIn={isLoggedIn} user={user} />
+          )}
+        </Tab.Screen> */}
         <Tab.Screen
           name="Communities"
           options={{
             tabBarLabel: "Communities",
             title: "",
             headerShown: false,
+
             tabBarIcon: ({ size }) => {
               return (
                 <Icon source="account-group" size={size} color="#F2055C" />
+
               );
             },
           }}

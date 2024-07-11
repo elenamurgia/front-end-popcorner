@@ -14,9 +14,11 @@ function UserInfo({ isLoggedIn, user, navigation, newUserInput, userInfo }) {
   useEffect(() => {
     if (userInfo?.interests && Object.keys(userInfo.interests).length > 0) {
       // Convert interests object to array
-      const newInterestsArray = Object.values(userInfo.interests).flatMap((category) => {
-        return Object.values(category);
-      });
+      const newInterestsArray = Object.values(userInfo.interests).flatMap(
+        (category) => {
+          return Object.values(category);
+        }
+      );
       setInterestsArray(newInterestsArray);
     } else {
       setInterestsArray([]);
@@ -32,10 +34,15 @@ function UserInfo({ isLoggedIn, user, navigation, newUserInput, userInfo }) {
             Hello {userInfo.firstName} {userInfo.lastName}
           </Text>
 
-          {userInfo.avatar ? <Image source={{ uri: userInfo.avatar }} style={styles.avatar} /> : <Text>No avatar</Text>}
+          {userInfo.avatar ? (
+            <Image source={{ uri: userInfo.avatar }} style={styles.avatar} />
+          ) : (
+            <Text>No avatar</Text>
+          )}
 
           <Text style={styles.title}> Communities: </Text>
-          {userInfo.communities && Object.keys(userInfo.communities).length > 0 ? (
+          {userInfo.communities &&
+          Object.keys(userInfo.communities).length > 0 ? (
             Object.values(userInfo.communities).map((community, index) => (
               <Text style={styles.interestBox} key={index}>
                 {community}
@@ -85,7 +92,9 @@ function UserInfo({ isLoggedIn, user, navigation, newUserInput, userInfo }) {
           )}
 
           <Text style={styles.title}> Moderator: </Text>
-          {userInfo.moderator && userInfo.moderator.moderatorOf && userInfo.moderator.moderatorOf.length > 0 ? (
+          {userInfo.moderator &&
+          userInfo.moderator.moderatorOf &&
+          userInfo.moderator.moderatorOf.length > 0 ? (
             userInfo.moderator.moderatorOf.map((moderatorOf, index) => (
               <Text style={styles.interestBox} key={index}>
                 {moderatorOf}
@@ -96,7 +105,8 @@ function UserInfo({ isLoggedIn, user, navigation, newUserInput, userInfo }) {
           )}
 
           <Text style={styles.title}> Banned From: </Text>
-          {userInfo.isBannedFrom && Object.keys(userInfo.isBannedFrom).length > 0 ? (
+          {userInfo.isBannedFrom &&
+          Object.keys(userInfo.isBannedFrom).length > 0 ? (
             Object.values(userInfo.isBannedFrom).map((bannedFrom, index) => (
               <Text style={styles.interestBox} key={index}>
                 {bannedFrom}

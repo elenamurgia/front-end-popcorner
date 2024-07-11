@@ -84,7 +84,6 @@ function AuthStack() {
   });
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  // console.log(newUserInput);
 
   return (
     <Stack.Navigator

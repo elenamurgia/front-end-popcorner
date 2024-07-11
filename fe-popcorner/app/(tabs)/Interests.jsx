@@ -4,6 +4,7 @@ import { useNavigation } from "@react-navigation/native";
 import { postUser } from "../../utils/api";
 
 function Interests({ setNewUserInput, newUserInput, setIsLoggedIn, setUser }) {
+
   const [interests, setInterests] = useState({});
   const navigation = useNavigation();
 
@@ -33,6 +34,7 @@ function Interests({ setNewUserInput, newUserInput, setIsLoggedIn, setUser }) {
   const navigateToMainPage = () => {
     setNewUserInput((prevState) => {
       const updatedUserInput = { ...prevState, interests: interests };
+
 
       setUser({
         username: updatedUserInput.username,
