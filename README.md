@@ -23,5 +23,5 @@ The back-end of the PopCorner app, which handles data storage, authentication, a
 - **Gifted Chat**: A React Native chat UI framework used for implementing the chat functionalities.
 
 
-
+[<img src="https://github.com/user-attachments/assets/27cf9592-6afc-4a52-86e8-327c11d8f25e" width="50%">](https://drive.google.com/file/d/14GsIwVuKYZX8THxogimYox_4VIeh_H5w/view)
 
