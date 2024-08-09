@@ -1,20 +1,27 @@
-# Popcorner
-### This app was designed using React Native and is the front-end application of the PopCorner App, the back-end of the app can be found here
-https://github.com/davidhcodes/popcorner-be
+# PopCorner
 
-### Introduction
-PopCorner is an app created to connect movie enthusiasts in a community-based app, users can securely create a profile or log-in, register interests, create and join communities and events and use Real-Time group chats to communicate with fellow film enthusiasts.
+PopCorner is a full-stack mobile application designed to create a community-based environment for movie enthusiasts. It allows users to create profiles, explore and join communities, participate in events, and engage in real-time group chats with fellow film lovers. This project is built with React Native, utilising several key technologies to deliver a seamless and interactive user experience.
+
+The back-end of the PopCorner app, which handles data storage, authentication, and messaging, can be found here: [PopCorner Backend GitHub](https://github.com/elenamurgia/popcorner-be).
+
+## Key Features
+
+- **User Authentication**: Users can securely sign up and log in using Firebase Authentication.
+- **Community Interaction**: Create and join communities based on movie interests and participate in related events.
+- **Real-Time Group Chat**: Each community features its own group chat, allowing members to communicate in real-time using Firebase Cloud Messaging and Gifted Chat.
+- **Profile Management**: Users can customise their profiles and manage their community memberships through a user-friendly interface.
+
+## Technologies Used
+
+- **React Native**: For building a cross-platform mobile app.
+- **NativeWind**: Utility-first styling framework similar to Tailwind CSS, but for React Native.
+- **React Native Paper**: A collection of customisable components for creating user interfaces.
+- **Firebase**:
+  - **Firebase Database**: For storing user data, communities, and messages.
+  - **Firebase Authentication**: For secure user sign-up and login.
+  - **Firebase Cloud Messaging (FCM)**: Enables real-time messaging features.
+- **Gifted Chat**: A React Native chat UI framework used for implementing the chat functionalities.
 
 
-### Technologies used
-- React Native
-- NativeWind
-- React Native Paper
-- Firebase Database
-- Firebase Authentication
-- Firebase Cloud Messaging (FCM)
-- Gifted Chat
 
-The front-end of the application is designed using React Native and styled using React Native Paper and NativeWind (React Native equivalent of TailWind). The user authentication and sign-up uses Firebase Authentication to allow users to sign-up using their email address
-and password. Firebase Cloud Messaging and Gifted Chat were used to create the real-time group chat section of the app, for each community created there is a real-time group chat generated that is associated to that community. Users can join a community and see the group chats they have access to on the 'chats' tab.
 
